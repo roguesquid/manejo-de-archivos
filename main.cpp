@@ -41,6 +41,8 @@ void separaRuta(char *ruta, char *nombre, char *straux)
 	nom = strrchr(ruta, sep);
 	nom = strtok(nom, "/");
 	lenRuta = strlen(ruta) - strlen(nom) - 1;
+	memset(nombre, '\0', sizeof(nombre));
+	memset(straux, '\0', sizeof(straux));
 	strcpy(nombre, nom);
 	strncpy(straux, ruta, lenRuta);
 }
@@ -1485,7 +1487,7 @@ int main()
 		else if (!(strcmp(ordenado[0], "MKD")))
 		{
 			int h = 0, r = 0;
-			dir *auxRoot = p;
+			dir *auxRoot = NULL;
 			char nombre[24];
 			char ruta[512];
 
@@ -1519,7 +1521,8 @@ int main()
 			else
 				auxRoot = moverpunterov3(ruta, ax, 1);
 
-			crear(auxRoot, nombre, h, r);
+			if (auxRoot)
+				crear(auxRoot, nombre, h, r);
 		}
 		else if (!(strcmp(ordenado[0], "CHD")))
 		{
