@@ -1345,10 +1345,10 @@ void RMD(dir *p, dir **ax, char *ruta, char *op)
 		*ax = p;
 }
 
-void crear(dir *p, char *nom)
+void CU(dir *p, char *nom)
 {
 	dir *ax, *t = new dir;
-	if (p->r != 1)
+	if (verificartoken(nom))
 	{
 		strcpy(t->nom, nom);
 		t->tip = '1';
@@ -1373,7 +1373,7 @@ void crear(dir *p, char *nom)
 		}
 		darfecha(&t->ppa);
 		ax->pul = t;
-	}
+	} else printf("ERROR: Nombre invalido para una unidad logica ");
 }
 
 /*void CRU(dir *p,dir *ax, char *nom){
@@ -1408,6 +1408,20 @@ void crear(dir *p, char *nom)
 		} else printf("ERROR: Ruta invalida");
 	}
 }*/
+
+void CRU(dir *p, dir *ax, char *rutadest){
+	char *ruta, *nom, *token;
+	separaRuta(rutadest, nom, ruta);
+	if(ruta){
+		if (verificartoken(ruta)) p = moverpunterov3(ruta, p, 1);
+		else p = moverpunterov3(ruta, ax, 1);
+		if(p&&!p->ppa) CU(p,nom);
+		 else printf("ERROR: Ruta invalida");
+	} else {
+		if(p&&!p->ppa) CU(p,nom);
+		else printf("ERROR: Ruta invalida");
+	}
+}
 
 int main()
 {
