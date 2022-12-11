@@ -1,4 +1,4 @@
-// Proyecto Etapa I
+// Proyecto Etapa II
 // Luis Ochoa
 // Franklin Quintana
 // Luis Martin
@@ -92,19 +92,19 @@ dir *moverpunterov3(char *t, dir *p, int x)
 						}
 						p = p->pul;
 					}
-					printf("Ruta no encontrada\n");
+					printf("ERROR: Ruta no encontrada\n");
 					return (NULL);
 				}
 				else
 				{
-					printf("Ruta no encontrada\n");
+					printf("ERROR: Ruta no encontrada\n");
 					return (NULL);
 				}
 			}
 		}
 		else
 		{
-			printf("Ruta no encontrada\n");
+			printf("ERROR: Ruta no encontrada\n");
 			return (NULL);
 		}
 	}
@@ -114,7 +114,7 @@ dir *moverpunterov3(char *t, dir *p, int x)
 			return (p);
 		else
 		{
-			printf("Ruta no encontrada\n");
+			printf("ERROR: Ruta no encontrada\n");
 			return (NULL);
 		}
 	}
@@ -645,7 +645,7 @@ void crear(dir *p, char x[24], int h, int r)
 						{
 							if (!strcmp(x, ax->nom))
 							{
-								printf("ERROR:  Existe un directorio de igual nombre en la ubicacion actual\n\n  ");
+								printf("ERROR: Existe un directorio de igual nombre en la ubicacion actual\n\n  ");
 								return;
 							}
 							if (ax->pul == NULL)
@@ -657,18 +657,18 @@ void crear(dir *p, char x[24], int h, int r)
 					}
 				}
 				else
-					printf("ERROR:  El nombre introducido no es alfanumerico\n");
+					printf("ERROR: El nombre introducido no es alfanumerico\n");
 			}
 			else
-				printf("ERROR:  El nombre introducido tiene una longitud mayor a 8 caracteres\n");
+				printf("ERROR: El nombre introducido tiene una longitud mayor a 8 caracteres\n");
 		}
 		else if (strcmp(p->ppa->nom, "root"))
-			printf("ERROR:  El directorio actual solo permite la lectura\n");
+			printf("ERROR: El directorio actual solo permite la lectura\n");
 		else
-			printf("ERROR:  La unidad logica solo permite la lectura\n");
+			printf("ERROR: La unidad logica solo permite la lectura\n");
 	}
 	else
-		printf("ERROR:  Acceso denegado\n");
+		printf("ERROR: Acceso denegado\n");
 }
 // fin de creado de directorio
 
@@ -725,7 +725,7 @@ void borrardentro(dir *p, dir **ax, int x)
 					}
 					else
 					{
-						printf("Error El directorio contiene archivos protegidos\n");
+						printf("Error: El directorio contiene archivos protegidos\n");
 					}
 					break;
 				case 'N':
@@ -779,10 +779,10 @@ void borrar(dir *p, dir **ax, char *ruta, int op)
 					}
 				}
 				else
-					printf("Error el directorio a borrar solo permite la lectura\n");
+					printf("Error: El directorio a borrar solo permite la lectura\n");
 			}
 			else
-				printf("Error No se puede borrar la unidad [%s] logica\n", p->nom);
+				printf("Error: No se puede borrar la unidad [%s] logica\n", p->nom);
 		}
 	}
 }
@@ -1351,7 +1351,7 @@ void RMD(dir *p, dir **ax, char *ruta, char *op)
 		if (!strcmp(op, "/o"))
 			borrar(p, ax, ruta, 1);
 		else
-			printf("El comando es incorrecto\n");
+			printf("ERROR: Comando invalido\n");
 	}
 	else
 		borrar(p, ax, ruta, 0);
@@ -1391,38 +1391,6 @@ void CU(dir *p, char *nom)
 		printf("ERROR: Nombre invalido para una unidad logica\n");
 }
 
-/*void CRU(dir *p,dir *ax, char *nom){
-	char *t=NULL,*ruta=NULL;int c=0;
-	if(nom[0]!='.'){
-		t=strtok(nom,"/ \n");
-		while(t){
-			c++;
-			t=strtok(NULL,"/ \n");
-		}
-		if(c!=1){
-			printf("ERROR comando incorrecto\n");
-		} else {
-			if(verificartoken(nom)) crear(p, nom);
-			else printf("ERROR: Nombre de Unidad invalido\n");
-		}
-	} else {
-		system("pause");
-		separaRuta(nom,t,ruta);
-		system("pause");
-		//ruta=strtok(ruta,"/ \n");
-		printf("%s\n",t);
-		printf("%s\n",ruta);
-		system("pause");
-		p=relative(ruta,ax);
-		system("Pause");
-		if(p) {
-			if(!p->ppa) {
-				if(verificartoken(t)) crear(p, t);
-				else printf("ERROR: Nombre de Unidad invalido\n");
-			} else printf("ERROR: comando invalido");
-		} else printf("ERROR: Ruta invalida");
-	}
-}*/
 
 void CRU(dir *p, dir *ax, char *rutadest)
 {
@@ -1499,7 +1467,7 @@ int main()
 		}
 		if (!ordenado[0]||i>3)
 		{
-			printf("El comando es incorrecto\n");
+			printf("ERROR: Comando invalido\n");
 		}
 
 		else if (!(strcmp(ordenado[0], "MKD")))
@@ -1548,14 +1516,14 @@ int main()
 		else if (!(strcmp(ordenado[0], "CHD")))
 		{
 			if ((ordenado[2] || ordenado[3]) || !ordenado[1])
-				printf("El comando es incorrecto\n");
+				printf("ERROR: Comando invalido\n");
 			else
 				CHD(q, &ax, ordenado[1]);
 		}
 		else if (!(strcmp(ordenado[0], "RMD")))
 		{
 			if (!ordenado[1] || ordenado[3])
-				printf("El comando es incorrecto\n");
+				printf("ERROR: Comando invalido\n");
 			else
 				RMD(q, &ax, ordenado[1], ordenado[2]);
 		}
@@ -1580,7 +1548,7 @@ int main()
 		else if (!(strcmp(ordenado[0], "CRU")))
 		{
 			if ((ordenado[2] || ordenado[3]) || !ordenado[1])
-				printf("El comando es incorrecto\n");
+				printf("ERROR: Comando invalido\n");
 			else
 				CRU(q,ax,ordenado[1]);
 		}
@@ -1599,13 +1567,13 @@ int main()
 		else if (!(strcmp(ordenado[0], "EXIT")))
 		{
 			if (ordenado[1] || ordenado[2] || ordenado[3])
-				printf("El comando es incorrecto\n");
+				printf("ERROR: Comando invalido\n");
 			else
 				op = 0;
 		}
 		else
 		{
-			printf("El comando es incorrecto\n");
+			printf("ERROR: Comando invalido\n");
 		}
 		// lo lee, funciona bien
 	}
