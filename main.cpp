@@ -34,7 +34,7 @@ struct dir
 
 // NOTA 3: Decidimos diferenciar mayúsculas de minúsculas
 
-void separaRuta(char *ruta, char *nombre, char *straux)
+int separaRuta(char *ruta, char *nombre, char *straux)
 {
 	int lenRuta;
 	char *nom;
@@ -46,13 +46,14 @@ void separaRuta(char *ruta, char *nombre, char *straux)
 		memset(nombre, '\0', sizeof(nombre));
 		memset(straux, '\0', sizeof(straux));
 		strcpy(nombre, ruta);
-		return;
+		return(0);
 	}
 	lenRuta = strlen(ruta) - strlen(nom) - 1;
 	memset(nombre, '\0', sizeof(nombre));
 	memset(straux, '\0', sizeof(straux));
 	strcpy(nombre, nom);
 	strncpy(straux, ruta, lenRuta);
+	return(1);
 }
 
 dir *moverpunterov3(char *t, dir *p, int x)
@@ -1371,8 +1372,7 @@ void CU(dir *p, char *nom)
 		t->ppa = p;
 		t->pfa = NULL;
 		t->pul = NULL;
-		// ax = p->pfa; ACTIVAR CUANDO EXISTA ROOT
-		ax = p; // Borrar cuando exista root
+		ax = p->pfa; 
 		while (ax)
 		{
 			if (!strcmp(nom, ax->nom))
@@ -1388,7 +1388,7 @@ void CU(dir *p, char *nom)
 		ax->pul = t;
 	}
 	else
-		printf("ERROR: Nombre invalido para una unidad logica ");
+		printf("ERROR: Nombre invalido para una unidad logica\n");
 }
 
 /*void CRU(dir *p,dir *ax, char *nom){
@@ -1426,10 +1426,9 @@ void CU(dir *p, char *nom)
 
 void CRU(dir *p, dir *ax, char *rutadest)
 {
-	char *ruta = NULL, *nom = NULL, *token;
-	separaRuta(rutadest, nom, ruta);
-	if (ruta)
-	{
+	char ruta[512], nom[24];
+	if (separaRuta(rutadest, nom, ruta))
+	{	
 		if (verificartoken(ruta))
 			p = moverpunterov3(ruta, p, 1);
 		else
@@ -1437,14 +1436,11 @@ void CRU(dir *p, dir *ax, char *rutadest)
 		if (p && !p->ppa)
 			CU(p, nom);
 		else
-			printf("ERROR: Ruta invalida");
+			printf("ERROR: Ruta invalida\n");
 	}
 	else
-	{
-		if (p && !p->ppa)
-			CU(p, nom);
-		else
-			printf("ERROR: Ruta invalida");
+	{ 
+		CU(p, nom);	
 	}
 }
 
@@ -1535,13 +1531,17 @@ int main()
 				}
 			}
 
-			separaRuta(ordenado[1], nombre, ruta);
-			if (verificartoken(ruta))
-				auxRoot = moverpunterov3(ruta, q, 1);
-			else
-				auxRoot = moverpunterov3(ruta, ax, 1);
-			if (auxRoot)
-				crear(auxRoot, nombre, h, r);
+			if(separaRuta(ordenado[1], nombre, ruta)){
+				if (verificartoken(ruta))
+					auxRoot = moverpunterov3(ruta, q, 1);
+				else
+					auxRoot = moverpunterov3(ruta, ax, 1);
+				if(auxRoot) crear(auxRoot, nombre, h, r);
+			} else {
+				system("Pause");
+				crear(ax,nombre,h,r);
+			}	
+				
 		}
 
 		else if (!(strcmp(ordenado[0], "CHD")))
@@ -1577,7 +1577,7 @@ int main()
 		}
 		else if (!(strcmp(ordenado[0], "CRU")))
 		{
-			// CRU(p,ax,ordenado[1]);
+			CRU(q,ax,ordenado[1]);
 		}
 		else if (!(strcmp(ordenado[0], "SRU")))
 		{
