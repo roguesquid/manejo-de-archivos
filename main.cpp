@@ -41,6 +41,11 @@ void separaRuta(char *ruta, char *nombre, char *straux)
 	char sep = '/';
 	nom = strrchr(ruta, sep);
 	nom = strtok(nom, "/");
+	if (!nom)
+	{
+		strcpy(nombre, ruta);
+		return;
+	}
 	lenRuta = strlen(ruta) - strlen(nom) - 1;
 	memset(nombre, '\0', sizeof(nombre));
 	memset(straux, '\0', sizeof(straux));
