@@ -609,72 +609,52 @@ void linksobreescribir(dir *ax, dir *bx)
 void crear(dir *p, char x[24], int h, int r)
 {
 	dir *ax, *t = new dir;
-	if (p->r != 1)
-	{
-		if (validar(8, x))
+	if (p->ppa){
+		if (p->r != 1)
 		{
-			if (alfanum(x))
+			if (validar(8, x))
 			{
-				strcpy(t->nom, x);
-				t->tip = 0;
-				t->h = h;
-				t->r = r;
-				darfecha(&t);
-				t->ppa = p;
-				t->pfa = NULL;
-				t->pul = NULL;
-				if (!p->pfa)
+				if (alfanum(x))
 				{
-					p->pfa = t;
-					darfecha(&t->ppa);
-					printf("\n  El directorio fue creado existosamente\n\n  ");
-				}
-				else
-				{
-					ax = p->pfa;
-					while (ax)
+					strcpy(t->nom, x);
+					t->tip = '1';
+					t->h = h;
+					t->r = r;
+					darfecha(&t);
+					t->ppa = p;
+					t->pfa = NULL;
+					t->pul = NULL;
+					if (!p->pfa)
 					{
-						if (!strcmp(x, ax->nom))
-						{
-							printf("\n\t\t\t  ERROR\n\n");
-							printf("  Existe un directorio de igual nombre en la ubicacion actual\n\n  ");
-							return;
-						}
-						if (ax->pul == NULL)
-							break;
-						ax = ax->pul;
+						p->pfa = t;
+						darfecha(&t->ppa);
 					}
-					darfecha(&t->ppa);
-					ax->pul = t;
-					printf("\n  El directorio fue creado existosamente\n\n  ");
+					else
+					{
+						ax = p->pfa;
+						while (ax)
+						{
+							if (!strcmp(x, ax->nom))
+							{
+								printf("ERROR:  Existe un directorio de igual nombre en la ubicacion actual\n\n  ");
+								return;
+							}
+							if (ax->pul == NULL) break;
+							ax = ax->pul;
+						}
+						darfecha(&t->ppa);
+						ax->pul = t;
+					}
 				}
+				else printf("ERROR:  El nombre introducido no es alfanumerico\n");
+				
 			}
-			else
-			{
-				printf("\n\t\t    ERROR\n\n");
-				printf("  El nombre introducido no es alfanumerico\n\n  ");
-			}
+			else printf("ERROR:  El nombre introducido tiene una longitud mayor a 8 caracteres\n");
 		}
 		else
-		{
-			printf("\n\t\t\t      ERROR\n\n");
-			printf("  El nombre introducido tiene una longitud mayor a 8 caracteres\n\n  ");
-		}
-	}
-	else
-	{
-
-		if (p->ppa)
-		{
-			printf("\n\t\t     ERROR\n\n");
-			printf("  El directorio actual solo permite la lectura\n\n  ");
-		}
-		else
-		{
-			printf("\n\t\t    ERROR\n\n");
-			printf("  La unidad logica solo permite la lectura\n\n  ");
-		}
-	}
+			if (strcmp(p->ppa->nom,"root")) printf("ERROR:  El directorio actual solo permite la lectura\n");
+			else printf("ERROR:  La unidad logica solo permite la lectura\n");
+	} else printf("ERROR:  Acceso denegado\n");
 }
 // fin de creado de directorio
 
