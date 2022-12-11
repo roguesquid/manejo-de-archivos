@@ -1528,6 +1528,46 @@ int main()
 		}
 		else if (!(strcmp(ordenado[0], "MDD")))
 		{
+			dir *auxRoot = NULL;
+			char *param, *valor;
+			if (ordenado[1] && ordenado[2])
+			{
+				if (verificartoken(ordenado[1]))
+					auxRoot = moverpunterov3(ordenado[1], q, 1);
+				else
+					auxRoot = moverpunterov3(ordenado[1], ax, 1);
+				param = strtok(ordenado[2], ":");
+				valor = strtok(NULL, ":");
+				if (!(strcmp(param, "/n")))
+				{
+					if (strlen(valor) < 8)
+						strcpy(auxRoot->nom, valor);
+					else
+						printf("El nombre debe ser menor a 8 caracteres");
+				}
+				else if (!(strcmp(param, "/r")))
+				{
+					if (!(strcmp(valor, "0")))
+						auxRoot->r = 0;
+					else if (!(strcmp(valor, "1")))
+						auxRoot->r = 1;
+					else
+						printf("El valor debe ser 0 o 1");
+				}
+				else if (!(strcmp(param, "/h")))
+				{
+					if (!(strcmp(valor, "0")))
+						auxRoot->h = 0;
+					else if (!(strcmp(valor, "1")))
+						auxRoot->h = 1;
+					else
+						printf("El valor debe ser 0 o 1");
+				}
+			}
+			else
+			{
+				printf("ERROR: Comando invalido");
+			}
 		}
 		else if (!(strcmp(ordenado[0], "SHD")))
 		{	
