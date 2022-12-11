@@ -206,21 +206,7 @@ void mostrar(dir *p, int check)
 	printf("\n\n  ");
 }
 
-//(MENU DE BORRAR, MOVER O COPIAR) Usado en sus funciones hijas
-void mostrarmenu(const char *x, dir *ax)
-{
-	system("cls");
-	printf("\n\n---------------------------------------------------");
-	printf("\n  Manejo virtual de directorios (MVA) ");
-	printf("\n  [%s]", x);
-	printf("\n---------------------------------------------------\n");
-	printf("\n  ");
-	printv2(ax);
-	printf("]\n\n");
-	printf("  1. Nombre del directorio destino\n");
-	printf("  0. Volver a pantalla principal\n");
-	printf("  Su opcion [0-1]: 1");
-}
+
 // Fin menu mov/cpd/borrar
 
 // fin funciones de impresion
@@ -738,14 +724,19 @@ void borrardentro(dir *p, dir **ax, int x)
 // fin borrar dentro
 
 // funcion que contempla los casos borde y ubica el puntero
-void borrar(dir *p, dir **ax, char *ruta, int x)
+void borrar(dir *p, dir **ax, char *ruta, int x, int op)
 {
 	if ((p->pfa))
-	{
-		if (verificartoken(ruta))
-			p = moverpunterov2(ruta, p, 0);
-		else
-			p = moverpunterov2(ruta, (*ax)->pfa, 0);
+	{	
+	
+		if(op) { //Validar tipo de ruta
+			ruta=strtok(ruta,"/");
+			p=relative(ruta,*ax);
+			if(!p) return; //Ruta relativa
+		} else {
+			if (verificartoken(ruta)) p = moverpunterov2(ruta, p, 0); //ruta  completa C:/dir1/dir2.../dirN
+			else p = moverpunterov2(ruta, (*ax)->pfa, 0); //Ruta directa dirN/dirN1/.../dirN3
+		} //para validar tipo de ruta
 		if (p)
 		{
 			if (p->ppa)
@@ -881,10 +872,6 @@ void sobreescribir(dir **p, dir **ax, int x)
 	dir *g;
 	while (op[0] != '1' && op[0] != '2')
 	{
-		if (x == 1)
-			mostrarmenu("4. Mover directorio (MVD)", *ax);
-		else
-			mostrarmenu("5. Copiar directorio (CPD)", *ax);
 		printf("\n\n  Existe un directorio de igual nombre en la ubicacion destino\n");
 		printf("  %cDesea sobreescribir los datos?\n\n", 168);
 		printf("  Se perderan los anteriores\n\n");
@@ -1350,22 +1337,6 @@ void guardardirectorios(FILE **fp, dir *p, int check)
 }
 // fin de lectura de archivos ////////////////////////////////////////////
 
-int rutarelativa(char *ruta)
-{
-	if (strcmp(ruta, "."))
-	{							// Como el str devuelve 0 si son iguales entonces volvemos a usarlo
-		return (0); // Se introdujo mal
-	}
-	else
-	{
-		ruta = strtok(NULL, "/ \n"); // Sacamos el token
-		if (strcmp(ruta, ".."))
-		{							// Volvemos a comparar
-			return (0); // Se introdujo mal
-		}
-	}
-	return (1); // La ruta se introdujo bien
-}
 
 void CHD(dir *p, dir **ax, char *ruta)
 {
@@ -1375,7 +1346,7 @@ void CHD(dir *p, dir **ax, char *ruta)
 		ruta = strtok(ruta, "/");
 		p = relative(ruta, *ax);
 		if (p)
-			*ax = p;
+		*ax = p;
 	}
 	else
 	{
@@ -1396,22 +1367,30 @@ void CHD(dir *p, dir **ax, char *ruta)
 //			 op = op
 void RMD(dir *p, dir **ax, char *ruta, char *op)
 {
+
 	if (op)
 	{ // Validacion de si la opcion existe
 		if (!strcmp(op, "/o"))
 		{ // Significa que la opcion es correcta
-			borrar(p, ax, ruta, 1);
+			
+			if (ruta[0] == '.') borrar(p, ax, ruta, 1,1);	//p = donde se busca la ruta //ax = ubicacion // ruta = ruta //op /0 =1 //tipo de ruta = 1
+			else borrar(p, ax, ruta, 1,0); 
+
 		}
 		else
 			printf("El comando es incorrecto\n");
 	}
 	else
 	{
-		borrar(p, ax, ruta, 0);
+		if (ruta[0] == '.') borrar(p, ax, ruta, 0,1);	//p = donde se busca la ruta //ax = ubicacion // ruta = ruta //op /0 =1 //tipo de ruta = 1
+		else borrar(p, ax, ruta, 0,0); 
 	}
 	if (*ax == NULL)
 		*ax = p;
 }
+
+
+
 int main()
 {
 	dir *p = new dir, *ax = p;
