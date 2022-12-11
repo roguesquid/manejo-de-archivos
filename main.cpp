@@ -41,16 +41,14 @@ void separaRuta(char *ruta, char *nombre, char *straux)
 	nom = strrchr(ruta, sep);
 	nom = strtok(nom, "/");
 	lenRuta = strlen(ruta) - strlen(nom) - 1;
-	printf("%s\n",nombre);
-	printf("%s\n",nom);
-	system("Pause");
 	strcpy(nombre, nom);
 	strncpy(straux, ruta, lenRuta);
 }
 
-dir *moverpunterov3(char *t, dir *p,int x)
-{	
-	if(x) t = strtok(t, "/ \n");
+dir *moverpunterov3(char *t, dir *p, int x)
+{
+	if (x)
+		t = strtok(t, "/ \n");
 	if (t)
 	{
 		if (p)
@@ -58,33 +56,38 @@ dir *moverpunterov3(char *t, dir *p,int x)
 			if (!strcmp(t, "."))
 			{
 				t = strtok(NULL, "/ \n");
-				p = moverpunterov3(t, p,0);
+				p = moverpunterov3(t, p, 0);
 				return (p);
 			}
 			else if (!strcmp(t, ".."))
 			{
 				t = strtok(NULL, "/ \n");
 				p = p->ppa;
-				p = moverpunterov3(t, p,0);
+				p = moverpunterov3(t, p, 0);
 				return (p);
 			}
 			else
 			{
-				if(p->pfa){
-					p=p->pfa;
-					while(p){
-						if(!strcmp(p->nom,t)){
+				if (p->pfa)
+				{
+					p = p->pfa;
+					while (p)
+					{
+						if (!strcmp(p->nom, t))
+						{
 							t = strtok(NULL, "/ \n");
-							p=moverpunterov3(t,p,0);
-							return(p);	
+							p = moverpunterov3(t, p, 0);
+							return (p);
 						}
-						p=p->pul;
+						p = p->pul;
 					}
 					printf("Ruta no encontrada\n");
-					return(NULL);		
-				} else {
+					return (NULL);
+				}
+				else
+				{
 					printf("Ruta no encontrada\n");
-					return (NULL);	
+					return (NULL);
 				}
 			}
 		}
@@ -117,7 +120,7 @@ void printv2(dir *p)
 		printv2(t);
 		printf("%s/", x);
 	}
-} 
+}
 
 // fin de impresion ubicacion actual
 
@@ -751,37 +754,17 @@ void borrardentro(dir *p, dir **ax, int x)
 // funcion que contempla los casos borde y ubica el puntero
 void borrar(dir *p, dir **ax, char *ruta, int op)
 {
-<<<<<<< HEAD
-	if (verificartoken(ruta)) p = moverpunterov3(ruta, p, 1); //ruta absoluta
-	else p = moverpunterov3(ruta, (*ax)->pfa, 1); //Ruta relativa
+	if (verificartoken(ruta))
+		p = moverpunterov3(ruta, p, 1); // ruta absoluta
+	else
+		p = moverpunterov3(ruta, (*ax)->pfa, 1); // Ruta relativa
 	if (p)
 	{
-		if(p->ppa){
-			if (p->ppa&&strcmp(p->ppa->nom,"root"))
-=======
-	if ((p->pfa))
-	{
-
-		if (op)
-		{ // Validar tipo de ruta
-			ruta = strtok(ruta, "/");
-			p = relative(ruta, *ax);
-			if (!p)
-				return; // Ruta relativa
-		}
-		else
+		if (p->ppa)
 		{
-			if (verificartoken(ruta))
-				p = moverpunterov2(ruta, p, 0); // ruta  completa C:/dir1/dir2.../dirN
-			else
-				p = moverpunterov2(ruta, (*ax)->pfa, 0); // Ruta directa dirN/dirN1/.../dirN3
-		}																						 // para validar tipo de ruta
-		if (p)
-		{
-			if (p->ppa)
->>>>>>> 13fb4d826044e771d0ff1ae1f979d493f2bf0b5f
+			if (p->ppa && strcmp(p->ppa->nom, "root"))
 			{
-				if (p->r != 1||op)
+				if (p->r != 1 || op)
 				{
 					if (p->pfa)
 					{
@@ -790,17 +773,21 @@ void borrar(dir *p, dir **ax, char *ruta, int op)
 					}
 					else
 					{
-						if (contenido(*ax, &p)) *ax = NULL;
+						if (contenido(*ax, &p))
+							*ax = NULL;
 						darfecha(&p->ppa);
 						dir *t = p;
 						link(t);
 						delete (p);
 					}
-				} else printf("Error el directorio a borrar solo permite la lectura\n");
-	
-				} else printf("Error No se puede borrar la unidad [%s] logica\n", p->nom);
+				}
+				else
+					printf("Error el directorio a borrar solo permite la lectura\n");
 			}
+			else
+				printf("Error No se puede borrar la unidad [%s] logica\n", p->nom);
 		}
+	}
 }
 // fin de funciones de borrado
 
@@ -1348,33 +1335,12 @@ void guardardirectorios(FILE **fp, dir *p, int check)
 
 void CHD(dir *p, dir **ax, char *ruta)
 {
-<<<<<<< HEAD
-	if (verificartoken(ruta)) p = moverpunterov3(ruta, p,1);
-	else p = moverpunterov3(ruta, *ax,1);
-	if (p) *ax = p;
-=======
-	char x = ruta[0];
-	if (x == '.')
-	{
-		ruta = strtok(ruta, "/");
-		p = relative(ruta, *ax);
-		if (p)
-			*ax = p;
-	}
+	if (verificartoken(ruta))
+		p = moverpunterov3(ruta, p, 1);
 	else
-	{
-		if (verificartoken(ruta))
-			p = moverpunterov2(ruta, p, 0);
-		else
-			p = moverpunterov2(ruta, (*ax)->pfa, 0);
-		if (p)
-			*ax = p;
-		else
-			printf("La direccion introducida no existe\n");
-	}
-}
->>>>>>> 13fb4d826044e771d0ff1ae1f979d493f2bf0b5f
-
+		p = moverpunterov3(ruta, *ax, 1);
+	if (p)
+		*ax = p;
 }
 // Parametros p = root
 //			 ax = actual
@@ -1385,35 +1351,17 @@ void RMD(dir *p, dir **ax, char *ruta, char *op)
 
 	if (op)
 	{ // Validacion de si la opcion existe
-<<<<<<< HEAD
-		if (!strcmp(op, "/o")) borrar(p,ax,ruta,1);
-		else printf("El comando es incorrecto\n");
-=======
 		if (!strcmp(op, "/o"))
-		{ // Significa que la opcion es correcta
-
-			if (ruta[0] == '.')
-				borrar(p, ax, ruta, 1, 1); // p = donde se busca la ruta //ax = ubicacion // ruta = ruta //op /0 =1 //tipo de ruta = 1
-			else
-				borrar(p, ax, ruta, 1, 0);
-		}
+			borrar(p, ax, ruta, 1);
 		else
 			printf("El comando es incorrecto\n");
 	}
 	else
-	{
-		if (ruta[0] == '.')
-			borrar(p, ax, ruta, 0, 1); // p = donde se busca la ruta //ax = ubicacion // ruta = ruta //op /0 =1 //tipo de ruta = 1
-		else
-			borrar(p, ax, ruta, 0, 0);
->>>>>>> 13fb4d826044e771d0ff1ae1f979d493f2bf0b5f
-	}
-	else borrar(p, ax, ruta, 0);	
+		borrar(p, ax, ruta, 0);
 	if (*ax == NULL)
 		*ax = p;
 }
 
-<<<<<<< HEAD
 void crear(dir *p, char *nom)
 {
 	dir *ax, *t = new dir;
@@ -1427,8 +1375,8 @@ void crear(dir *p, char *nom)
 		t->ppa = p;
 		t->pfa = NULL;
 		t->pul = NULL;
-		//ax = p->pfa; ACTIVAR CUANDO EXISTA ROOT
-		ax=p; //Borrar cuando exista root
+		// ax = p->pfa; ACTIVAR CUANDO EXISTA ROOT
+		ax = p; // Borrar cuando exista root
 		while (ax)
 		{
 			if (!strcmp(nom, ax->nom))
@@ -1436,7 +1384,8 @@ void crear(dir *p, char *nom)
 				printf("ERROR: Ya existe una unidad de igual nombre\n");
 				return;
 			}
-			if (ax->pul == NULL) break;
+			if (ax->pul == NULL)
+				break;
 			ax = ax->pul;
 		}
 		darfecha(&t->ppa);
@@ -1455,7 +1404,7 @@ void crear(dir *p, char *nom)
 		if(c!=1){
 			printf("ERROR comando incorrecto\n");
 		} else {
-			if(verificartoken(nom)) crear(p, nom);	
+			if(verificartoken(nom)) crear(p, nom);
 			else printf("ERROR: Nombre de Unidad invalido\n");
 		}
 	} else {
@@ -1470,21 +1419,19 @@ void crear(dir *p, char *nom)
 		system("Pause");
 		if(p) {
 			if(!p->ppa) {
-				if(verificartoken(t)) crear(p, t);	
+				if(verificartoken(t)) crear(p, t);
 				else printf("ERROR: Nombre de Unidad invalido\n");
 			} else printf("ERROR: comando invalido");
-		} else printf("ERROR: Ruta invalida");	
-	}	
+		} else printf("ERROR: Ruta invalida");
+	}
 }*/
 
-=======
->>>>>>> 13fb4d826044e771d0ff1ae1f979d493f2bf0b5f
 int main()
 {
-	dir *q=new dir,*p = new dir, *ax = p;
+	dir *q = new dir, *p = new dir, *ax = p;
 	FILE *fp;
 	char raw[1024], aux[1024], *t, *ordenado[4];
-	int op=-1, i;
+	int op = -1, i;
 	q->tip = 'U';
 	q->h = 0;
 	q->r = 0;
@@ -1503,7 +1450,7 @@ int main()
 	p->pul = NULL;
 	strcpy(p->nom, "C:");
 	//////
-	q->pfa=p;
+	q->pfa = p;
 	////
 	if ((fp = fopen("directorios.txt", "r")) != NULL)
 	{
@@ -1538,7 +1485,7 @@ int main()
 		else if (!(strcmp(ordenado[0], "MKD")))
 		{
 			int h = 0, r = 0;
-			dir *punteroRuta = p;
+			dir *auxRoot = p, *punteroRuta;
 			char nombre[24];
 			char ruta[512];
 
@@ -1553,9 +1500,20 @@ int main()
 					r = 1;
 				}
 			}
+			else if (ordenado[2] && !ordenado[3])
+			{
+				if (!(strcmp(ordenado[2], "/h")))
+				{
+					h = 1;
+				}
+				else if (!(strcmp(ordenado[2], "/r")))
+				{
+					r = 1;
+				}
+			}
 
 			separaRuta(ordenado[1], nombre, ruta);
-			moverpunterov2(ruta, punteroRuta, 0);
+			punteroRuta = moverpunterov2(ruta, auxRoot, 0);
 			crear(punteroRuta, nombre, h, r);
 		}
 		else if (!(strcmp(ordenado[0], "CHD")))
@@ -1583,7 +1541,7 @@ int main()
 		}
 		else if (!(strcmp(ordenado[0], "SHD")))
 		{
-			mostrar(ax,2);
+			mostrar(ax, 2);
 		}
 		else if (!(strcmp(ordenado[0], "CSC")))
 		{
@@ -1591,7 +1549,7 @@ int main()
 		}
 		else if (!(strcmp(ordenado[0], "CRU")))
 		{
-			//CRU(p,ax,ordenado[1]);
+			// CRU(p,ax,ordenado[1]);
 		}
 		else if (!(strcmp(ordenado[0], "SRU")))
 		{
