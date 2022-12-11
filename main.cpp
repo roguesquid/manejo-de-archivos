@@ -43,6 +43,8 @@ void separaRuta(char *ruta, char *nombre, char *straux)
 	nom = strtok(nom, "/");
 	if (!nom)
 	{
+		memset(nombre, '\0', sizeof(nombre));
+		memset(straux, '\0', sizeof(straux));
 		strcpy(nombre, ruta);
 		return;
 	}
@@ -614,7 +616,8 @@ void linksobreescribir(dir *ax, dir *bx)
 void crear(dir *p, char x[24], int h, int r)
 {
 	dir *ax, *t = new dir;
-	if (p->ppa){
+	if (p->ppa)
+	{
 		if (p->r != 1)
 		{
 			if (validar(8, x))
@@ -644,22 +647,27 @@ void crear(dir *p, char x[24], int h, int r)
 								printf("ERROR:  Existe un directorio de igual nombre en la ubicacion actual\n\n  ");
 								return;
 							}
-							if (ax->pul == NULL) break;
+							if (ax->pul == NULL)
+								break;
 							ax = ax->pul;
 						}
 						darfecha(&t->ppa);
 						ax->pul = t;
 					}
 				}
-				else printf("ERROR:  El nombre introducido no es alfanumerico\n");
-				
+				else
+					printf("ERROR:  El nombre introducido no es alfanumerico\n");
 			}
-			else printf("ERROR:  El nombre introducido tiene una longitud mayor a 8 caracteres\n");
+			else
+				printf("ERROR:  El nombre introducido tiene una longitud mayor a 8 caracteres\n");
 		}
+		else if (strcmp(p->ppa->nom, "root"))
+			printf("ERROR:  El directorio actual solo permite la lectura\n");
 		else
-			if (strcmp(p->ppa->nom,"root")) printf("ERROR:  El directorio actual solo permite la lectura\n");
-			else printf("ERROR:  La unidad logica solo permite la lectura\n");
-	} else printf("ERROR:  Acceso denegado\n");
+			printf("ERROR:  La unidad logica solo permite la lectura\n");
+	}
+	else
+		printf("ERROR:  Acceso denegado\n");
 }
 // fin de creado de directorio
 
@@ -1378,7 +1386,9 @@ void CU(dir *p, char *nom)
 		}
 		darfecha(&t->ppa);
 		ax->pul = t;
-	} else printf("ERROR: Nombre invalido para una unidad logica ");
+	}
+	else
+		printf("ERROR: Nombre invalido para una unidad logica ");
 }
 
 /*void CRU(dir *p,dir *ax, char *nom){
@@ -1414,17 +1424,27 @@ void CU(dir *p, char *nom)
 	}
 }*/
 
-void CRU(dir *p, dir *ax, char *rutadest){
-	char *ruta, *nom, *token;
+void CRU(dir *p, dir *ax, char *rutadest)
+{
+	char *ruta = NULL, *nom = NULL, *token;
 	separaRuta(rutadest, nom, ruta);
-	if(ruta){
-		if (verificartoken(ruta)) p = moverpunterov3(ruta, p, 1);
-		else p = moverpunterov3(ruta, ax, 1);
-		if(p&&!p->ppa) CU(p,nom);
-		 else printf("ERROR: Ruta invalida");
-	} else {
-		if(p&&!p->ppa) CU(p,nom);
-		else printf("ERROR: Ruta invalida");
+	if (ruta)
+	{
+		if (verificartoken(ruta))
+			p = moverpunterov3(ruta, p, 1);
+		else
+			p = moverpunterov3(ruta, ax, 1);
+		if (p && !p->ppa)
+			CU(p, nom);
+		else
+			printf("ERROR: Ruta invalida");
+	}
+	else
+	{
+		if (p && !p->ppa)
+			CU(p, nom);
+		else
+			printf("ERROR: Ruta invalida");
 	}
 }
 
@@ -1516,13 +1536,14 @@ int main()
 			}
 
 			separaRuta(ordenado[1], nombre, ruta);
-
+			puts(nombre);
+			puts(ruta);
 			if (verificartoken(ruta))
 				auxRoot = moverpunterov3(ruta, q, 1);
 			else
 				auxRoot = moverpunterov3(ruta, ax, 1);
-
-			crear(auxRoot, nombre, h, r);
+			if (auxRoot)
+				crear(auxRoot, nombre, h, r);
 		}
 
 		else if (!(strcmp(ordenado[0], "CHD")))
