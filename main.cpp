@@ -1485,7 +1485,7 @@ int main()
 		else if (!(strcmp(ordenado[0], "MKD")))
 		{
 			int h = 0, r = 0;
-			dir *auxRoot = p, *punteroRuta;
+			dir *auxRoot = p;
 			char nombre[24];
 			char ruta[512];
 
@@ -1513,8 +1513,13 @@ int main()
 			}
 
 			separaRuta(ordenado[1], nombre, ruta);
-			punteroRuta = moverpunterov2(ruta, auxRoot, 0);
-			crear(punteroRuta, nombre, h, r);
+
+			if (verificartoken(ruta))
+				auxRoot = moverpunterov3(ruta, p, 1);
+			else
+				auxRoot = moverpunterov3(ruta, ax, 1);
+
+			crear(auxRoot, nombre, h, r);
 		}
 		else if (!(strcmp(ordenado[0], "CHD")))
 		{
