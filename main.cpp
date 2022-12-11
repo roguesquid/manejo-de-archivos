@@ -39,12 +39,16 @@ void separaRuta(char *ruta, char *nombre, char *straux)
 	nom = strrchr(ruta, sep);
 	nom = strtok(nom, "/");
 	lenRuta = strlen(ruta) - strlen(nom) - 1;
+	printf("%s\n",nombre);
+	printf("%s\n",nom);
+	system("Pause");
 	strcpy(nombre, nom);
 	strncpy(straux, ruta, lenRuta);
 }
 
-dir *relative(char *t, dir *p)
-{
+dir *moverpunterov3(char *t, dir *p,int x)
+{	
+	if(x) t = strtok(t, "/ \n");
 	if (t)
 	{
 		if (p)
@@ -52,20 +56,34 @@ dir *relative(char *t, dir *p)
 			if (!strcmp(t, "."))
 			{
 				t = strtok(NULL, "/ \n");
-				p = relative(t, p);
+				p = moverpunterov3(t, p,0);
 				return (p);
 			}
 			else if (!strcmp(t, ".."))
 			{
 				t = strtok(NULL, "/ \n");
 				p = p->ppa;
-				p = relative(t, p);
+				p = moverpunterov3(t, p,0);
 				return (p);
 			}
 			else
 			{
-				printf("Comando incorrecto\n");
-				return (NULL);
+				if(p->pfa){
+					p=p->pfa;
+					while(p){
+						if(!strcmp(p->nom,t)){
+							t = strtok(NULL, "/ \n");
+							p=moverpunterov3(t,p,0);
+							return(p);	
+						}
+						p=p->pul;
+					}
+					printf("Ruta no encontrada\n");
+					return(NULL);		
+				} else {
+					printf("Ruta no encontrada\n");
+					return (NULL);	
+				}
 			}
 		}
 		else
@@ -97,9 +115,8 @@ void printv2(dir *p)
 		printv2(t);
 		printf("%s/", x);
 	}
-	else
-		printf("%s/", t->nom);
-}
+} 
+
 // fin de impresion ubicacion actual
 
 // funciones de impresion de directorios
@@ -731,74 +748,35 @@ void borrardentro(dir *p, dir **ax, int x)
 // fin borrar dentro
 
 // funcion que contempla los casos borde y ubica el puntero
-void borrar(dir *p, dir **ax, char *ruta, int x, int op)
+void borrar(dir *p, dir **ax, char *ruta, int op)
 {
-	if ((p->pfa))
-	{	
-	
-		if(op) { //Validar tipo de ruta
-			ruta=strtok(ruta,"/");
-			p=relative(ruta,*ax);
-			if(!p) return; //Ruta relativa
-		} else {
-			if (verificartoken(ruta)) p = moverpunterov2(ruta, p, 0); //ruta  completa C:/dir1/dir2.../dirN
-			else p = moverpunterov2(ruta, (*ax)->pfa, 0); //Ruta directa dirN/dirN1/.../dirN3
-		} //para validar tipo de ruta
-		if (p)
-		{
-			if (p->ppa)
+	if (verificartoken(ruta)) p = moverpunterov3(ruta, p, 1); //ruta absoluta
+	else p = moverpunterov3(ruta, (*ax)->pfa, 1); //Ruta relativa
+	if (p)
+	{
+		if(p->ppa){
+			if (p->ppa&&strcmp(p->ppa->nom,"root"))
 			{
-				if (p->r != 1)
+				if (p->r != 1||op)
 				{
 					if (p->pfa)
 					{
-						borrardentro(p, ax, x);
+						borrardentro(p, ax, op);
 						return;
 					}
 					else
 					{
-						if (contenido(*ax, &p))
-							*ax = NULL;
+						if (contenido(*ax, &p)) *ax = NULL;
 						darfecha(&p->ppa);
 						dir *t = p;
 						link(t);
 						delete (p);
 					}
-				}
-				else
-				{
-					if (x)
-					{
-						if (contenido(*ax, &p))
-							*ax = NULL;
-						darfecha(&p->ppa);
-						dir *t = p;
-						link(t);
-						delete (p);
-					}
-					else
-					{
-						printf("Error el directorio a borrar solo permite la lectura\n");
-					}
-				}
-			}
-			else
-			{
-				printf("\n\t\tERROR\n\n");
-				printf("  No se puede borrar la unidad [%s] logica\n\n  ", p->nom);
+				} else printf("Error el directorio a borrar solo permite la lectura\n");
+	
+				} else printf("Error No se puede borrar la unidad [%s] logica\n", p->nom);
 			}
 		}
-		else
-		{
-			printf("Error La ruta no existe\n");
-		}
-	}
-	else
-	{
-		printf("\n\t\t      ERROR\n\n");
-		printf("  La unidad logica [%s] no contiene directorios\n\n");
-		printf("  No se puede borrar la unidad logica\n\n  ", p->nom);
-	}
 }
 // fin de funciones de borrado
 
@@ -1347,27 +1325,11 @@ void guardardirectorios(FILE **fp, dir *p, int check)
 
 void CHD(dir *p, dir **ax, char *ruta)
 {
-	char x = ruta[0];
-	if (x == '.')
-	{
-		ruta = strtok(ruta, "/");
-		p = relative(ruta, *ax);
-		if (p)
-		*ax = p;
-	}
-	else
-	{
-		if (verificartoken(ruta))
-			p = moverpunterov2(ruta, p, 0);
-		else
-			p = moverpunterov2(ruta, (*ax)->pfa, 0);
-		if (p)
-			*ax = p;
-		else
-			printf("La direccion introducida no existe\n");
-	}
-}
+	if (verificartoken(ruta)) p = moverpunterov3(ruta, p,1);
+	else p = moverpunterov3(ruta, *ax,1);
+	if (p) *ax = p;
 
+}
 // Parametros p = root
 //			 ax = actual
 //			 ruta = ruta
@@ -1377,41 +1339,103 @@ void RMD(dir *p, dir **ax, char *ruta, char *op)
 
 	if (op)
 	{ // Validacion de si la opcion existe
-		if (!strcmp(op, "/o"))
-		{ // Significa que la opcion es correcta
-			
-			if (ruta[0] == '.') borrar(p, ax, ruta, 1,1);	//p = donde se busca la ruta //ax = ubicacion // ruta = ruta //op /0 =1 //tipo de ruta = 1
-			else borrar(p, ax, ruta, 1,0); 
-
-		}
-		else
-			printf("El comando es incorrecto\n");
+		if (!strcmp(op, "/o")) borrar(p,ax,ruta,1);
+		else printf("El comando es incorrecto\n");
 	}
-	else
-	{
-		if (ruta[0] == '.') borrar(p, ax, ruta, 0,1);	//p = donde se busca la ruta //ax = ubicacion // ruta = ruta //op /0 =1 //tipo de ruta = 1
-		else borrar(p, ax, ruta, 0,0); 
-	}
+	else borrar(p, ax, ruta, 0);	
 	if (*ax == NULL)
 		*ax = p;
 }
 
+void crear(dir *p, char *nom)
+{
+	dir *ax, *t = new dir;
+	if (p->r != 1)
+	{
+		strcpy(t->nom, nom);
+		t->tip = '1';
+		t->h = 0;
+		t->r = 0;
+		darfecha(&t);
+		t->ppa = p;
+		t->pfa = NULL;
+		t->pul = NULL;
+		//ax = p->pfa; ACTIVAR CUANDO EXISTA ROOT
+		ax=p; //Borrar cuando exista root
+		while (ax)
+		{
+			if (!strcmp(nom, ax->nom))
+			{
+				printf("ERROR: Ya existe una unidad de igual nombre\n");
+				return;
+			}
+			if (ax->pul == NULL) break;
+			ax = ax->pul;
+		}
+		darfecha(&t->ppa);
+		ax->pul = t;
+	}
+}
 
+/*void CRU(dir *p,dir *ax, char *nom){
+	char *t=NULL,*ruta=NULL;int c=0;
+	if(nom[0]!='.'){
+		t=strtok(nom,"/ \n");
+		while(t){
+			c++;
+			t=strtok(NULL,"/ \n");
+		}
+		if(c!=1){
+			printf("ERROR comando incorrecto\n");
+		} else {
+			if(verificartoken(nom)) crear(p, nom);	
+			else printf("ERROR: Nombre de Unidad invalido\n");
+		}
+	} else {
+		system("pause");
+		separaRuta(nom,t,ruta);
+		system("pause");
+		//ruta=strtok(ruta,"/ \n");
+		printf("%s\n",t);
+		printf("%s\n",ruta);
+		system("pause");
+		p=relative(ruta,ax);
+		system("Pause");
+		if(p) {
+			if(!p->ppa) {
+				if(verificartoken(t)) crear(p, t);	
+				else printf("ERROR: Nombre de Unidad invalido\n");
+			} else printf("ERROR: comando invalido");
+		} else printf("ERROR: Ruta invalida");	
+	}	
+}*/
 
 int main()
 {
-	dir *p = new dir, *ax = p;
+	dir *q=new dir,*p = new dir, *ax = p;
 	FILE *fp;
 	char raw[1024], aux[1024], *t, *ordenado[4];
-	int i = 0, op = -1;
+	int op=-1, i;
+	q->tip = 'U';
+	q->h = 0;
+	q->r = 0;
+	darfecha(&p);
+	q->ppa = NULL;
+	q->pfa = NULL;
+	q->pul = NULL;
+	strcpy(q->nom, "root");
+	////////////////////////
 	p->tip = 'U';
 	p->h = 0;
 	p->r = 0;
 	darfecha(&p);
-	p->ppa = NULL;
+	p->ppa = q;
 	p->pfa = NULL;
 	p->pul = NULL;
 	strcpy(p->nom, "C:");
+	//////
+	q->pfa=p;
+	////
 	if ((fp = fopen("directorios.txt", "r")) != NULL)
 	{
 		int c = fgetc(fp);
@@ -1461,14 +1485,14 @@ int main()
 			if ((ordenado[2] || ordenado[3]) || !ordenado[1])
 				printf("El comando es incorrecto\n");
 			else
-				CHD(p, &ax, ordenado[1]);
+				CHD(q, &ax, ordenado[1]);
 		}
 		else if (!(strcmp(ordenado[0], "RMD")))
 		{
 			if (!ordenado[1] || ordenado[3])
 				printf("El comando es incorrecto\n");
 			else
-				RMD(p, &ax, ordenado[1], ordenado[2]);
+				RMD(q, &ax, ordenado[1], ordenado[2]);
 		}
 		else if (!(strcmp(ordenado[0], "CPD")))
 		{
@@ -1481,6 +1505,7 @@ int main()
 		}
 		else if (!(strcmp(ordenado[0], "SHD")))
 		{
+			mostrar(ax,2);
 		}
 		else if (!(strcmp(ordenado[0], "CSC")))
 		{
@@ -1488,6 +1513,7 @@ int main()
 		}
 		else if (!(strcmp(ordenado[0], "CRU")))
 		{
+			//CRU(p,ax,ordenado[1]);
 		}
 		else if (!(strcmp(ordenado[0], "SRU")))
 		{
