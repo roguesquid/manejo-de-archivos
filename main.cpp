@@ -225,14 +225,7 @@ void mostrardirectorio(dir *p, int check)
 
 void mostrar(dir *p, int check)
 {
-	system("cls");
-	printf("\n\n---------------------------------------------------");
-	printf("\n  Manejo virtual de Archivos (MVA) ");
-	printf("\n  [7. Mostrar directorio (SHD)]");
-	printf("\n---------------------------------------------------\n");
-	printf("\n");
 	printv2(p);
-	printf("\n\n");
 	if (p->pfa == NULL)
 	{
 		printf("  ");
@@ -1416,7 +1409,7 @@ int main()
 {
 	dir *q = new dir, *p = new dir, *ax = p;
 	FILE *fp;
-	char raw[1024], aux[1024], *t, *ordenado[4];
+	char raw[1024], aux[1024], *t, *ordenado[5];
 	int op = -1, i;
 	q->tip = 'U';
 	q->h = 0;
