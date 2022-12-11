@@ -582,7 +582,7 @@ void copiartodo(dir *p, int check, dir **g){
 		strcpy(cab->fcm, ax->fcm);
 		cab->r = ax->r;
 		cab->h = ax->h;
-		cab->ppa = *g;
+		cab->ppa = cab;
 		cab->pfa = NULL;
 		cab->pul = NULL;
 	if(check == 1) ax = ax->pfa;
@@ -613,6 +613,11 @@ void copiartodo(dir *p, int check, dir **g){
 		}
 		if (ax->pfa){
 			  copiartodo(ax, 0, &(t->pfa));
+			  u=t->pfa;
+			  while(u){
+					u->ppa = t;
+					u = u->pul;
+			  }
 		}
 		ax = ax->pul;
 		u=t;
@@ -981,6 +986,29 @@ void guardardirectorios(FILE **fp, dir *p, int check){
 }
 // fin de lectura de archivos ////////////////////////////////////////////
 
+int rutarelativa(char *ruta){
+	if(strcmp(ruta,".")) {
+		return(0);
+	} else {
+		ruta=strtok(NULL,"/ \n"); 
+		if (strcmp(ruta,"..")){
+		return(0);
+		}
+	}
+	return(1);
+}
+
+
+void CHD(dir *ax, char *ruta){
+	char x = ruta[0];
+	ruta=strtok(ruta,"/");
+	if(x=='.'){
+		if(rutarelativa(ruta)) printf("La ruta es valida\n");
+		else printf("La ruta introducida no es valida\n");
+
+	} else {	
+	}
+}
 int main() {
 	dir *p= new dir, *ax=p;FILE *fp;
 	char raw[1024], aux[1024], *t, *ordenado[4];int i=0,op=-1;	
@@ -1006,11 +1034,11 @@ int main() {
 	    fgets(raw, 1024, stdin);
 	    strcpy(aux, raw);
 	    t = strtok(raw, " \n");
-	    while (t)
-	    {
+	    i=0;
+	    while (t){	
 	        ordenado[i] = t;
 	        i++;
-	        t = strtok(NULL, " ");
+	        t = strtok(NULL, " \n");
 	    }
 	    if (!ordenado[0]){
 	    	printf("El comando es incorrecto\n");
@@ -1020,6 +1048,8 @@ int main() {
 	        
 	    }
 	    else if (!(strcmp(ordenado[0], "CHD"))){
+	    	if((ordenado[2]||ordenado[3])||!ordenado[1]) printf("El comando es incorrecto\n");
+	    	else CHD(ax,ordenado[1]);
 	        
 	    }
 	    else if (!(strcmp(ordenado[0], "RMD"))){
@@ -1056,6 +1086,8 @@ int main() {
 	        
 	    }
 	    else if (!(strcmp(ordenado[0], "EXIT"))){
+	    	if(ordenado[1]||ordenado[2]||ordenado[3]) printf("El comando es incorrecto\n");
+	    	else  op=0;
 	        
 	    }
 	    else {
