@@ -1,6 +1,7 @@
 // Proyecto Etapa I
 // Luis Ochoa
 // Franklin Quintana
+// Luis Martin
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -1484,6 +1485,7 @@ int main()
 		{
 			printf("El comando es incorrecto\n");
 		}
+
 		else if (!(strcmp(ordenado[0], "MKD")))
 		{
 			int h = 0, r = 0;
@@ -1517,13 +1519,13 @@ int main()
 			separaRuta(ordenado[1], nombre, ruta);
 
 			if (verificartoken(ruta))
-				auxRoot = moverpunterov3(ruta, p, 1);
+				auxRoot = moverpunterov3(ruta, q, 1);
 			else
 				auxRoot = moverpunterov3(ruta, ax, 1);
 
-			if (auxRoot)
-				crear(auxRoot, nombre, h, r);
+			crear(auxRoot, nombre, h, r);
 		}
+
 		else if (!(strcmp(ordenado[0], "CHD")))
 		{
 			if ((ordenado[2] || ordenado[3]) || !ordenado[1])
