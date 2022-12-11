@@ -1536,8 +1536,6 @@ int main()
 			}
 
 			separaRuta(ordenado[1], nombre, ruta);
-			puts(nombre);
-			puts(ruta);
 			if (verificartoken(ruta))
 				auxRoot = moverpunterov3(ruta, q, 1);
 			else
