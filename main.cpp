@@ -1495,8 +1495,9 @@ int main()
 			ordenado[i] = t;
 			i++;
 			t = strtok(NULL, " \n");
+			if(i==4) break;
 		}
-		if (!ordenado[0])
+		if (!ordenado[0]||i>3)
 		{
 			printf("El comando es incorrecto\n");
 		}
