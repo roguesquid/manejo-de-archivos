@@ -31,6 +31,18 @@ struct dir
 
 // NOTA 3: Decidimos diferenciar mayúsculas de minúsculas
 
+void separaRuta(char *ruta, char *nombre, char *straux)
+{
+	int lenRuta;
+	char *nom;
+	char sep = '/';
+	nom = strrchr(ruta, sep);
+	nom = strtok(nom, "/");
+	lenRuta = strlen(ruta) - strlen(nom) - 1;
+	strcpy(nombre, nom);
+	strncpy(straux, ruta, lenRuta);
+}
+
 dir *relative(char *t, dir *p)
 {
 	if (t)
@@ -584,24 +596,19 @@ void linksobreescribir(dir *ax, dir *bx)
 // fin funciones auxiliares
 
 // funcion crear directorio
-void crear(dir *p)
+void crear(dir *p, char x[24], int h, int r)
 {
-	char x[20];
 	dir *ax, *t = new dir;
 	if (p->r != 1)
 	{
-		printf("\n  NOTA: Los nombres deben tener una longitud menor o igual a 8 caracteres");
-		printf("\n        Los nombres deben ser alfanumericos");
-		printf("\n\n  Introduzca el nombre del directorio a crear: ");
-		scanf("%s", x);
 		if (validar(8, x))
 		{
 			if (alfanum(x))
 			{
 				strcpy(t->nom, x);
-				t->tip = 'D';
-				t->h = 0;
-				t->r = 0;
+				t->tip = 0;
+				t->h = h;
+				t->r = r;
 				darfecha(&t);
 				t->ppa = p;
 				t->pfa = NULL;
@@ -1458,6 +1465,17 @@ int main()
 		}
 		else if (!(strcmp(ordenado[0], "MKD")))
 		{
+			int h, r;
+			dir *punteroRuta;
+			char *nombre, *ruta;
+			if (!(strcmp(ordenado[3], "/h")) || !(strcmp(ordenado[2], "/h")))
+			{
+				h = 1;
+			}
+			if (!(strcmp(ordenado[3], "/r")) || !(strcmp(ordenado[2], "/r")))
+			{
+				r = 1;
+			}
 		}
 		else if (!(strcmp(ordenado[0], "CHD")))
 		{
