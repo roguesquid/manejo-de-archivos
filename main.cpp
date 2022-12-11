@@ -9,13 +9,10 @@
 struct dir
 { // dir = I-nodo
 	char nom[9];
-	char ext[3]; // solo archivos, 3 caracteres
 	char tip;		 // tipo
 	char fcm[8]; // fecha de creacion/modificacion
-	int sz;			 // archivos (tam)
 	int r;			 // solo lectura (r==1 si) (r==0 no) (Al crear por defecto r==0) (Al copiar por defecto la copia r==0)
 	int h;			 // oculto (h==1 si) (h==0 no) (Solo cambia si el usuario lo decide
-	int ctnd;		 // solo archivo
 	dir *pfa;		 // apunta a directorio o archivos que contiene
 	dir *ppa;		 // apunta a directorio padre si no esta en raiz
 	dir *pul;		 // apunta a hermanos
@@ -34,6 +31,48 @@ struct dir
 
 // NOTA 3: Decidimos diferenciar mayúsculas de minúsculas
 
+dir *relative(char *t, dir *p)
+{
+	if (t)
+	{
+		if (p)
+		{
+			if (!strcmp(t, "."))
+			{
+				t = strtok(NULL, "/ \n");
+				p = relative(t, p);
+				return (p);
+			}
+			else if (!strcmp(t, ".."))
+			{
+				t = strtok(NULL, "/ \n");
+				p = p->ppa;
+				p = relative(t, p);
+				return (p);
+			}
+			else
+			{
+				printf("Comando incorrecto\n");
+				return (NULL);
+			}
+		}
+		else
+		{
+			printf("Ruta no encontrada\n");
+			return (NULL);
+		}
+	}
+	else
+	{
+		if (p)
+			return (p);
+		else
+		{
+			printf("Ruta no encontrada\n");
+			return (NULL);
+		}
+	}
+}
 // funcion de impresion de ubicacion actual
 void printv2(dir *p)
 {
@@ -1334,11 +1373,9 @@ void CHD(dir *p, dir **ax, char *ruta)
 	if (x == '.')
 	{
 		ruta = strtok(ruta, "/");
-		if (rutarelativa(ruta))
-		{
-		}
-		else
-			printf("La ruta introducida no es valida\n"); // Caso de que se introdujeron mal los puntos (./..)
+		p = relative(ruta, *ax);
+		if (p)
+			*ax = p;
 	}
 	else
 	{
