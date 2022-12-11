@@ -18,6 +18,8 @@ struct dir
 	dir *pul;		 // apunta a hermanos
 };
 
+#pragma warning(disable : 4996)
+
 // NOTA: Al no tener muy claro como realizar el cambio de la fcm, decidimos seguir este formato
 //       Al crear un directorio cambia la fecha del padre
 //       Al mover un directorio cambia la fecha del directorio de donde se saco y la fecha del directorio destino
@@ -217,7 +219,6 @@ void mostrar(dir *p, int check)
 		mostrarcasitodo(p, 0, 0);
 	printf("\n\n  ");
 }
-
 
 // Fin menu mov/cpd/borrar
 
@@ -734,16 +735,22 @@ void borrardentro(dir *p, dir **ax, int x)
 void borrar(dir *p, dir **ax, char *ruta, int x, int op)
 {
 	if ((p->pfa))
-	{	
-	
-		if(op) { //Validar tipo de ruta
-			ruta=strtok(ruta,"/");
-			p=relative(ruta,*ax);
-			if(!p) return; //Ruta relativa
-		} else {
-			if (verificartoken(ruta)) p = moverpunterov2(ruta, p, 0); //ruta  completa C:/dir1/dir2.../dirN
-			else p = moverpunterov2(ruta, (*ax)->pfa, 0); //Ruta directa dirN/dirN1/.../dirN3
-		} //para validar tipo de ruta
+	{
+
+		if (op)
+		{ // Validar tipo de ruta
+			ruta = strtok(ruta, "/");
+			p = relative(ruta, *ax);
+			if (!p)
+				return; // Ruta relativa
+		}
+		else
+		{
+			if (verificartoken(ruta))
+				p = moverpunterov2(ruta, p, 0); // ruta  completa C:/dir1/dir2.../dirN
+			else
+				p = moverpunterov2(ruta, (*ax)->pfa, 0); // Ruta directa dirN/dirN1/.../dirN3
+		}																						 // para validar tipo de ruta
 		if (p)
 		{
 			if (p->ppa)
@@ -1344,7 +1351,6 @@ void guardardirectorios(FILE **fp, dir *p, int check)
 }
 // fin de lectura de archivos ////////////////////////////////////////////
 
-
 void CHD(dir *p, dir **ax, char *ruta)
 {
 	char x = ruta[0];
@@ -1353,7 +1359,7 @@ void CHD(dir *p, dir **ax, char *ruta)
 		ruta = strtok(ruta, "/");
 		p = relative(ruta, *ax);
 		if (p)
-		*ax = p;
+			*ax = p;
 	}
 	else
 	{
@@ -1379,24 +1385,25 @@ void RMD(dir *p, dir **ax, char *ruta, char *op)
 	{ // Validacion de si la opcion existe
 		if (!strcmp(op, "/o"))
 		{ // Significa que la opcion es correcta
-			
-			if (ruta[0] == '.') borrar(p, ax, ruta, 1,1);	//p = donde se busca la ruta //ax = ubicacion // ruta = ruta //op /0 =1 //tipo de ruta = 1
-			else borrar(p, ax, ruta, 1,0); 
 
+			if (ruta[0] == '.')
+				borrar(p, ax, ruta, 1, 1); // p = donde se busca la ruta //ax = ubicacion // ruta = ruta //op /0 =1 //tipo de ruta = 1
+			else
+				borrar(p, ax, ruta, 1, 0);
 		}
 		else
 			printf("El comando es incorrecto\n");
 	}
 	else
 	{
-		if (ruta[0] == '.') borrar(p, ax, ruta, 0,1);	//p = donde se busca la ruta //ax = ubicacion // ruta = ruta //op /0 =1 //tipo de ruta = 1
-		else borrar(p, ax, ruta, 0,0); 
+		if (ruta[0] == '.')
+			borrar(p, ax, ruta, 0, 1); // p = donde se busca la ruta //ax = ubicacion // ruta = ruta //op /0 =1 //tipo de ruta = 1
+		else
+			borrar(p, ax, ruta, 0, 0);
 	}
 	if (*ax == NULL)
 		*ax = p;
 }
-
-
 
 int main()
 {
@@ -1444,17 +1451,26 @@ int main()
 		}
 		else if (!(strcmp(ordenado[0], "MKD")))
 		{
-			int h, r;
-			dir *punteroRuta;
-			char *nombre, *ruta;
-			if (!(strcmp(ordenado[3], "/h")) || !(strcmp(ordenado[2], "/h")))
+			int h = 0, r = 0;
+			dir *punteroRuta = p;
+			char nombre[24];
+			char ruta[512];
+
+			if (ordenado[2] && ordenado[3])
 			{
-				h = 1;
+				if (!(strcmp(ordenado[3], "/h")) || !(strcmp(ordenado[2], "/h")))
+				{
+					h = 1;
+				}
+				if (!(strcmp(ordenado[3], "/r")) || !(strcmp(ordenado[2], "/r")))
+				{
+					r = 1;
+				}
 			}
-			if (!(strcmp(ordenado[3], "/r")) || !(strcmp(ordenado[2], "/r")))
-			{
-				r = 1;
-			}
+
+			separaRuta(ordenado[1], nombre, ruta);
+			moverpunterov2(ruta, punteroRuta, 0);
+			crear(punteroRuta, nombre, h, r);
 		}
 		else if (!(strcmp(ordenado[0], "CHD")))
 		{
