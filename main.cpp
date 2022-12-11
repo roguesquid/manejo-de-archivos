@@ -1568,7 +1568,8 @@ int main()
 		{
 		}
 		else if (!(strcmp(ordenado[0], "SHD")))
-		{
+		{	
+			
 			mostrar(ax, 2);
 		}
 		else if (!(strcmp(ordenado[0], "CSC")))
@@ -1577,7 +1578,10 @@ int main()
 		}
 		else if (!(strcmp(ordenado[0], "CRU")))
 		{
-			CRU(q,ax,ordenado[1]);
+			if ((ordenado[2] || ordenado[3]) || !ordenado[1])
+				printf("El comando es incorrecto\n");
+			else
+				CRU(q,ax,ordenado[1]);
 		}
 		else if (!(strcmp(ordenado[0], "SRU")))
 		{
