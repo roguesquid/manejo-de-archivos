@@ -1442,7 +1442,7 @@ int main()
 	}
 	while (op)
 	{
-		for (int j = 0; j < 4; j++)
+		for (int j = 0; j < 5; j++)
 			ordenado[j] = NULL;
 		printv2(ax);
 		printf(">");
