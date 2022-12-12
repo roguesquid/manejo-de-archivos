@@ -747,7 +747,7 @@ void borrar(dir *p, dir **ax, char *ruta, int op)
 	if (verificartoken(ruta))
 		p = moverpunterov3(ruta, p, 1); // ruta absoluta
 	else
-		p = moverpunterov3(ruta, (*ax)->pfa, 1); // Ruta relativa
+		p = moverpunterov3(ruta, *ax, 1); // Ruta relativa
 	if (p)
 	{
 		if (p->ppa)
