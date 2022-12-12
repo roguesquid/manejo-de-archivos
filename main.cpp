@@ -46,14 +46,14 @@ int separaRuta(char *ruta, char *nombre, char *straux)
 		memset(nombre, '\0', sizeof(nombre));
 		memset(straux, '\0', sizeof(straux));
 		strcpy(nombre, ruta);
-		return(0);
+		return (0);
 	}
 	lenRuta = strlen(ruta) - strlen(nom) - 1;
 	memset(nombre, '\0', sizeof(nombre));
 	memset(straux, '\0', sizeof(straux));
 	strcpy(nombre, nom);
 	strncpy(straux, ruta, lenRuta);
-	return(1);
+	return (1);
 }
 
 dir *moverpunterov3(char *t, dir *p, int x)
@@ -1365,7 +1365,7 @@ void CU(dir *p, char *nom)
 		t->ppa = p;
 		t->pfa = NULL;
 		t->pul = NULL;
-		ax = p->pfa; 
+		ax = p->pfa;
 		while (ax)
 		{
 			if (!strcmp(nom, ax->nom))
@@ -1384,12 +1384,11 @@ void CU(dir *p, char *nom)
 		printf("ERROR: Nombre invalido para una unidad logica\n");
 }
 
-
 void CRU(dir *p, dir *ax, char *rutadest)
 {
 	char ruta[512], nom[24];
 	if (separaRuta(rutadest, nom, ruta))
-	{	
+	{
 		if (verificartoken(ruta))
 			p = moverpunterov3(ruta, p, 1);
 		else
@@ -1400,8 +1399,8 @@ void CRU(dir *p, dir *ax, char *rutadest)
 			printf("ERROR: Ruta invalida\n");
 	}
 	else
-	{ 
-		CU(p, nom);	
+	{
+		CU(p, nom);
 	}
 }
 
@@ -1456,9 +1455,10 @@ int main()
 			ordenado[i] = t;
 			i++;
 			t = strtok(NULL, " \n");
-			if(i==4) break;
+			if (i == 4)
+				break;
 		}
-		if (!ordenado[0]||i>3)
+		if (!ordenado[0] || i > 3)
 		{
 			printf("ERROR: Comando invalido\n");
 		}
@@ -1493,17 +1493,20 @@ int main()
 				}
 			}
 
-			if(separaRuta(ordenado[1], nombre, ruta)){
+			if (separaRuta(ordenado[1], nombre, ruta))
+			{
 				if (verificartoken(ruta))
 					auxRoot = moverpunterov3(ruta, q, 1);
 				else
 					auxRoot = moverpunterov3(ruta, ax, 1);
-				if(auxRoot) crear(auxRoot, nombre, h, r);
-			} else {
+				if (auxRoot)
+					crear(auxRoot, nombre, h, r);
+			}
+			else
+			{
 				system("Pause");
-				crear(ax,nombre,h,r);
-			}	
-				
+				crear(ax, nombre, h, r);
+			}
 		}
 
 		else if (!(strcmp(ordenado[0], "CHD")))
@@ -1570,8 +1573,8 @@ int main()
 			}
 		}
 		else if (!(strcmp(ordenado[0], "SHD")))
-		{	
-			
+		{
+
 			mostrar(ax, 2);
 		}
 		else if (!(strcmp(ordenado[0], "CSC")))
@@ -1583,7 +1586,7 @@ int main()
 			if ((ordenado[2] || ordenado[3]) || !ordenado[1])
 				printf("ERROR: Comando invalido\n");
 			else
-				CRU(q,ax,ordenado[1]);
+				CRU(q, ax, ordenado[1]);
 		}
 		else if (!(strcmp(ordenado[0], "SRU")))
 		{
@@ -1611,294 +1614,3 @@ int main()
 		// lo lee, funciona bien
 	}
 }
-/*while (op[0]!='0'){
-	system("cls");
-	encabezado();
-	printf("\n\n\t---------------------------------------------------");
-	printf( "\n\t\tManejo virtual de directorios (MVA) ");
-	printf("\n\t---------------------------------------------------\n");
-	printf("\t\t");printv2(aux,1);printf("]\n\n");
-	printf("\t\tManejo de directorios\n\n");
-	printf( "\t\t1. Crear un directorio (MKD)\n");
-	printf( "\t\t2. Cambiar directorio (CHD)\n");
-	printf( "\t\t3. Borrar directorio (RMD)\n");
-	printf( "\t\t4. Mover directorio (MVD)\n");
-	printf( "\t\t5. Copiar directorio (CPD)\n");
-	printf( "\t\t6. Modificar directrorio (MDD)\n");
-	printf( "\t\t7. Mostrar contenido (SDH)\n");
-	printf( "\t\t0. SALIR y guardar datos\n\n ");
-	printf("\t\tSu opcion [0-7]: ");
-	scanf("%s", &op);
-	if(validar(1,op)){
-		switch (op[0]){
-			case '0':
-				printf("\n\n\t  Los datos se han guardado existosamente\n\n  ");
-				printf("\t      %c%c Gracias por usar el programa %c%c\n\n   ",1,1,1,1);
-			break;
-			case '1':
-				while(op2[0]!='0'){
-					system("cls");
-					encabezado();
-					printf("\n\n---------------------------------------------------");
-					printf( "\n  Manejo virtual de directorios (MVA) ");
-					printf( "\n  [1. Crear un directorio (MKD)]");
-					printf("\n---------------------------------------------------\n");
-					printf("\n  ");printv2(aux,1);printf("]\n\n");
-					printf("  1. Nombre del directorio a crear\n");
-					printf("  0. Salir\n");
-					printf("  Su opcion [0-1]: ");
-					scanf("%s", &op2);
-					if(validar(1,op2)){
-						switch (op2[0]){
-							case '0':
-								printf("\n\n  ");
-							break;
-							case '1':
-								crear(aux);
-							break;
-							default:
-								printf("\n\t\t\t  ERROR\n\n");
-								printf("  Recuerde que debe elegir una opcion en el rango [0-1]\n\n  ");
-							break;
-						}
-						system("pause");
-					} else {
-						printf("\n\t\t\t  ERROR\n\n");
-						printf("  Recuerde que debe elegir una opcion en el rango [0-1]\n\n  ");
-						system("pause");
-					}
-				}
-			break;
-			case '2':
-				while(op2[0]!='0'){
-					system("cls");
-					encabezado();
-					printf("\n\n---------------------------------------------------");
-					printf( "\n  Manejo virtual de directorios (MVA) ");
-					printf( "\n  [2. Cambiar de directorio (CHD)]");
-					printf("\n---------------------------------------------------\n");
-					printf("\n  ");printv2(aux,1);printf("]\n\n");
-					printf("  1. Subir a directorio padre\n");
-					printf("  2. Bajar a un subdirectorio (indmediato)\n");
-					printf("  0. Volver a pantalla principal\n");
-					printf("  Su opcion [0-2]: ");
-					scanf("%s",&op2);
-					if(validar(1,op2)){
-						switch (op2[0]){
-							case '0':
-								printf("\n\n  ");
-							break;
-							case '1':
-								subir(&aux);
-							break;
-							case '2':
-								bajar(&aux);
-							break;
-							default:
-								printf("\n\t\t\t  ERROR\n\n");
-								printf("  Recuerde que debe elegir una opcion en el rango [0-2]\n\n  ");
-							break;
-						}
-						system("pause");
-					} else {
-						printf("\n\t\t\t  ERROR\n\n");
-						printf("  Recuerde que debe elegir una opcion en el rango [0-2]\n\n  ");
-						system("pause");
-					}
-				}
-			break;
-		case '3':
-				while(op2[0]!='0'){
-					system("cls");
-					encabezado();
-					printf("\n\n---------------------------------------------------");
-					printf( "\n  Manejo virtual de directorios (MVA) ");
-					printf( "\n  [3. Borrar directorio (RMD)]");
-					printf("\n---------------------------------------------------\n");
-					printf("\n  ");printv2(aux,1);printf("]\n\n");
-					printf("  1. Nombre del directorio a borrar\n");
-					printf("  0. Volver a pantalla principal\n");
-					printf("  Su opcion [0-1]: ");
-					scanf("%s",&op2);
-					if(validar(1,op2)){
-						switch (op2[0]){
-							case '0':
-								printf("\n\n  ");
-							break;
-							case '1':
-								borrar(p,&aux);
-								if(aux==NULL) aux = p;
-							break;
-							default:
-									printf("\n\t\t\t  ERROR\n\n");
-									printf("  Recuerde que debe elegir una opcion en el rango [0-1]\n\n  ");
-
-							break;
-						}
-						system("pause");
-					} else {
-						printf("\n\t\t\t  ERROR\n\n");
-						printf("  Recuerde que debe elegir una opcion en el rango [0-1]\n\n  ");
-						system("pause");
-					}
-				}
-			break;
-			case '4':
-				while(op2[0]!='0'){
-					system("cls");
-					encabezado();
-					printf("\n\n---------------------------------------------------");
-					printf( "\n  Manejo virtual de directorios (MVA) ");
-					printf( "\n  [4. Mover directorio (MVD)]");
-					printf("\n---------------------------------------------------\n");
-					printf("\n  ");printv2(aux,1);printf("]\n\n");
-					printf("  1. Nombre del directorio destino\n");
-					printf("  0. Volver a pantalla principal\n");
-					printf("  Su opcion [0-1]: ");
-					scanf("%s",&op2);
-					if(validar(1,op2)){
-						switch (op2[0]){
-							case '0':
-								printf("\n\n  ");
-							break;
-							case '1':
-								mover(p,&aux);
-								if(aux==NULL) aux = p;
-							break;
-							default:
-									printf("\n\t\t\t  ERROR\n\n");
-									printf("  Recuerde que debe elegir una opcion en el rango [0-1]\n\n  ");
-							break;
-						}
-						system("pause");
-					} else {
-						printf("\n\t\t\t  ERROR\n\n");
-						printf("  Recuerde que debe elegir una opcion en el rango [0-1]\n\n  ");
-						system("pause");
-					}
-				}
-			break;
-			case '5':
-				while(op2[0]!='0'){
-					system("cls");
-					encabezado();
-					printf("\n\n---------------------------------------------------");
-					printf( "\n  Manejo virtual de directorios (MVA) ");
-					printf( "\n  [5. Copiar directorio (CPD)]");
-					printf("\n---------------------------------------------------\n");
-					printf("\n  ");printv2(aux, 1);printf("]\n\n");
-					printf("  1. Nombre del directorio destino\n");
-					printf("  0. Volver a pantalla principal\n");
-					printf("  Su opcion [0-1]: ");
-					scanf("%s",&op2);
-					if(validar(1,op2)){
-						switch (op2[0]){
-							case '0':
-								printf("\n\n  ");
-							break;
-							case '1':
-								copiar(p,&aux);
-								if(aux==NULL) aux = p;
-							break;
-							default:
-									printf("\n\t\t\t  ERROR\n\n");
-									printf("  Recuerde que debe elegir una opcion en el rango [0-1]\n\n  ");
-							break;
-						}
-						system("pause");
-					} else {
-						printf("\n\t\t\t  ERROR\n\n");
-						printf("  Recuerde que debe elegir una opcion en el rango [0-1]\n\n  ");
-						system("pause");
-					}
-				}
-			break;
-			case '6':
-				while(op2[0]!='0'){
-					system("cls");
-					encabezado();
-					printf("\n\n---------------------------------------------------");
-					printf( "\n  Manejo virtual de directorios (MVA) ");
-					printf( "\n  [6. Modificar directorio (MDD)]");
-					printf("\n---------------------------------------------------\n");
-					printf("\n  ");printv2(aux,1);printf("]\n\n");
-					printf("  1. Nombre [%s]\n",aux->nom);
-					printf("  2. Fecha [%s]\n",aux->fcm);
-					printf("  3. Lectura [%i]\n",aux->r);
-					printf("  4. Escondido [%i]\n",aux->h);
-					printf("  0. Volver a pantalla principal\n");
-					printf("  Su opcion [0-4]: ");
-					scanf("%s",&op2);
-					if(validar(1,op2)){
-						if(op2[0]=='0'||op2[0]=='1'||op2[0]=='2'||op2[0]=='3'||op2[0]=='4') modificar(aux,p,op2[0]);
-						else {
-								printf("\n\t\t\t  ERROR\n\n");
-								printf("  Recuerde que debe elegir una opcion en el rango [0-4]\n\n  ");
-							}
-						system("pause");
-					} else {
-						printf("\n\t\t\t  ERROR\n\n");
-						printf("  Recuerde que debe elegir una opcion en el rango [0-4]\n\n  ");
-						system("pause");
-					}
-				}
-			break;
-			case '7':
-				while(op2[0]!='0'){
-					system("cls");
-					encabezado();
-					printf("\n\n---------------------------------------------------");
-					printf( "\n  Manejo virtual de Archivos (MVA) ");
-					printf( "\n  [7. Mostrar directorio (SHD)]");
-					printf("\n---------------------------------------------------\n");
-					printf("\n  ");printv2(aux,1);printf("]\n\n");
-					printf("  1. Contenidos del directorio\n");
-					printf("  2. Contenidos del directorio con subcarpetas\n");
-					printf("  3. Archivos escondidos [%i]\n", aux->h);
-					printf("  0. Volver a la pantalla principal\n");
-					printf("  Su opcion [0-1]: ");
-					scanf("%s",&op2);
-					if(validar(1,op2)){
-						switch (op2[0]){
-							case '0':
-								printf("\n\n  ");
-							break;
-							case '1':
-								mostrar(aux, 0);
-							break;
-
-							case '2':
-								mostrar(aux,2);
-							break;
-							case '3':
-									mostrar(aux, 1);
-							break;
-							default:
-									printf("\n\t\t\t  ERROR\n\n");
-									printf("  Recuerde que debe elegir una opcion en el rango [0-3]\n\n  ");
-
-							break;
-						}
-						system("pause");
-					} else {
-						printf("\n\t\t\t  ERROR\n\n");
-						printf("  Recuerde que debe elegir una opcion en el rango [0-3]\n\n  ");
-						system("pause");
-					}
-				}
-			break;
-			default:
-					printf("\n\n\t\t\t  ERROR\n\n");
-					printf("  Recuerde que debe elegir una opcion en el rango [0-7]\n\n  ");
-					system("pause");
-			break;
-		}
-		strcpy(op2,"-1");
-	} else {
-		printf("\n\n\t\t\t  ERROR\n\n");
-		printf("  Recuerde que debe elegir una opcion en el rango [0-7]\n\n  ");
-		system("pause");
-	}
-}
-guardardirectorios(&fp, p, 0);
-};*/
