@@ -1,4 +1,4 @@
-// Proyecto Etapa II
+// Proyecto Etapa II Final
 // Luis Ochoa
 // Franklin Quintana
 // Luis Martin
