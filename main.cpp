@@ -1576,8 +1576,12 @@ int main()
 									printf("ERROR: El nombre debe ser de maximo 8 caracteres\n");
 							} else {
 								if(strlen(valor) < 2){
-									strcat(valor,":");
-									strcpy(auxRoot->nom, valor);darfecha(&auxRoot);
+									if(valor[0]>64&&valor[0]<91) {
+										strcat(valor,":");
+										strcpy(auxRoot->nom, valor);darfecha(&auxRoot);
+									} else if (valor[0]>96&&valor[0]<123) {
+										valor[0]=valor[0]-32;strcat(valor,":");strcpy(auxRoot->nom, valor);darfecha(&auxRoot);
+									} else printf("ERROR: Nombre invalido para una unidad\n");
 								} else printf("ERROR: Nombre invalido para una unidad\n");
 							} //PONER ELSE SI NO SE QUIERE CAMBIAR EL NOMBRE A UNIDADES
 						}
