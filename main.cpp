@@ -1365,13 +1365,14 @@ void MVD(dir *p, dir **ax, char *fuente, char *dest, char *op){
 }
 
 
-void SHD(dir *p, dir **ax, char *ruta, int s, int h){
+void mostrar(dir *p, dir **ax, char *ruta, int s, int h){
 	if (verificartoken(ruta))
 		p = moverpunterov3(ruta, p, 1); // ruta absoluta
 	else
 		p = moverpunterov3(ruta, *ax, 1); // Ruta relativa
 
-	if(p){
+	if((p)&&(p->ppa)){
+		printf("\n");
 		printv2(p); 
 		printf("\n\n");
 		if (p->pfa == NULL)
@@ -1388,9 +1389,79 @@ void SHD(dir *p, dir **ax, char *ruta, int s, int h){
 			if(h) mostrartodo(p, 0, 0);
 			else mostrarcasitodo(p, 0, 0);
 		}
-		printf("\n\n");
+		printf("\n");
 	}
 
+}
+
+void SHD(dir *q, dir **ax, char **ordenado){
+	  int h = 0, s = 0;
+			if ((ordenado[2] && ordenado[3])) 
+			{
+				if (!(strcmp(ordenado[3], "/h")) || !(strcmp(ordenado[2], "/h")))
+				{
+					h = 1;
+				}
+				if (!(strcmp(ordenado[3], "/s")) || !(strcmp(ordenado[2], "/s")))
+				{
+					s = 1;
+				}
+			}
+			else if ((ordenado[1] && ordenado[2])) 
+			{
+				if (!(strcmp(ordenado[2], "/h")) || !(strcmp(ordenado[1], "/h")))
+				{
+					h = 1;
+				}
+				if (!(strcmp(ordenado[2], "/s")) || !(strcmp(ordenado[1], "/s")))
+				{
+					s = 1;
+				}
+			}
+			else if (ordenado[2] && !ordenado[3])
+			{
+				if (!(strcmp(ordenado[2], "/h")))
+				{
+					h = 1;
+				}
+				else if (!(strcmp(ordenado[2], "/s")))
+				{
+					s = 1;
+				}
+			}
+			else if (ordenado[1] && !ordenado[2])
+			{
+				if (!(strcmp(ordenado[1], "/h")))
+				{
+					h = 1;
+				}
+				else if (!(strcmp(ordenado[1], "/s")))
+				{
+					s = 1;
+				}
+			}
+			 if((ax)&&((*ax)->ppa)){
+				if (!ordenado[1] && !ordenado[3] && !ordenado[3]){
+					printf("\n");
+					printv2(*ax);
+					printf("\n");
+					mostrardirectorio(*ax, 0);
+					printf("\n");
+				}else if ((strcmp(ordenado[1], "/s")) && (strcmp(ordenado[1], "/h"))){
+					mostrar(q, ax, ordenado[1], s, h);
+				}else{
+					printf("\n");
+					printv2(*ax);
+					printf("\n");
+					if((ordenado[1]) && (ordenado[2])){
+						mostrartodo(*ax, 0, 0);
+					}else{
+						if(!strcmp(ordenado[1], "/h")) mostrardirectorio(*ax, h);
+						else if(!strcmp(ordenado[1], "/s")) mostrarcasitodo(*ax, 0, 0);					  
+					}
+					printf("\n");
+				}
+			 }
 }
 
 int main()
@@ -1566,70 +1637,7 @@ int main()
 		}
 		else if (!(strcmp(ordenado[0], "SHD")))
 		{
-		int h = 0, s = 0;
-			if ((ordenado[2] && ordenado[3])) 
-			{
-				if (!(strcmp(ordenado[3], "/h")) || !(strcmp(ordenado[2], "/h")))
-				{
-					h = 1;
-				}
-				if (!(strcmp(ordenado[3], "/s")) || !(strcmp(ordenado[2], "/s")))
-				{
-					s = 1;
-				}
-			}
-			else if ((ordenado[1] && ordenado[2])) 
-			{
-				if (!(strcmp(ordenado[2], "/h")) || !(strcmp(ordenado[1], "/h")))
-				{
-					h = 1;
-				}
-				if (!(strcmp(ordenado[2], "/s")) || !(strcmp(ordenado[1], "/s")))
-				{
-					s = 1;
-				}
-			}
-			else if (ordenado[2] && !ordenado[3])
-			{
-				if (!(strcmp(ordenado[2], "/h")))
-				{
-					h = 1;
-				}
-				else if (!(strcmp(ordenado[2], "/s")))
-				{
-					s = 1;
-				}
-			}
-			else if (ordenado[1] && !ordenado[2])
-			{
-				if (!(strcmp(ordenado[1], "/h")))
-				{
-					h = 1;
-				}
-				else if (!(strcmp(ordenado[1], "/s")))
-				{
-					s = 1;
-				}
-			}
-				if (!ordenado[1] && !ordenado[3] && !ordenado[3]){
-					  printv2(p);
-					  printf("\n");
-					  mostrardirectorio(ax, 0);
-					  printf("\n\n");
-				}else if ((strcmp(ordenado[1], "/s")) && (strcmp(ordenado[1], "/h"))){
-					SHD(q, &ax, ordenado[1], s, h);
-				}else{
-					printv2(p);
-					printf("\n");
-					if((ordenado[1]) && (ordenado[2])){
-						mostrartodo(ax, 0, 0);
-					}else{
-						if(!strcmp(ordenado[1], "/h")) mostrardirectorio(ax, h);
-						else if(!strcmp(ordenado[1], "/s")) mostrarcasitodo(ax, 0, 0);					  
-					}
-					printf("\n\n");
-
-				}
+			SHD(q, &ax, &ordenado[0]);
 		}
 		else if (!(strcmp(ordenado[0], "CSC")))
 		{
