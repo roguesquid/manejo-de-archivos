@@ -64,13 +64,13 @@ dir *moverpunterov3(char *t, dir *p, int x, int y)
 	{
 		if (p)
 		{
-			if (!strcmp(t, "."))
+			if (!stricmp(t, "."))
 			{
 				t = strtok(NULL, "/ \n");
 				p = moverpunterov3(t, p, 0,y);
 				return (p);
 			}
-			else if (!strcmp(t, ".."))
+			else if (!stricmp(t, ".."))
 			{
 				t = strtok(NULL, "/ \n");
 				p = p->ppa;
@@ -84,7 +84,7 @@ dir *moverpunterov3(char *t, dir *p, int x, int y)
 					p = p->pfa;
 					while (p)
 					{
-						if (!strcmp(p->nom, t))
+						if (!stricmp(p->nom, t))
 						{
 							t = strtok(NULL, "/ \n");
 							p = moverpunterov3(t, p, 0,y);
@@ -477,9 +477,9 @@ void crear(dir *p, char x[24], int h, int r)
 						ax = p->pfa;
 						while (ax)
 						{
-							if (!strcmp(x, ax->nom))
+							if (!stricmp(x, ax->nom))
 							{
-								printf("ERROR: Existe un directorio de igual nombre en la ubicacion actual\n\n  ");
+								printf("ERROR: Existe un directorio de igual nombre en la ubicacion actual\n");
 								return;
 							}
 							if (ax->pul == NULL)
@@ -496,13 +496,11 @@ void crear(dir *p, char x[24], int h, int r)
 			else
 				printf("ERROR: El nombre introducido tiene una longitud mayor a 8 caracteres\n");
 		}
-		else if (strcmp(p->ppa->nom, "root"))
-			printf("ERROR: El directorio actual solo permite la lectura\n");
+		else if (!p->ppa->ppa)
+			printf("ERROR: La unidad logica solo permite la lectura\n");	
 		else
-			printf("ERROR: La unidad logica solo permite la lectura\n");
+			printf("ERROR: El directorio actual solo permite la lectura\n");
 	}
-	else
-		printf("ERROR: Acceso denegado\n");
 }
 // fin de creado de directorio
 
@@ -747,7 +745,7 @@ void mclovin(dir *ax, dir *bx, dir *p, dir *q){
 	while(ax) {
 	     bx = p->pfa;
 	     while(bx) {
-	        if (!strcmp(ax->nom,bx->nom)){
+	        if (!stricmp(ax->nom,bx->nom)){
 		        mclovin(ax->pfa,bx->pfa,bx,ax);
 				c=1;
 			}
@@ -935,7 +933,7 @@ void mover(dir *p, dir **ax, char *fuente, char *dest, int op)
 									d = d->pfa;
 									while (d)
 									{
-										if (!strcmp(p->nom, d->nom))
+										if (!stricmp(p->nom, d->nom))
 										{
 											if(op) sobreescribir(&d, &p, ax,1,op);
 											else printf("ERROR: Existe un directorio de igual nombre en el destino\n");
@@ -996,7 +994,7 @@ void copiar(dir *p, dir **ax, char *fuente, char *dest, int op)
 								d = d->pfa;
 								while (d)
 								{
-									if (!strcmp(p->nom, d->nom))
+									if (!stricmp(p->nom, d->nom))
 									{
 										sobreescribir(&d, &p, ax, 0,op); //RECORDAR PASARLE LOS 50 PARAMETROS
 										return; // Indica que existe directorio de igual nombre
@@ -1052,7 +1050,7 @@ void modificar(dir *ax, dir *p, char x)
 					t = t->pul;
 					while (t)
 					{
-						if (!strcmp(t->nom, y))
+						if (!stricmp(t->nom, y))
 						{
 							printf("\n\t\t\t      ERROR\n\n");
 							printf("  Ya existe un directorio con el mismo nombre en la ubicacion actual\n\n  ");
@@ -1235,7 +1233,7 @@ void RMD(dir *p, dir **ax, char *ruta, char *op)
 {
 	if (op)
 	{ // Validacion de si la opcion existe
-		if (!strcmp(op, "/o"))
+		if (!stricmp(op, "/o"))
 			borrar(p, ax, ruta, 1);
 		else
 			printf("ERROR: Comando invalido\n");
@@ -1259,7 +1257,7 @@ void CU(dir *p, char *nom)
 		ax = p->pfa;
 		while (ax)
 		{
-			if (!strcmp(nom, ax->nom))
+			if (!stricmp(nom, ax->nom))
 			{
 				printf("ERROR: Ya existe una unidad de igual nombre\n");
 				return;
@@ -1320,9 +1318,9 @@ void FRU(dir *p, dir **ax, char *rutadest)
 void CPD(dir *p, dir **ax, char *fuente, char *dest, char *op){
 	if (op)
 	{ // Validacion de si la opcion existe
-		if (!strcmp(op, "/o"))
+		if (!stricmp(op, "/o"))
 			copiar(p, ax, fuente, dest, 1);
-		else if (!strcmp(op, "/m"))
+		else if (!stricmp(op, "/m"))
 			copiar(p, ax, fuente, dest, 2);
 		else printf("ERROR: Comando invalido\n");	
 	} else copiar(p, ax, fuente,dest, 0);	
@@ -1331,7 +1329,7 @@ void CPD(dir *p, dir **ax, char *fuente, char *dest, char *op){
 void MVD(dir *p, dir **ax, char *fuente, char *dest, char *op){
 	if (op)
 	{ // Validacion de si la opcion existe
-		if (!strcmp(op, "/o")) 
+		if (!stricmp(op, "/o")) 
 			mover(p, ax, fuente, dest, 1);
 		else printf("ERROR: Comando invalido\n");	
 	} else mover(p, ax, fuente,dest, 0);	
@@ -1372,44 +1370,44 @@ void SHD(dir *q, dir **ax, char **ordenado){
 	  int h = 0, s = 0;
 			if ((ordenado[2] && ordenado[3])) 
 			{
-				if (!(strcmp(ordenado[3], "/h")) || !(strcmp(ordenado[2], "/h")))
+				if (!(stricmp(ordenado[3], "/h")) || !(stricmp(ordenado[2], "/h")))
 				{
 					h = 1;
 				}
-				if (!(strcmp(ordenado[3], "/s")) || !(strcmp(ordenado[2], "/s")))
+				if (!(stricmp(ordenado[3], "/s")) || !(stricmp(ordenado[2], "/s")))
 				{
 					s = 1;
 				}
 			}
 			else if ((ordenado[1] && ordenado[2])) 
 			{
-				if (!(strcmp(ordenado[2], "/h")) || !(strcmp(ordenado[1], "/h")))
+				if (!(stricmp(ordenado[2], "/h")) || !(stricmp(ordenado[1], "/h")))
 				{
 					h = 1;
 				}
-				if (!(strcmp(ordenado[2], "/s")) || !(strcmp(ordenado[1], "/s")))
+				if (!(stricmp(ordenado[2], "/s")) || !(stricmp(ordenado[1], "/s")))
 				{
 					s = 1;
 				}
 			}
 			else if (ordenado[2] && !ordenado[3])
 			{
-				if (!(strcmp(ordenado[2], "/h")))
+				if (!(stricmp(ordenado[2], "/h")))
 				{
 					h = 1;
 				}
-				else if (!(strcmp(ordenado[2], "/s")))
+				else if (!(stricmp(ordenado[2], "/s")))
 				{
 					s = 1;
 				}
 			}
 			else if (ordenado[1] && !ordenado[2])
 			{
-				if (!(strcmp(ordenado[1], "/h")))
+				if (!(stricmp(ordenado[1], "/h")))
 				{
 					h = 1;
 				}
-				else if (!(strcmp(ordenado[1], "/s")))
+				else if (!(stricmp(ordenado[1], "/s")))
 				{
 					s = 1;
 				}
@@ -1421,7 +1419,7 @@ void SHD(dir *q, dir **ax, char **ordenado){
 					printf("\n");
 					mostrardirectorio(*ax, 0);
 					printf("\n");
-				}else if ((strcmp(ordenado[1], "/s")) && (strcmp(ordenado[1], "/h"))){
+				}else if ((stricmp(ordenado[1], "/s")) && (stricmp(ordenado[1], "/h"))){
 					mostrar(q, ax, ordenado[1], s, h);
 				}else{
 					printf("\n");
@@ -1430,8 +1428,8 @@ void SHD(dir *q, dir **ax, char **ordenado){
 					if((ordenado[1]) && (ordenado[2])){
 						mostrartodo(*ax, 0, 0);
 					}else{
-						if(!strcmp(ordenado[1], "/h")) mostrardirectorio(*ax, h);
-						else if(!strcmp(ordenado[1], "/s")) mostrarcasitodo(*ax, 0, 0);					  
+						if(!stricmp(ordenado[1], "/h")) mostrardirectorio(*ax, h);
+						else if(!stricmp(ordenado[1], "/s")) mostrarcasitodo(*ax, 0, 0);					  
 					}
 					printf("\n");
 				}
@@ -1481,42 +1479,42 @@ int main()
 			printf("ERROR: Comando invalido\n");
 		}
 
-		else if (!(strcmp(ordenado[0], "MKD")))
+		else if (!(stricmp(ordenado[0], "MKD")))
 		{
 			int h = 0, r = 0;
 			dir *auxRoot = NULL;
 			char nombre[24];
-			char ruta[512];
-
+			char ruta[1024];
+			printf("%s\n\n",ordenado[1]);
 			if (ordenado[2] && ordenado[3])
 			{
-				if (!(strcmp(ordenado[3], "/h")) || !(strcmp(ordenado[2], "/h")))
+				if (!(stricmp(ordenado[3], "/h")) || !(stricmp(ordenado[2], "/h")))
 				{
 					h = 1;
 				}
-				if (!(strcmp(ordenado[3], "/r")) || !(strcmp(ordenado[2], "/r")))
+				if (!(stricmp(ordenado[3], "/r")) || !(stricmp(ordenado[2], "/r")))
 				{
 					r = 1;
 				}
 			}
 			else if (ordenado[2] && !ordenado[3])
 			{
-				if (!(strcmp(ordenado[2], "/h")))
+				if (!(stricmp(ordenado[2], "/h")))
 				{
 					h = 1;
 				}
-				else if (!(strcmp(ordenado[2], "/r")))
+				else if (!(stricmp(ordenado[2], "/r")))
 				{
 					r = 1;
 				}
 			}
 
-			if (separaRuta(ordenado[1], nombre, ruta))
+			if (separaRuta(ordenado[1], nombre, &ruta[0]))
 			{
 				if (verificartoken(ruta))
-					auxRoot = moverpunterov3(ruta, q, 1,0);
+					auxRoot = moverpunterov3(ruta, q, 1,1);
 				else
-					auxRoot = moverpunterov3(ruta, ax, 1,0);
+					auxRoot = moverpunterov3(ruta, ax, 1,1);
 				if (auxRoot)
 					crear(auxRoot, nombre, h, r);
 			}
@@ -1526,31 +1524,31 @@ int main()
 			}
 		}
 
-		else if (!(strcmp(ordenado[0], "CHD")))
+		else if (!(stricmp(ordenado[0], "CHD")))
 		{
 			if (i>2 || !ordenado[1])
 				printf("ERROR: Comando invalido\n");
 			else
 				CHD(q, &ax, ordenado[1]);
 		}
-		else if (!(strcmp(ordenado[0], "RMD")))
+		else if (!(stricmp(ordenado[0], "RMD")))
 		{
 			if (!ordenado[1] || i>3)
 				printf("ERROR: Comando invalido\n");
 			else
 				RMD(q, &ax, ordenado[1], ordenado[2]);
 		}
-		else if (!(strcmp(ordenado[0], "CPD")))
+		else if (!(stricmp(ordenado[0], "CPD")))
 		{
 			if(!ordenado[1]||!ordenado[2])  printf("ERROR: Comando invalido\n");
 			else CPD(q,&ax,ordenado[1],ordenado[2],ordenado[3]);	
 		}
-		else if (!(strcmp(ordenado[0], "MVD"))){
+		else if (!(stricmp(ordenado[0], "MVD"))){
 			if(!ordenado[1]||!ordenado[2]) printf("ERROR: Comando invalido\n");
 			else MVD(q,&ax,ordenado[1],ordenado[2],ordenado[3]);
 		
 		}
-		else if (!(strcmp(ordenado[0], "MDD")))
+		else if (!(stricmp(ordenado[0], "MDD")))
 		{
 			dir *auxRoot = NULL;
 			char *param, *valor;
@@ -1562,77 +1560,91 @@ int main()
 					auxRoot = moverpunterov3(ordenado[1], ax, 1,0);
 				param = strtok(ordenado[2], ":");
 				valor = strtok(NULL, ":");
-				if (!(strcmp(param, "/n")))
-				{
-					if (strlen(valor) < 9){
-						strcpy(auxRoot->nom, valor);darfecha(&auxRoot);
-					} 
-					else
-						printf("El nombre debe ser menor a 8 caracteres");
+				if(auxRoot){
+						if (!(stricmp(param, "/n")))
+						{	
+							if(auxRoot->ppa->ppa){
+								if (strlen(valor) < 9){
+									if(alfanum(valor)){
+										
+									}
+									else {
+										printf("ERROR: El nombre debe ser alfanumerico\n");	
+									}
+								} 
+								else
+									printf("ERROR: El nombre debe ser de maximo 8 caracteres\n");
+							} else {
+								if(strlen(valor) < 2){
+									strcat(valor,":");
+									strcpy(auxRoot->nom, valor);darfecha(&auxRoot);
+								} else printf("ERROR: Nombre invalido para una unidad\n");
+							} //PONER ELSE SI NO SE QUIERE CAMBIAR EL NOMBRE A UNIDADES
+						}
+						else if (!(stricmp(param, "/r")))
+						{
+							if (!(stricmp(valor, "0"))){
+								auxRoot->r = 0;darfecha(&auxRoot);
+							}
+							else if (!(stricmp(valor, "1"))){
+								auxRoot->r = 1;darfecha(&auxRoot);
+							}
+							else
+								printf("ERROR: El valor debe ser 0 o 1\n");
+						}
+						else if (!(stricmp(param, "/h")))
+						{
+							if (!(stricmp(valor, "0"))){
+								auxRoot->h = 0;darfecha(&auxRoot);
+							}
+							else if (!(stricmp(valor, "1"))){
+								auxRoot->h = 1;darfecha(&auxRoot);
+							}
+							else
+								printf("ERROR: El valor debe ser 0 o 1\n");
+						}
+					}
 				}
-				else if (!(strcmp(param, "/r")))
+				else
 				{
-					if (!(strcmp(valor, "0"))){
-						auxRoot->r = 0;darfecha(&auxRoot);
-					}
-					else if (!(strcmp(valor, "1"))){
-						auxRoot->r = 1;darfecha(&auxRoot);
-					}
-					else
-						printf("El valor debe ser 0 o 1");
+					printf("ERROR: Comando invalido\n");
 				}
-				else if (!(strcmp(param, "/h")))
-				{
-					if (!(strcmp(valor, "0"))){
-						auxRoot->h = 0;darfecha(&auxRoot);
-					}
-					else if (!(strcmp(valor, "1"))){
-						auxRoot->h = 1;darfecha(&auxRoot);
-					}
-					else
-						printf("El valor debe ser 0 o 1");
-				}
-			}
-			else
-			{
-				printf("ERROR: Comando invalido");
-			}
 		}
-		else if (!(strcmp(ordenado[0], "SHD")))
+		else if (!(stricmp(ordenado[0], "SHD")))
 		{
 			SHD(q, &ax, &ordenado[0]);
 		}
-		else if (!(strcmp(ordenado[0], "CSC")))
+		else if (!(stricmp(ordenado[0], "CSC")))
 		{
 			system("cls");
 		}
-		else if (!(strcmp(ordenado[0], "CRU")))
+		else if (!(stricmp(ordenado[0], "CRU")))
 		{
 			if ((ordenado[2] || ordenado[3]) || !ordenado[1])
 				printf("ERROR: Comando invalido\n");
 			else
 				CRU(q, ax, ordenado[1]);
 		}
-		else if (!(strcmp(ordenado[0], "SRU")))
+		else if (!(stricmp(ordenado[0], "SRU")))
 		{
 		}
-		else if (!(strcmp(ordenado[0], "LRU")))
+		else if (!(stricmp(ordenado[0], "LRU")))
 		{
 		}
-		else if (!(strcmp(ordenado[0], "FRU")))
+		else if (!(stricmp(ordenado[0], "FRU")))
 		{
 			if (i>2 || !ordenado[1])
 				printf("ERROR: Comando invalido\n");
 			else
 				FRU(q, &ax, ordenado[1]);
 		}
-		else if (!(strcmp(ordenado[0], "ERU")))
+		else if (!(stricmp(ordenado[0], "ERU")))
 		{
-		} else if (!(strcmp(ordenado[0], "COLOR"))) {
+		} else if (!(stricmp(ordenado[0], "COLOR"))) {
 			if (i>2 || !ordenado[1]) system("COLOR i");
 			else color(ordenado[1]);
 		}
-		else if (!(strcmp(ordenado[0], "EXIT")))
+		else if (!(stricmp(ordenado[0], "EXIT")))
 		{
 			if (ordenado[1] || ordenado[2] || ordenado[3])
 				printf("ERROR: Comando invalido\n");
@@ -1660,7 +1672,7 @@ int main()
 
 
 
-validarcolor(char *x){
+int validarcolor(char *x){
 	if(validar(2,x)||validar(1,x)){
 		for(int i=0;i<strlen(x);i++){
 			if((x[i]<48&&x[i]>57)||(x[i]<65&&x[i]>70)||(x[i]<97&&x[i]>102)) return (0);
