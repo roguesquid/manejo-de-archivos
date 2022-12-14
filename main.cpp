@@ -6,7 +6,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <time.h>
-
 struct dir
 { // dir = I-nodo
 	char nom[9];
@@ -175,7 +174,7 @@ void mostrartodo(dir *p, int check, int saltos)
 		{
 			if (check == 1)
 			{
-				for (int unsigned i = 0; i != saltos; i++)
+				for (int i = 0; i != saltos; i++)
 					printf("|%*c", -10, 32);
 			}
 			if (aux->h == 1) printf("|%-8s       <D>     %s     -r+h\n", aux->nom, aux->fcm);
@@ -185,7 +184,7 @@ void mostrartodo(dir *p, int check, int saltos)
 		{
 			if (check == 1)
 			{
-				for (int unsigned i = 0; i != saltos; i++)
+				for (int i = 0; i != saltos; i++)
 					printf("|%*c", -10, 32);
 			}
 			if (aux->h == 1) printf("|%-8s       <D>     %s     +r+h\n", aux->nom, aux->fcm);
@@ -219,7 +218,7 @@ void mostrarcasitodo(dir *p, int check, int saltos)
 		{
 			if (check == 1)
 			{
-				for (int unsigned i = 0; i != saltos; i++)
+				for (int i = 0; i != saltos; i++)
 					printf("|%*c", -10, 32);
 			}
 			printf("|%-8s       <D>     %s     -r\n", aux->nom, aux->fcm);
@@ -228,7 +227,7 @@ void mostrarcasitodo(dir *p, int check, int saltos)
 		{
 			if (check == 1)
 			{
-				for (int unsigned i = 0; i != saltos; i++)
+				for (int i = 0; i != saltos; i++)
 					printf("|%*c", -10, 32);
 			}
 			printf("|%-8s       <D>     %s     +r\n", aux->nom, aux->fcm);
@@ -250,14 +249,13 @@ void mostrardirectorio(dir *p, int check)
 	aux = aux->pfa;
 	if (check == 0)
 	{
-		if (aux->h == 1)
+		while (aux)
 		{
+			if (aux->h == 1){
 			aux = aux->pul;
 			if (aux == NULL)
 				return;
-		}
-		while (aux)
-		{
+			}
 			if (aux->r == 0)
 				printf("|%-8s       <D>     %s     -r\n", aux->nom, aux->fcm);
 			else
@@ -1070,6 +1068,78 @@ void guardardirectorios(FILE **fp, dir *p, int check, char *uni)
 }
 // fin de lectura de archivos ////////////////////////////////////////////
 
+void SRU(dir *p, dir *ax, char **ordenado){
+	dir *auxRoot = NULL;
+	char nombre[16];
+	char ruta[512];
+	if(!ordenado[1] || !ordenado[2]){
+		printf("ERROR: Comando invalido\n");
+		return;
+	}
+	if(!separaRuta(ordenado[1], nombre, ruta)){
+		if(verificartoken(ordenado[1]))
+			p=moverpunterov3(ordenado[1], p, 1, 0);
+		else
+			p = moverpunterov3(ordenado[1], ax, 1,0);
+		  if((p)&&(!p->ppa->ppa)){
+			if (alfanum(ordenado[2])){
+				   char nomarch[64]; FILE *fp;
+				   strcpy(nomarch, ordenado[2]);
+				   strcat(nomarch,".txt");
+				   ordenado[0] = nomarch;
+				   guardardirectorios(&fp, p, 0, ordenado[0]);
+				   printf("\nLa informacion de la unidad logica se ha guardado con exito\n\n");
+			}else
+				printf("ERROR: El nombre introducido no es alfanumerico\n");
+		   }else
+			if(!p->ppa->ppa) printf("La direccion suministrada no es una unidad logica\n\n");
+	}else
+		printf("La direccion suministrada no es una unidad logica\n\n");
+}
+
+void LRU(dir *p, dir *ax, char **ordenado){
+	dir *auxRoot = NULL;
+	char nombre[16];
+	char ruta[512];
+	if(!ordenado[1] || !ordenado[2]){
+		printf("ERROR: Comando invalido\n");
+		return;
+	}
+	if(!separaRuta(ordenado[2], nombre, ruta)){
+		if(verificartoken(ordenado[2]))
+			p=moverpunterov3(ordenado[2], p, 1, 0);
+		else
+			p = moverpunterov3(ordenado[2], ax, 1,0);
+		    if((p)&&(!p->ppa->ppa)){
+				if(!p->pfa){
+					if (alfanum(ordenado[1]))
+					{
+						char nomarch[64]; FILE *fp;
+						strcpy(nomarch, ordenado[1]);
+						strcat(nomarch,".txt");
+						ordenado[0] = nomarch;
+						if ((fp = fopen(nomarch, "r")) != NULL){
+							int c = fgetc(fp);
+							if (c != EOF){
+								ungetc(c, fp);
+								leerarchivo(&fp, p);
+							}
+							fclose(fp);
+							printf("\nLa informacion del archivo se ha cargado con exito\n\n");
+						}else{
+							printf("\nERROR: No existe un archivo con el nombre solicitado\n\n");
+						}
+					}else
+					   printf("ERROR: El nombre introducido no es alfanumerico\n");
+				}else
+				   printf("ERROR: La unidad logica introducida no esta vacia\n");
+			}else
+				if(!p->ppa->ppa) printf("ERROR: La direccion suministrada no es una unidad logica\n\n");
+	}else
+		printf("ERROR: La direccion suministrada no es una unidad logica\n\n");
+}
+
+
 void CHD(dir *p, dir **ax, char *ruta)
 {
 	if (verificartoken(ruta))
@@ -1143,7 +1213,7 @@ void CRU(dir *p, dir *ax, char *rutadest)
 					strcat(nom,":");
 					CU(p,nom);
 			} else printf("ERROR: Nombre invalido para una unidad logica\n");		
-		} else if (p->ppa)("ERROR: Ruta invalida");
+		} else if (p->ppa)("ERROR: Ruta invalida\n");
 	}
 	else
 	{
@@ -1167,6 +1237,25 @@ void FRU(dir *p, dir **ax, char *rutadest)
 		if(!p->ppa->ppa) {
 			borrardentro(p, ax,2);
 		}  else printf("ERROR: Ruta invalida\n");	
+}
+
+
+
+void ERU(dir *p, dir **ax, char *rutadest){
+	dir *q=p;
+	if (verificartoken(rutadest))
+		p = moverpunterov3(rutadest, p, 1,0);
+	else
+		p = moverpunterov3(rutadest, *ax, 1,0);
+	if(p&&p->ppa) 
+		if(!p->ppa->ppa) {
+			if(!p->pfa){
+				if(stricmp(p->nom,"C:")) {
+					if (*ax==p) *ax=q->pfa;
+					delete(p);
+				}else printf("%cERROR: Como vas a borrar system32 pibe? >:(\n",168);
+			} else printf("ERROR: La unidad logica no esta vacia\n");
+		}  else printf("ERROR: Ruta invalida\n");
 }
 
 void CPD(dir *p, dir **ax, char *fuente, char *dest, char *op){
@@ -1225,69 +1314,79 @@ void SHD(dir *q, dir **ax, char **ordenado){
 	  int h = 0, s = 0;
 			if ((ordenado[2] && ordenado[3])) 
 			{
-				if (!(stricmp(ordenado[3], "/h")) || !(stricmp(ordenado[2], "/h")))
+				if (!(strcmp(ordenado[3], "/h")) || !(strcmp(ordenado[2], "/h")))
 				{
 					h = 1;
 				}
-				if (!(stricmp(ordenado[3], "/s")) || !(stricmp(ordenado[2], "/s")))
+				if (!(strcmp(ordenado[3], "/s")) || !(strcmp(ordenado[2], "/s")))
 				{
 					s = 1;
 				}
 			}
 			else if ((ordenado[1] && ordenado[2])) 
 			{
-				if (!(stricmp(ordenado[2], "/h")) || !(stricmp(ordenado[1], "/h")))
+				if (!(strcmp(ordenado[2], "/h")) || !(strcmp(ordenado[1], "/h")))
 				{
 					h = 1;
 				}
-				if (!(stricmp(ordenado[2], "/s")) || !(stricmp(ordenado[1], "/s")))
+				if (!(strcmp(ordenado[2], "/s")) || !(strcmp(ordenado[1], "/s")))
 				{
 					s = 1;
 				}
 			}
 			else if (ordenado[2] && !ordenado[3])
 			{
-				if (!(stricmp(ordenado[2], "/h")))
+				if (!(strcmp(ordenado[2], "/h")))
 				{
 					h = 1;
 				}
-				else if (!(stricmp(ordenado[2], "/s")))
+				else if (!(strcmp(ordenado[2], "/s")))
 				{
 					s = 1;
 				}
 			}
 			else if (ordenado[1] && !ordenado[2])
 			{
-				if (!(stricmp(ordenado[1], "/h")))
+				if (!(strcmp(ordenado[1], "/h")))
 				{
 					h = 1;
 				}
-				else if (!(stricmp(ordenado[1], "/s")))
+				else if (!(strcmp(ordenado[1], "/s")))
 				{
 					s = 1;
 				}
 			}
-			 if((*ax)&&((*ax)->ppa)&&(*ax)->pfa){
+			 if((*ax)&&((*ax)->ppa)&&((*ax)->pfa)){
 				if (!ordenado[1] && !ordenado[3] && !ordenado[3]){
 					printf("\n");
 					printv2(*ax);
 					printf("\n");
 					mostrardirectorio(*ax, 0);
 					printf("\n");
-				}else if ((stricmp(ordenado[1], "/s")) && (stricmp(ordenado[1], "/h"))){
-					mostrar(q, ax, ordenado[1], s, h);
+				}else if ((strcmp(ordenado[1], "/s")) && (strcmp(ordenado[1], "/h"))){
+					mostrar(q, ax, ordenado[1], s, h); 
 				}else{
-					printf("\n");
-					printv2(*ax);
-					printf("\n");
 					if((ordenado[1]) && (ordenado[2])){
-						mostrartodo(*ax, 0, 0);
+						if ((!strcmp(ordenado[2], "/s")) || (!strcmp(ordenado[2], "/h"))){
+							printf("\n");
+							printv2(*ax);
+							printf("\n");
+							mostrartodo(*ax, 0, 0);
+							printf("\n");
+						}
 					}else{
-						if(!stricmp(ordenado[1], "/h")) mostrardirectorio(*ax, h);
-						else if(!stricmp(ordenado[1], "/s")) mostrarcasitodo(*ax, 0, 0);					  
+						printf("\n");
+						printv2(*ax);
+						printf("\n");
+						if(!strcmp(ordenado[1], "/h")) mostrardirectorio(*ax, h);
+						else if(!strcmp(ordenado[1], "/s")) mostrarcasitodo(*ax, 0, 0);	
+						printf("\n");
 					}
-					printf("\n");
 				}
+			 }else{
+				 	printf("\n");
+					printv2(*ax); 
+					printf("   \n\n");
 			 }
 }
 
@@ -1387,7 +1486,7 @@ void mdd(char *ordenado1, char *ordenado2, dir *q, dir *ax){
 					}
             }else
             {
-                printf("ERROR: Comando invalido");
+                printf("ERROR: Comando invalido\n");
             }
 		}
 
@@ -1531,9 +1630,19 @@ int main()
 		}
 		else if (!(stricmp(ordenado[0], "SRU")))
 		{
+			if (ordenado[3])
+				printf("ERROR: Comando invalido\n");
+			else{
+				SRU(q, ax, &ordenado[0]);
+			}
 		}
 		else if (!(stricmp(ordenado[0], "LRU")))
 		{
+			if (ordenado[3])
+				printf("ERROR: Comando invalido\n");
+			else{
+				LRU(q, ax, &ordenado[0]);
+			}
 		}
 		else if (!(stricmp(ordenado[0], "FRU")))
 		{
@@ -1544,6 +1653,10 @@ int main()
 		}
 		else if (!(stricmp(ordenado[0], "ERU")))
 		{
+			if (i>2 || !ordenado[1])
+				printf("ERROR: Comando invalido\n");
+			else
+				ERU(q, &ax, ordenado[1]);
 		} else if (!(stricmp(ordenado[0], "COLOR"))) {
 			if (i>2 || !ordenado[1]) system("COLOR i");
 			else color(ordenado[1]);
