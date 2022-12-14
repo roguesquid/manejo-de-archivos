@@ -1958,9 +1958,10 @@ int main()
 		}
 		else if (!(stricmp(ordenado[0], "COLOR")))
 		{
-			if (i > 2 || !ordenado[1])
+			if (i > 2)
 				system("COLOR i");
-			else
+			else if(!ordenado[1]) system("COLOR 7");
+			else 
 				color(ordenado[1]);
 		}
 		else if (!(stricmp(ordenado[0], "EXIT")))
@@ -2000,15 +2001,16 @@ int main()
 		}
 		else if (!(stricmp(ordenado[0], "HELP")))
 		{
-			if (!ordenado[1] || i > 2)
-				printf("ERROR: comando invalido\n");
+			if (!ordenado[1] || i > 2) {
+				help("HELP");
+			}
 			else
 				help(ordenado[1]);
 		}
-		else if (!stricmp(ordenado[0], "JDC") || !stricmp(ordenado[0], "OPP") || !stricmp(ordenado[0], "JAVASCRIH") || !stricmp(ordenado[0], "MCL") || !stricmp(ordenado[0], "P5R"))
+		/*else if (!stricmp(ordenado[0], "JDC"))
 		{
 			juntacondominio();
-		}
+		}*/
 		else if (!(stricmp(ordenado[0], "TREE")))
 		{
 			tree(ax, 0);
@@ -2123,10 +2125,30 @@ void help(char *comando)
 	}
 	else if (!(stricmp(comando, "HELP")))
 	{
-		printf("\t- HELP (Ayuda de los comandos) :\n");
+		//printf("\t- HELP (Ayuda de los comandos) :\n");
 		printf("\t\tHELP <comando>  \n");
 		printf("\t\tMuestra una descripcion detallada del comando ingresado\n");
-		printf("\t\tEjemplo: HELP MKD\n");
+		printf("\t\tEjemplo: HELP MKD\n\n");
+		printf("\t\tLa lista de comandos disponibles es: \n\n");
+		printf("\t\tMKD (Crear directorio)\n");
+		printf("\t\tCHD (Cambiar de directorio)\n");
+		printf("\t\tRMD (Borrar directorio)\n");
+		printf("\t\tCPD (Copiar directorio)\n");
+		printf("\t\tMVD (Mover directorio)\n");
+		printf("\t\tMDD (Modificar directorio)\n");
+		printf("\t\tSHD (Mostrar contenido)\n");
+		printf("\t\tCSC (Limpiar pantalla)\n");
+		printf("\t\tCRU (Crear unidad logica)\n");
+		printf("\t\tSRU (Guardar unidad logica)\n");
+		printf("\t\tLRU (Leer unidad logica)\n");
+		printf("\t\tFRU (Formatear unidad logica)\n");
+		printf("\t\tERU (Desmontar unidad logica)\n");
+		printf("\t\tColor (Cambia el color de la consola)\n");
+		printf("\t\tEXIT (Salir)\n\n");
+	}
+	else if (!stricmp(comando,"COLOR"))
+	{
+		system("COLOR j");
 	}
 	else
 	{
