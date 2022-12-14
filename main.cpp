@@ -505,7 +505,7 @@ void crear(dir *p, char x[24], int h, int r)
 						{
 							if (!stricmp(x, ax->nom))
 							{
-								printf("ERROR: Existe un directorio de igual nombre en la ubicacion actual\n");
+								printf("ERROR: Existe un directorio de igual nombre en la ubicacion destino\n");
 								return;
 							}
 							if (ax->pul == NULL)
@@ -1863,9 +1863,9 @@ int main()
 			if (separaRuta(ordenado[1], nombre, &ruta[0]))
 			{
 				if (verificartoken(ruta))
-					auxRoot = moverpunterov3(ruta, q, 1, 1);
+					auxRoot = moverpunterov3(ruta, q, 1, 2);
 				else
-					auxRoot = moverpunterov3(ruta, ax, 1, 1);
+					auxRoot = moverpunterov3(ruta, ax, 1, 2);
 				if (auxRoot)
 					crear(auxRoot, nombre, h, r);
 			}
