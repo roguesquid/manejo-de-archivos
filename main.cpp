@@ -558,7 +558,6 @@ void borrardentro(dir *p, dir **ax, int x)
 							dir *t = p;
 							link(t);
 							delete (p);
-							return;
 						}
 						else printf("Error: El directorio contiene archivos protegidos\n");
 						return;
@@ -586,32 +585,22 @@ void borrardentro(dir *p, dir **ax, int x)
 			scanf("%s", &op[0]);
 			fflush(stdin);
 			if (validar(1, op))
-			{	
-			switch (op[0])
+			{
+				if ((op[0] > 96) && (op[0] < 123)) op[0] = op[0]-32;	
+				switch (op[0])
 				{
-				case 'S':
-					if (contenido(*ax, &p)) while(*ax&&(*ax)->ppa&&(*ax)->ppa->ppa) *ax=(*ax)->ppa;
-					borrartodo(p->pfa);
-					darfecha(&p);
-					return;
-				break;
-				case 'N':
-					return;
-				break;
-				case 's':
-					if (contenido(*ax, &p)) while(*ax&&(*ax)->ppa&&(*ax)->ppa->ppa) *ax=(*ax)->ppa;
-					borrartodo(p->pfa);
-					darfecha(&p);
-					return;
-				break;
-				case 'n':
-					return;
-				break;
-				}	
-				
-			}
+					case 'S':
+						if (contenido(*ax, &p)) while(*ax&&(*ax)->ppa&&(*ax)->ppa->ppa) *ax=(*ax)->ppa;
+						borrartodo(p->pfa);
+						darfecha(&p);
+						return;
+					break;
+					case 'N':
+						return;
+					break;	
+				}
+			}		
 		}
-		
 	}
 }
 // fin borrar dentro
@@ -1077,7 +1066,7 @@ void SRU(dir *p, dir *ax, char **ordenado){
 		printf("ERROR: Comando invalido\n");
 		return;
 	}
-	if(!separaRuta(ordenado[1], nombre, ruta)){
+	//if(!separaRuta(ordenado[1], nombre, ruta)){
 		if(verificartoken(ordenado[1]))
 			p=moverpunterov3(ordenado[1], p, 1, 0);
 		else
@@ -1093,9 +1082,9 @@ void SRU(dir *p, dir *ax, char **ordenado){
 				printf("ERROR: El nombre introducido no es alfanumerico\n");
 		   }else
 			 if(p) 
-			   if(!p->ppa->ppa) printf("La direccion suministrada no es una unidad logica\n\n");
-	}else
-		printf("La direccion suministrada no es una unidad logica\n\n");
+			   if(!p->ppa->ppa) printf("La direccion suministrada no es una unidad logica\n");
+	/*}else
+		printf("La direccion suministrada no es una unidad logica\n");*/
 }
 
 void LRU(dir *p, dir *ax, char **ordenado){
@@ -1106,7 +1095,7 @@ void LRU(dir *p, dir *ax, char **ordenado){
 		printf("ERROR: Comando invalido\n");
 		return;
 	}
-	if(!separaRuta(ordenado[2], nombre, ruta)){
+	//if(!separaRuta(ordenado[2], nombre, ruta)){
 		if(verificartoken(ordenado[2]))
 			p=moverpunterov3(ordenado[2], p, 1, 0);
 		else
@@ -1127,7 +1116,7 @@ void LRU(dir *p, dir *ax, char **ordenado){
 							}
 							fclose(fp);
 						}else{
-							printf("\nERROR: No existe un archivo con el nombre solicitado\n\n");
+							printf("\nERROR: No existe un archivo con el nombre solicitado\n");
 						}
 					}else
 					   printf("ERROR: El nombre introducido no es alfanumerico\n");
@@ -1135,9 +1124,9 @@ void LRU(dir *p, dir *ax, char **ordenado){
 				   printf("ERROR: La unidad logica introducida no esta vacia\n");
 			}else
 			  if(p)
-				if(!p->ppa->ppa) printf("ERROR: La direccion suministrada no es una unidad logica\n\n");
-	}else
-		printf("ERROR: La direccion suministrada no es una unidad logica\n\n");
+				if(!p->ppa->ppa) printf("ERROR: La direccion suministrada no es una unidad logica\n");
+	/*}else
+		printf("ERROR: La direccion suministrada no es una unidad logica\n");*/
 }
 
 
@@ -1494,7 +1483,7 @@ void mdd(char *ordenado1, char *ordenado2, dir *q, dir *ax){
 
 
 void lineaslindas() {
-    for (int i = 0; i < 40; i++) {
+    for (int unsigned i = 0; i < 40; i++) {
         printf_s("--");
     }
     printf_s("\n");
@@ -1733,6 +1722,8 @@ int main()
 		{	
 			if(!ordenado[1]||i>2) printf("ERROR: comando invalido\n");
 			else help(ordenado[1]);
+		} else if (!stricmp(ordenado[0],"JDC")||!stricmp(ordenado[0],"OPP")||!stricmp(ordenado[0],"JAVASCRIH")||!stricmp(ordenado[0],"MCL")||!stricmp(ordenado[0],"P5R")) {
+			juntacondominio();
 		}
 		else
 		{
