@@ -561,6 +561,7 @@ void borrardentro(dir *p, dir **ax, int x)
 							return;
 						}
 						else printf("Error: El directorio contiene archivos protegidos\n");
+						return;
 					break;
 					case 'N':
 						return;
@@ -1088,11 +1089,11 @@ void SRU(dir *p, dir *ax, char **ordenado){
 				   strcat(nomarch,".txt");
 				   ordenado[0] = nomarch;
 				   guardardirectorios(&fp, p, 0, ordenado[0]);
-				   printf("\nLa informacion de la unidad logica se ha guardado con exito\n\n");
 			}else
 				printf("ERROR: El nombre introducido no es alfanumerico\n");
 		   }else
-			if(!p->ppa->ppa) printf("La direccion suministrada no es una unidad logica\n\n");
+			 if(p) 
+			   if(!p->ppa->ppa) printf("La direccion suministrada no es una unidad logica\n\n");
 	}else
 		printf("La direccion suministrada no es una unidad logica\n\n");
 }
@@ -1125,7 +1126,6 @@ void LRU(dir *p, dir *ax, char **ordenado){
 								leerarchivo(&fp, p);
 							}
 							fclose(fp);
-							printf("\nLa informacion del archivo se ha cargado con exito\n\n");
 						}else{
 							printf("\nERROR: No existe un archivo con el nombre solicitado\n\n");
 						}
@@ -1134,6 +1134,7 @@ void LRU(dir *p, dir *ax, char **ordenado){
 				}else
 				   printf("ERROR: La unidad logica introducida no esta vacia\n");
 			}else
+			  if(p)
 				if(!p->ppa->ppa) printf("ERROR: La direccion suministrada no es una unidad logica\n\n");
 	}else
 		printf("ERROR: La direccion suministrada no es una unidad logica\n\n");
@@ -1252,6 +1253,7 @@ void ERU(dir *p, dir **ax, char *rutadest){
 			if(!p->pfa){
 				if(stricmp(p->nom,"C:")) {
 					if (*ax==p) *ax=q->pfa;
+					link(p);
 					delete(p);
 				}else printf("%cERROR: Como vas a borrar system32 pibe? >:(\n",168);
 			} else printf("ERROR: La unidad logica no esta vacia\n");
@@ -1490,6 +1492,44 @@ void mdd(char *ordenado1, char *ordenado2, dir *q, dir *ax){
             }
 		}
 
+
+void lineaslindas() {
+    for (int i = 0; i < 40; i++) {
+        printf_s("--");
+    }
+    printf_s("\n");
+}
+
+void centrado(char *cad){
+    int i, k;
+    
+    int n = strlen(cad);
+    
+    k= (80-n)/2;
+    
+    for(i = 0; i<k;i++)
+    
+    printf(" ");
+    
+    printf("%s\n",cad);
+    
+    return;
+}
+
+void juntacondominio(){
+    char *MVP;
+    lineaslindas();
+    MVP="LA JUNTA DE CONDOMINO";centrado(MVP);printf("\n");
+    MVP="MVP";centrado(MVP);
+    MVP="JavaScript";centrado(MVP);
+    MVP="Rivas Sort";centrado(MVP);
+    MVP="McLovin";centrado(MVP);
+    MVP="Franklin";centrado(MVP);
+    MVP="Cristopher";centrado(MVP);
+    printf("\n");
+    MVP="LA JUNTA DE CONDOMINO";centrado(MVP);
+    lineaslindas();
+}
 
 int main()
 {
