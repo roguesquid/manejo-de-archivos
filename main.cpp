@@ -33,10 +33,10 @@ struct dir
 
 // NOTA 3: Decidimos diferenciar mayúsculas de minúsculas
 
-int separaRuta(char* ruta, char* nombre, char* straux)
+int separaRuta(char *ruta, char *nombre, char *straux)
 {
 	int lenRuta;
-	char* nom = NULL;
+	char *nom = NULL;
 	char sep = '/';
 	nom = strrchr(ruta, sep);
 	nom = strtok(nom, "/");
@@ -66,14 +66,14 @@ dir *moverpunterov3(char *t, dir *p, int x, int y)
 			if (!stricmp(t, "."))
 			{
 				t = strtok(NULL, "/ \n");
-				p = moverpunterov3(t, p, 0,y);
+				p = moverpunterov3(t, p, 0, y);
 				return (p);
 			}
 			else if (!stricmp(t, ".."))
 			{
 				t = strtok(NULL, "/ \n");
 				p = p->ppa;
-				p = moverpunterov3(t, p, 0,y);
+				p = moverpunterov3(t, p, 0, y);
 				return (p);
 			}
 			else
@@ -86,69 +86,83 @@ dir *moverpunterov3(char *t, dir *p, int x, int y)
 						if (!stricmp(p->nom, t))
 						{
 							t = strtok(NULL, "/ \n");
-							p = moverpunterov3(t, p, 0,y);
+							p = moverpunterov3(t, p, 0, y);
 							return (p);
 						}
 						p = p->pul;
 					}
-					if (y==0)printf("ERROR: Ruta no encontrada\n");
-					else if(y==1) printf("ERROR: Fuente no encontrada\n");
-					else if(y==2) printf("ERROR: Destino no encontrado\n");
+					if (y == 0)
+						printf("ERROR: Ruta no encontrada\n");
+					else if (y == 1)
+						printf("ERROR: Fuente no encontrada\n");
+					else if (y == 2)
+						printf("ERROR: Destino no encontrado\n");
 					return (NULL);
 				}
 				else
 				{
-					if (y==0)printf("ERROR: Ruta no encontrada\n");
-					else if(y==1) printf("ERROR: Fuente no encontrada\n");
-					else if(y==2) printf("ERROR: Destino no encontrado\n");
+					if (y == 0)
+						printf("ERROR: Ruta no encontrada\n");
+					else if (y == 1)
+						printf("ERROR: Fuente no encontrada\n");
+					else if (y == 2)
+						printf("ERROR: Destino no encontrado\n");
 					return (NULL);
 				}
 			}
 		}
 		else
 		{
-			if (y==0)printf("ERROR: Ruta no encontrada\n");
-			else if(y==1) printf("ERROR: Fuente no encontrada\n");
-			else if(y==2) printf("ERROR: Destino no encontrado\n");
+			if (y == 0)
+				printf("ERROR: Ruta no encontrada\n");
+			else if (y == 1)
+				printf("ERROR: Fuente no encontrada\n");
+			else if (y == 2)
+				printf("ERROR: Destino no encontrado\n");
 			return (NULL);
 		}
 	}
 	else
-	{	
-		if(y==1){
-			if (p&&p->ppa)
+	{
+		if (y == 1)
+		{
+			if (p && p->ppa)
 				return (p);
 			else
 			{
 				printf("ERROR: Fuente no encontrada\n");
 				return (NULL);
-			}	
-		} else if(y==2){
-			if (p&&p->ppa)
+			}
+		}
+		else if (y == 2)
+		{
+			if (p && p->ppa)
 				return (p);
 			else
 			{
 				printf("ERROR: Destino no encontrado\n");
 				return (NULL);
-			}	
-		} else if (y==0) {
-			if (p&&p->ppa)
+			}
+		}
+		else if (y == 0)
+		{
+			if (p && p->ppa)
 				return (p);
 			else
 			{
 				printf("ERROR: Ruta no encontrada\n");
 				return (NULL);
 			}
-		} else {
-			return(p);
+		}
+		else
+		{
+			return (p);
 		}
 	}
 }
 
-
-
-//funcones de impresion
-// funcion de impresion de ubicacion actual
+// funcones de impresion
+//  funcion de impresion de ubicacion actual
 void printv2(dir *p)
 {
 	dir *t = p;
@@ -161,9 +175,9 @@ void printv2(dir *p)
 		printf("%s/", x);
 	}
 }
-//fin funcion de imprimir ubicacion actual
+// fin funcion de imprimir ubicacion actual
 
-//Funciones para mostrar directorios
+// Funciones para mostrar directorios
 void mostrartodo(dir *p, int check, int saltos)
 {
 	dir *aux = p, *t = NULL;
@@ -177,8 +191,10 @@ void mostrartodo(dir *p, int check, int saltos)
 				for (int i = 0; i != saltos; i++)
 					printf("|%*c", -10, 32);
 			}
-			if (aux->h == 1) printf("|%-8s       <D>     %s     -r+h\n", aux->nom, aux->fcm);
-			else printf("|%-8s       <D>     %s     -r\n", aux->nom, aux->fcm);
+			if (aux->h == 1)
+				printf("|%-8s       <D>     %s     -r+h\n", aux->nom, aux->fcm);
+			else
+				printf("|%-8s       <D>     %s     -r\n", aux->nom, aux->fcm);
 		}
 		else
 		{
@@ -187,8 +203,10 @@ void mostrartodo(dir *p, int check, int saltos)
 				for (int i = 0; i != saltos; i++)
 					printf("|%*c", -10, 32);
 			}
-			if (aux->h == 1) printf("|%-8s       <D>     %s     +r+h\n", aux->nom, aux->fcm);
-			else printf("|%-8s       <D>     %s     +r\n", aux->nom, aux->fcm);
+			if (aux->h == 1)
+				printf("|%-8s       <D>     %s     +r+h\n", aux->nom, aux->fcm);
+			else
+				printf("|%-8s       <D>     %s     +r\n", aux->nom, aux->fcm);
 		}
 
 		if (aux->pfa)
@@ -251,10 +269,11 @@ void mostrardirectorio(dir *p, int check)
 	{
 		while (aux)
 		{
-			if (aux->h == 1){
-			aux = aux->pul;
-			if (aux == NULL)
-				return;
+			if (aux->h == 1)
+			{
+				aux = aux->pul;
+				if (aux == NULL)
+					return;
 			}
 			if (aux->r == 0)
 				printf("|%-8s       <D>     %s     -r\n", aux->nom, aux->fcm);
@@ -286,8 +305,8 @@ void mostrardirectorio(dir *p, int check)
 		}
 	}
 }
-//Fin funciones de impresion de directorios
-// fin funciones de impresion
+// Fin funciones de impresion de directorios
+//  fin funciones de impresion
 
 // funciones de validacion
 
@@ -295,7 +314,7 @@ void mostrardirectorio(dir *p, int check)
 int validar(int lim, char *x)
 {
 	if (strlen(x) > 0 && strlen(x) <= lim)
-	{	
+	{
 		return (1);
 	}
 	return (0);
@@ -336,13 +355,16 @@ int comprobar(dir *p)
 }
 // Retorna 1 si es solo lectura, 0 en caso contrario
 // Fin de comprobacion de lectura
-int mayus(char **x){
-		if((*x[0] > 64) && (*x[0] < 91)) return (1);
-		else if ((*x[0] > 96) && (*x[0] < 123)) {
-			*x[0] = *x[0]-32;
-			return (1);
-		}
-		return(0);
+int mayus(char **x)
+{
+	if ((*x[0] > 64) && (*x[0] < 91))
+		return (1);
+	else if ((*x[0] > 96) && (*x[0] < 123))
+	{
+		*x[0] = *x[0] - 32;
+		return (1);
+	}
+	return (0);
 }
 // fincion para verficar si el token de ruta inicia con la unidad
 int verificartoken(char *ruta)
@@ -350,7 +372,8 @@ int verificartoken(char *ruta)
 	char x[1024], *t;
 	strcpy(x, ruta);
 	t = strtok(x, "/");
-	if(strlen(x)==1) return (0);
+	if (strlen(x) == 1)
+		return (0);
 	if (validar(2, x))
 	{
 		for (int unsigned i = 0; i < strlen(x); i++)
@@ -406,11 +429,10 @@ void darfecha(dir **p)
 	strcpy((*p)->fcm, year);
 }
 
-
 // funcion para mover un puntero a una direccion dada (Usada en borrar, mover y copiar)
 // En esta funcion verificamos si la cadena se acabo antes del puntero que movemos, si ocurre existe la direccion
 // En caso de que se acabe el puntero antes no existe
-//fin moverpuntero
+// fin moverpuntero
 
 // funcion para hacer el link de la anterior con la siguiente(usada en mov y borrar)
 void link(dir *ax)
@@ -455,7 +477,7 @@ void linksobreescribir(dir *ax, dir *bx)
 void crear(dir *p, char x[24], int h, int r)
 {
 	dir *ax, *t = new dir;
-	if (p&&p->ppa)
+	if (p && p->ppa)
 	{
 		if (p->r != 1)
 		{
@@ -501,7 +523,7 @@ void crear(dir *p, char x[24], int h, int r)
 				printf("ERROR: El nombre introducido tiene una longitud mayor a 8 caracteres\n");
 		}
 		else if (!p->ppa->ppa)
-			printf("ERROR: La unidad logica solo permite la lectura\n");	
+			printf("ERROR: La unidad logica solo permite la lectura\n");
 		else
 			printf("ERROR: El directorio actual solo permite la lectura\n");
 	}
@@ -546,102 +568,112 @@ void borrardentro(dir *p, dir **ax, int x)
 			fflush(stdin);
 			if (validar(1, op))
 			{
-				if ((op[0] > 96) && (op[0] < 123)) op[0] = op[0]-32;
+				if ((op[0] > 96) && (op[0] < 123))
+					op[0] = op[0] - 32;
 				switch (op[0])
 				{
-					case 'S':
-						if (comprobar(p->pfa))
-						{ // comprobamos si algun hijo esta protegido, si lo esta no se realiza el borrado
-							if (contenido(*ax, &p)) while(*ax&&(*ax)->ppa&&(*ax)->ppa->ppa) *ax=(*ax)->ppa;
-							borrartodo(p->pfa);
-							darfecha(&p->ppa);
-							dir *t = p;
-							link(t);
-							delete (p);
-						}
-						else printf("Error: El directorio contiene archivos protegidos\n");
-						return;
+				case 'S':
+					if (comprobar(p->pfa))
+					{ // comprobamos si algun hijo esta protegido, si lo esta no se realiza el borrado
+						if (contenido(*ax, &p))
+							while (*ax && (*ax)->ppa && (*ax)->ppa->ppa)
+								*ax = (*ax)->ppa;
+						borrartodo(p->pfa);
+						darfecha(&p->ppa);
+						dir *t = p;
+						link(t);
+						delete (p);
+					}
+					else
+						printf("Error: El directorio contiene archivos protegidos\n");
+					return;
 					break;
-					case 'N':
-						return;
-					break;		
+				case 'N':
+					return;
+					break;
 				}
 			}
 		}
 	}
-	else if(x==1)
+	else if (x == 1)
 	{
-		if (contenido(*ax, &p)) while(*ax&&(*ax)->ppa&&(*ax)->ppa->ppa) *ax=(*ax)->ppa;
+		if (contenido(*ax, &p))
+			while (*ax && (*ax)->ppa && (*ax)->ppa->ppa)
+				*ax = (*ax)->ppa;
 		borrartodo(p->pfa);
 		darfecha(&p->ppa);
 		dir *t = p;
 		link(t);
 		delete (p);
-		
-	} else if(x==2){
+	}
+	else if (x == 2)
+	{
 		while (1)
-		{	
-			printf("%cEsta seguro que desea vaciar la unidad logica %s? (S,N): ", 168,p->nom);
+		{
+			printf("%cEsta seguro que desea vaciar la unidad logica %s? (S,N): ", 168, p->nom);
 			scanf("%s", &op[0]);
 			fflush(stdin);
 			if (validar(1, op))
 			{
-				if ((op[0] > 96) && (op[0] < 123)) op[0] = op[0]-32;	
+				if ((op[0] > 96) && (op[0] < 123))
+					op[0] = op[0] - 32;
 				switch (op[0])
 				{
-					case 'S':
-						if (contenido(*ax, &p)) while(*ax&&(*ax)->ppa&&(*ax)->ppa->ppa) *ax=(*ax)->ppa;
-						borrartodo(p->pfa);
-						darfecha(&p);
-						return;
+				case 'S':
+					if (contenido(*ax, &p))
+						while (*ax && (*ax)->ppa && (*ax)->ppa->ppa)
+							*ax = (*ax)->ppa;
+					borrartodo(p->pfa);
+					darfecha(&p);
+					return;
 					break;
-					case 'N':
-						return;
-					break;	
+				case 'N':
+					return;
+					break;
 				}
-			}		
+			}
 		}
 	}
 }
 // fin borrar dentro
 
 // funcion que contempla los casos borde y ubica el puntero
-//p = puntero en root
-//ax = direccion actual
-//ruta = ruta
-//op = para borrar 
+// p = puntero en root
+// ax = direccion actual
+// ruta = ruta
+// op = para borrar
 void borrar(dir *p, dir **ax, char *ruta, int op)
 {
-		if (verificartoken(ruta))
-			p = moverpunterov3(ruta, p, 1,0); // ruta absoluta
-		else
-			p = moverpunterov3(ruta, *ax, 1,0); // Ruta relativa
+	if (verificartoken(ruta))
+		p = moverpunterov3(ruta, p, 1, 0); // ruta absoluta
+	else
+		p = moverpunterov3(ruta, *ax, 1, 0); // Ruta relativa
 	if (p)
 	{
-			if (p->ppa && p->ppa->ppa)
+		if (p->ppa && p->ppa->ppa)
+		{
+			if (p->r != 1 || op)
 			{
-				if (p->r != 1 || op)
+				if (p->pfa)
 				{
-					if (p->pfa)
-					{
-						borrardentro(p, ax, op);
-						return;
-					}
-					else
-					{
-						if (contenido(*ax, &p))
-							*ax = NULL;
-						darfecha(&p->ppa);
-						dir *t = p;
-						link(t);
-						delete (p);
-					}
+					borrardentro(p, ax, op);
+					return;
 				}
 				else
-					printf("Error: El directorio a borrar esta protegido\n");
+				{
+					if (contenido(*ax, &p))
+						*ax = NULL;
+					darfecha(&p->ppa);
+					dir *t = p;
+					link(t);
+					delete (p);
+				}
 			}
 			else
-				printf("Error: No se puede borrar la unidad logica [%s] \n", p->nom);
+				printf("Error: El directorio a borrar esta protegido\n");
+		}
+		else
+			printf("Error: No se puede borrar la unidad logica [%s] \n", p->nom);
 	}
 }
 // fin de funciones de borrado
@@ -652,7 +684,7 @@ void copiartodo(dir *p, int check, dir **g)
 {
 	dir *ax = p, *t = NULL, *cab = NULL, *u = NULL;
 	if (check == 0)
-	ax = ax->pfa;
+		ax = ax->pfa;
 	cab = new dir;
 	strcpy(cab->nom, ax->nom);
 	cab->tip = ax->tip;
@@ -718,112 +750,138 @@ void copiartodo(dir *p, int check, dir **g)
 // Antes de hacerlo comprueba si existe algun archivo dentro del directorio a sobreescribir que sea solo lectura
 // De ser asi, no se hace nada
 
-
-void mclovin(dir *ax, dir *bx, dir *p, dir *q){
-	dir *t;int c = 0;
-	while(ax) {
-	     bx = p->pfa;
-	     while(bx) {
-	        if (!stricmp(ax->nom,bx->nom)){
-		        mclovin(ax->pfa,bx->pfa,bx,ax);
-				c=1;
+void mclovin(dir *ax, dir *bx, dir *p, dir *q)
+{
+	dir *t;
+	int c = 0;
+	while (ax)
+	{
+		bx = p->pfa;
+		while (bx)
+		{
+			if (!stricmp(ax->nom, bx->nom))
+			{
+				mclovin(ax->pfa, bx->pfa, bx, ax);
+				c = 1;
 			}
-			if(bx->pul==NULL){
+			if (bx->pul == NULL)
+			{
 				break;
-			}	
-			bx=bx->pul;	
-	     }
-	     	//El problema reside aqui 
-	        if(c==0){
-	        	t=ax;
-	        	link(t);
-	        	ax = ax->pul;
-	         	t->pul=NULL;
-	         	if(bx!=NULL) {
-	        		bx->pul=t;
-	         		t->ppa=bx->ppa;
-				} else {
-					p->pfa=t;
-					t->ppa=p;	
-				}
-	       	} else ax = ax->pul;	    
-	}	
+			}
+			bx = bx->pul;
+		}
+		// El problema reside aqui
+		if (c == 0)
+		{
+			t = ax;
+			link(t);
+			ax = ax->pul;
+			t->pul = NULL;
+			if (bx != NULL)
+			{
+				bx->pul = t;
+				t->ppa = bx->ppa;
+			}
+			else
+			{
+				p->pfa = t;
+				t->ppa = p;
+			}
+		}
+		else
+			ax = ax->pul;
+	}
 }
-			
-			
-//LEYENDA
-//p = destino
-//ax = fuente
-//bx = ubicacion actual
-//x = mover/copiar
-//op opcion			
-void sobreescribir(dir **p, dir **ax, dir **bx, int x, int op) 
+
+// LEYENDA
+// p = destino
+// ax = fuente
+// bx = ubicacion actual
+// x = mover/copiar
+// op opcion
+void sobreescribir(dir **p, dir **ax, dir **bx, int x, int op)
 {
 
 	char opc[10] = "-1";
 	dir *g;
-	if(op==0){
+	if (op == 0)
+	{
 		while (1)
 		{
-			printf("%cExiste un directorio de igual nombre en la ubicacion destino desea sobreescribir los datos? (S,N): ",168);
-			//Se fusionan ambas carpetas (mclovinizan) 
+			printf("%cExiste un directorio de igual nombre en la ubicacion destino desea sobreescribir los datos? (S,N): ", 168);
+			// Se fusionan ambas carpetas (mclovinizan)
 			scanf("%s", &opc[0]);
 			fflush(stdin);
-			if (validar(1, opc)){
-				if ((opc[0] > 96) && (opc[0] < 123)) opc[0] = opc[0]-32;
-				switch (opc[0]) {
-					case 'S':
-							while (1){
-								printf("%cDesea sobreescribir (S) o unir (U)? (S,N): ",168);
-								scanf("%s", &opc[0]);
-								fflush(stdin);
-								if(validar(1,opc)){
-									if ((opc[0] > 96) && (opc[0] < 123)) opc[0] = opc[0]-32;
-									switch (opc[0]) {
-										case 'U':	
-											if(comprobar((*p)->pfa)){
-												copiartodo(*ax, 1, &g);
-												if(g->pfa){
-													mclovin(g->pfa,(*p)->pfa,*p,g);
-													borrartodo(g->pfa);
-													darfecha(p);
-												}
-												delete(g);	
-											} else printf("Error: El destino contiene archivos protegidos\n"); //NOTA PREGUNTAR SI PARA /M SE CONSIDERA SI ALGUN DIRECTORIO TIENE ARCHIVOS PROTEGIDOS Y QUE HACER EN ESE CASO
-											return;
-										break;
-										case 'S':
-											if(comprobar((*p)->pfa)){
-												copiartodo(*ax, 1, &g);
-												g->pul = (*p)->pul;
-												g->ppa = (*p)->ppa;
-												darfecha(&g->ppa);
-												g->r = 0;
-												darfecha(&g);
-												linksobreescribir(*p, g);
-												if (contenido(*bx, p)) *bx=(*p)->ppa;
-												borrartodo((*p)->pfa);
-												delete (*p);	
-											} else printf("Error: El destino contiene archivos protegidos\n");
-											return;
-										break;
-
+			if (validar(1, opc))
+			{
+				if ((opc[0] > 96) && (opc[0] < 123))
+					opc[0] = opc[0] - 32;
+				switch (opc[0])
+				{
+				case 'S':
+					while (1)
+					{
+						printf("%cDesea sobreescribir (S) o unir (U)? (S,N): ", 168);
+						scanf("%s", &opc[0]);
+						fflush(stdin);
+						if (validar(1, opc))
+						{
+							if ((opc[0] > 96) && (opc[0] < 123))
+								opc[0] = opc[0] - 32;
+							switch (opc[0])
+							{
+							case 'U':
+								if (comprobar((*p)->pfa))
+								{
+									copiartodo(*ax, 1, &g);
+									if (g->pfa)
+									{
+										mclovin(g->pfa, (*p)->pfa, *p, g);
+										borrartodo(g->pfa);
+										darfecha(p);
 									}
+									delete (g);
 								}
-							}	
+								else
+									printf("Error: El destino contiene archivos protegidos\n"); // NOTA PREGUNTAR SI PARA /M SE CONSIDERA SI ALGUN DIRECTORIO TIENE ARCHIVOS PROTEGIDOS Y QUE HACER EN ESE CASO
+								return;
+								break;
+							case 'S':
+								if (comprobar((*p)->pfa))
+								{
+									copiartodo(*ax, 1, &g);
+									g->pul = (*p)->pul;
+									g->ppa = (*p)->ppa;
+									darfecha(&g->ppa);
+									g->r = 0;
+									darfecha(&g);
+									linksobreescribir(*p, g);
+									if (contenido(*bx, p))
+										*bx = (*p)->ppa;
+									borrartodo((*p)->pfa);
+									delete (*p);
+								}
+								else
+									printf("Error: El destino contiene archivos protegidos\n");
+								return;
+								break;
+							}
+						}
+					}
 					break;
-					case 'N':
-						return;
+				case 'N':
+					return;
 					break;
-
 				}
 			}
 		}
-	} else if(op==1) {
+	}
+	else if (op == 1)
+	{
 		//////////////////////////////////////////////////////////////////////////////////////////
 		// OPCION /O (COPIAR Y MOVER)
 		///////////////////////////////////////////////////////////////////////////////////
-		if (x == 1) //Mover
+		if (x == 1) // Mover
 		{
 			darfecha(&(*ax)->ppa);
 			link(*ax);
@@ -831,7 +889,9 @@ void sobreescribir(dir **p, dir **ax, dir **bx, int x, int op)
 			(*ax)->ppa = (*p)->ppa;
 			darfecha(&(*ax)->ppa);
 			linksobreescribir(*p, *ax);
-		} else {
+		}
+		else
+		{
 			copiartodo(*ax, 1, &g);
 			g->pul = (*p)->pul;
 			g->ppa = (*p)->ppa;
@@ -840,24 +900,30 @@ void sobreescribir(dir **p, dir **ax, dir **bx, int x, int op)
 			darfecha(&g);
 			linksobreescribir(*p, g);
 		}
-		if (contenido(*bx, p)) *bx=(*p)->ppa;
+		if (contenido(*bx, p))
+			*bx = (*p)->ppa;
 		borrartodo((*p)->pfa);
 		delete (*p);
-		//FIN OPCION /0
+		// FIN OPCION /0
 		/////////////////////////////////
-		
-	} else if(op==2){
-		//AQUI VA MCLOVIN (OPCION /m)
-		if(comprobar((*p)->pfa)){
+	}
+	else if (op == 2)
+	{
+		// AQUI VA MCLOVIN (OPCION /m)
+		if (comprobar((*p)->pfa))
+		{
 			copiartodo(*ax, 1, &g);
-			if(g->pfa){
-				mclovin(g->pfa,(*p)->pfa,*p,g);
+			if (g->pfa)
+			{
+				mclovin(g->pfa, (*p)->pfa, *p, g);
 				borrartodo(g->pfa);
 				darfecha(p);
 			}
-			delete(g);
-		} else printf("Error: El destino contiene archivos protegidos\n");
-		//OPCION (/m copiar fusionando)
+			delete (g);
+		}
+		else
+			printf("Error: El destino contiene archivos protegidos\n");
+		// OPCION (/m copiar fusionando)
 	}
 }
 // fin sobreescribir
@@ -867,22 +933,29 @@ void sobreescribir(dir **p, dir **ax, dir **bx, int x, int op)
 // Si es asi se envia a la funcion de arriba (sobreescribir)
 void mover(dir *p, dir **ax, char *fuente, char *dest, int op)
 {
-	dir *d=p;
+	dir *d = p;
 	if (verificartoken(fuente))
-		p = moverpunterov3(fuente, p, 1,1); // ruta absoluta
+		p = moverpunterov3(fuente, p, 1, 1); // ruta absoluta
 	else
-		p = moverpunterov3(fuente, *ax, 1,1); // Ruta relativa
-	if(p){ //Comprobar Si la fuente existe
+		p = moverpunterov3(fuente, *ax, 1, 1); // Ruta relativa
+	if (p)
+	{ // Comprobar Si la fuente existe
 		if (verificartoken(dest))
-			d = moverpunterov3(dest, d, 1,2); // ruta absoluta
+			d = moverpunterov3(dest, d, 1, 2); // ruta absoluta
 		else
-			d = moverpunterov3(dest, *ax, 1,2); // Ruta relativa
-		if(d){ //Comprobar si destino existe
-			if (p->ppa && p->ppa->ppa){ //Comprobar si la fuente es una unidad logica (revisar)
-				if (d->r != 1 || op){ //Comprobar si el destino es solo lectura
-					if (d->r != 1 || op) {//Comprobar si la fuente es solo lectura
-						if(!(p==d)){ //Por si el directorio ya esta en su posicion
-							if(!contenido(d,&p)) { //Comrprobar si no se desea mover dentro de si mismo
+			d = moverpunterov3(dest, *ax, 1, 2); // Ruta relativa
+		if (d)
+		{ // Comprobar si destino existe
+			if (p->ppa && p->ppa->ppa)
+			{ // Comprobar si la fuente es una unidad logica (revisar)
+				if (d->r != 1 || op)
+				{ // Comprobar si el destino es solo lectura
+					if (d->r != 1 || op)
+					{ // Comprobar si la fuente es solo lectura
+						if (!(p == d))
+						{ // Por si el directorio ya esta en su posicion
+							if (!contenido(d, &p))
+							{ // Comrprobar si no se desea mover dentro de si mismo
 								if (d->pfa)
 								{
 									d = d->pfa;
@@ -890,8 +963,10 @@ void mover(dir *p, dir **ax, char *fuente, char *dest, int op)
 									{
 										if (!stricmp(p->nom, d->nom))
 										{
-											if(op) sobreescribir(&d, &p, ax,1,op);
-											else printf("ERROR: Existe un directorio de igual nombre en el destino\n");
+											if (op)
+												sobreescribir(&d, &p, ax, 1, op);
+											else
+												printf("ERROR: Existe un directorio de igual nombre en el destino\n");
 											return; // Indica que existe un directorio de igual nombre
 										}
 										if (d->pul == NULL)
@@ -914,72 +989,91 @@ void mover(dir *p, dir **ax, char *fuente, char *dest, int op)
 									p->pul = NULL;
 									darfecha(&p->ppa);
 								}
-							} else printf("ERROR: Desea mover el directorio dentro de si mismo\n"); //Por si se quiere mover un dir dentro de si mismo
-						} else printf("ERROR: El directorio ya se encuentra en la posicion deseada\n"); //Por si se encuentra en su posiicion //Preguntar si es necesario mostrar el msg
-					} else printf("ERROR: La fuente solo permite la lectura\n"); //Destino solo permite la lectura
-				} else printf("ERROR: El destino solo permite la lectura\n"); //Destino solo permite la lectura
-			} else printf("ERROR: La unidad logica [%s/] no puede ser movida\n", p->nom); //Por si la fuente es una unidad logica
-		} 
-	} 	
-
+							}
+							else
+								printf("ERROR: Desea mover el directorio dentro de si mismo\n"); // Por si se quiere mover un dir dentro de si mismo
+						}
+						else
+							printf("ERROR: El directorio ya se encuentra en la posicion deseada\n"); // Por si se encuentra en su posiicion //Preguntar si es necesario mostrar el msg
+					}
+					else
+						printf("ERROR: La fuente solo permite la lectura\n"); // Destino solo permite la lectura
+				}
+				else
+					printf("ERROR: El destino solo permite la lectura\n"); // Destino solo permite la lectura
+			}
+			else
+				printf("ERROR: La unidad logica [%s/] no puede ser movida\n", p->nom); // Por si la fuente es una unidad logica
+		}
+	}
 }
 
 // copiar
 void copiar(dir *p, dir **ax, char *fuente, char *dest, int op)
 {
-	dir *d=p,*g;
+	dir *d = p, *g;
 	if (verificartoken(fuente))
-		p = moverpunterov3(fuente, p, 1,1); // ruta absoluta
+		p = moverpunterov3(fuente, p, 1, 1); // ruta absoluta
 	else
-		p = moverpunterov3(fuente, *ax, 1,1); // Ruta relativa
-	if(p){ //Comprobar Si la fuente existe
+		p = moverpunterov3(fuente, *ax, 1, 1); // Ruta relativa
+	if (p)
+	{ // Comprobar Si la fuente existe
 		if (verificartoken(dest))
-			d = moverpunterov3(dest, d, 1,2); // ruta absoluta
+			d = moverpunterov3(dest, d, 1, 2); // ruta absoluta
 		else
-			d = moverpunterov3(dest, *ax, 1,2); // Ruta relativa
-		if(d){ //Comprobar si destino existe
-				if (p->ppa && p->ppa->ppa){ //Comprobar si la fuente es una unidad logica (revisar)
-					if(!(p==d)) //Por si desea copiar el directorio dentro de si
+			d = moverpunterov3(dest, *ax, 1, 2); // Ruta relativa
+		if (d)
+		{ // Comprobar si destino existe
+			if (p->ppa && p->ppa->ppa)
+			{								 // Comprobar si la fuente es una unidad logica (revisar)
+				if (!(p == d)) // Por si desea copiar el directorio dentro de si
+				{
+					if (d->r != 1 || op) // Comprobar si el destino es solo lectura
 					{
-						if (d->r != 1 || op) //Comprobar si el destino es solo lectura
+						if (d->pfa)
 						{
-							if (d->pfa)
+							d = d->pfa;
+							while (d)
 							{
-								d = d->pfa;
-								while (d)
+								if (!stricmp(p->nom, d->nom))
 								{
-									if (!stricmp(p->nom, d->nom))
-									{
-										sobreescribir(&d, &p, ax, 0,op); //RECORDAR PASARLE LOS 50 PARAMETROS
-										return; // Indica que existe directorio de igual nombre
-									}
-									if (d->pul == NULL) break;
-									d = d->pul;
+									sobreescribir(&d, &p, ax, 0, op); // RECORDAR PASARLE LOS 50 PARAMETROS
+									return;														// Indica que existe directorio de igual nombre
 								}
-								copiartodo(p, 1, &g);
-								d->pul = g;
-								g->pul = NULL;
-								g->ppa = d->ppa;
-								g->r = 0;
-								darfecha(&g->ppa);
-								darfecha(&g);
-							} else {
-								copiartodo(p, 1, &g);
-								g->ppa = d;
-								d->pfa = g;
-								g->pul = NULL;
-								g->r = 0;
-								darfecha(&g->ppa);
-								darfecha(&g);
+								if (d->pul == NULL)
+									break;
+								d = d->pul;
 							}
-						} else printf("ERROR: El destino solo permite la lectura\n"); //Destino solo permite la lectura
-					} else printf("ERROR: No se puede copiar un directorio en si mismo\n"); //Por si se desea copiar un directorio dentro de si mismo
-				} else printf("ERROR: La unidad logica [%s/] no puede ser copiada\n", p->nom); //Por si la fuente es una unidad logica
-		} //Por si el destino no existe
-	} //Por si la fuente si la fuente no existe	
+							copiartodo(p, 1, &g);
+							d->pul = g;
+							g->pul = NULL;
+							g->ppa = d->ppa;
+							g->r = 0;
+							darfecha(&g->ppa);
+							darfecha(&g);
+						}
+						else
+						{
+							copiartodo(p, 1, &g);
+							g->ppa = d;
+							d->pfa = g;
+							g->pul = NULL;
+							g->r = 0;
+							darfecha(&g->ppa);
+							darfecha(&g);
+						}
+					}
+					else
+						printf("ERROR: El destino solo permite la lectura\n"); // Destino solo permite la lectura
+				}
+				else
+					printf("ERROR: No se puede copiar un directorio en si mismo\n"); // Por si se desea copiar un directorio dentro de si mismo
+			}
+			else
+				printf("ERROR: La unidad logica [%s/] no puede ser copiada\n", p->nom); // Por si la fuente es una unidad logica
+		}																																						// Por si el destino no existe
+	}																																							// Por si la fuente si la fuente no existe
 }
-
-
 
 // Lectura y sobreescritura de archivos //////////////////////////////////
 void leerarchivo(FILE **fp, dir *p)
@@ -1058,84 +1152,102 @@ void guardardirectorios(FILE **fp, dir *p, int check, char *uni)
 }
 // fin de lectura de archivos ////////////////////////////////////////////
 
-void SRU(dir *p, dir *ax, char **ordenado){
+void SRU(dir *p, dir *ax, char **ordenado)
+{
 	dir *auxRoot = NULL;
 	char nombre[16];
 	char ruta[512];
-	if(!ordenado[1] || !ordenado[2]){
+	if (!ordenado[1] || !ordenado[2])
+	{
 		printf("ERROR: Comando invalido\n");
 		return;
 	}
-	//if(!separaRuta(ordenado[1], nombre, ruta)){
-		if(verificartoken(ordenado[1]))
-			p=moverpunterov3(ordenado[1], p, 1, 0);
+	// if(!separaRuta(ordenado[1], nombre, ruta)){
+	if (verificartoken(ordenado[1]))
+		p = moverpunterov3(ordenado[1], p, 1, 0);
+	else
+		p = moverpunterov3(ordenado[1], ax, 1, 0);
+	if ((p) && (!p->ppa->ppa))
+	{
+		if (alfanum(ordenado[2]))
+		{
+			char nomarch[64];
+			FILE *fp;
+			strcpy(nomarch, ordenado[2]);
+			strcat(nomarch, ".txt");
+			ordenado[0] = nomarch;
+			guardardirectorios(&fp, p, 0, ordenado[0]);
+		}
 		else
-			p = moverpunterov3(ordenado[1], ax, 1,0);
-		  if((p)&&(!p->ppa->ppa)){
-			if (alfanum(ordenado[2])){
-				   char nomarch[64]; FILE *fp;
-				   strcpy(nomarch, ordenado[2]);
-				   strcat(nomarch,".txt");
-				   ordenado[0] = nomarch;
-				   guardardirectorios(&fp, p, 0, ordenado[0]);
-			}else
-				printf("ERROR: El nombre introducido no es alfanumerico\n");
-		   }else
-			 if(p) 
-			   if(!p->ppa->ppa) printf("La direccion suministrada no es una unidad logica\n");
+			printf("ERROR: El nombre introducido no es alfanumerico\n");
+	}
+	else if (p)
+		if (!p->ppa->ppa)
+			printf("La direccion suministrada no es una unidad logica\n");
 	/*}else
 		printf("La direccion suministrada no es una unidad logica\n");*/
 }
 
-void LRU(dir *p, dir *ax, char **ordenado){
+void LRU(dir *p, dir *ax, char **ordenado)
+{
 	dir *auxRoot = NULL;
 	char nombre[16];
 	char ruta[512];
-	if(!ordenado[1] || !ordenado[2]){
+	if (!ordenado[1] || !ordenado[2])
+	{
 		printf("ERROR: Comando invalido\n");
 		return;
 	}
-	//if(!separaRuta(ordenado[2], nombre, ruta)){
-		if(verificartoken(ordenado[2]))
-			p=moverpunterov3(ordenado[2], p, 1, 0);
-		else
-			p = moverpunterov3(ordenado[2], ax, 1,0);
-		    if((p)&&(!p->ppa->ppa)){
-				if(!p->pfa){
-					if (alfanum(ordenado[1]))
+	// if(!separaRuta(ordenado[2], nombre, ruta)){
+	if (verificartoken(ordenado[2]))
+		p = moverpunterov3(ordenado[2], p, 1, 0);
+	else
+		p = moverpunterov3(ordenado[2], ax, 1, 0);
+	if ((p) && (!p->ppa->ppa))
+	{
+		if (!p->pfa)
+		{
+			if (alfanum(ordenado[1]))
+			{
+				char nomarch[64];
+				FILE *fp;
+				strcpy(nomarch, ordenado[1]);
+				strcat(nomarch, ".txt");
+				ordenado[0] = nomarch;
+				if ((fp = fopen(nomarch, "r")) != NULL)
+				{
+					int c = fgetc(fp);
+					if (c != EOF)
 					{
-						char nomarch[64]; FILE *fp;
-						strcpy(nomarch, ordenado[1]);
-						strcat(nomarch,".txt");
-						ordenado[0] = nomarch;
-						if ((fp = fopen(nomarch, "r")) != NULL){
-							int c = fgetc(fp);
-							if (c != EOF){
-								ungetc(c, fp);
-								leerarchivo(&fp, p);
-							}
-							fclose(fp);
-						}else{
-							printf("\nERROR: No existe un archivo con el nombre solicitado\n");
-						}
-					}else
-					   printf("ERROR: El nombre introducido no es alfanumerico\n");
-				}else
-				   printf("ERROR: La unidad logica introducida no esta vacia\n");
-			}else
-			  if(p)
-				if(!p->ppa->ppa) printf("ERROR: La direccion suministrada no es una unidad logica\n");
+						ungetc(c, fp);
+						leerarchivo(&fp, p);
+					}
+					fclose(fp);
+				}
+				else
+				{
+					printf("\nERROR: No existe un archivo con el nombre solicitado\n");
+				}
+			}
+			else
+				printf("ERROR: El nombre introducido no es alfanumerico\n");
+		}
+		else
+			printf("ERROR: La unidad logica introducida no esta vacia\n");
+	}
+	else if (p)
+		if (!p->ppa->ppa)
+			printf("ERROR: La direccion suministrada no es una unidad logica\n");
 	/*}else
 		printf("ERROR: La direccion suministrada no es una unidad logica\n");*/
 }
 
-
 void CHD(dir *p, dir **ax, char *ruta)
 {
 	if (verificartoken(ruta))
-		p = moverpunterov3(ruta, p, 1,0);
+		p = moverpunterov3(ruta, p, 1, 0);
 	else
-		p = moverpunterov3(ruta, *ax, 1,0);
+		p = moverpunterov3(ruta, *ax, 1, 0);
 	if (p)
 		*ax = p;
 }
@@ -1159,7 +1271,8 @@ void RMD(dir *p, dir **ax, char *ruta, char *op)
 void CU(dir *p, char *nom)
 {
 	dir *ax, *t = new dir;
-	if(mayus(&nom)){
+	if (mayus(&nom))
+	{
 		strcpy(t->nom, nom);
 		t->tip = '1';
 		t->h = 0;
@@ -1182,9 +1295,10 @@ void CU(dir *p, char *nom)
 		}
 		darfecha(&t->ppa);
 		ax->pul = t;
-	} else printf("ERROR: Nombre invalido para una unidad logica\n");
+	}
+	else
+		printf("ERROR: Nombre invalido para una unidad logica\n");
 }
-
 
 void CRU(dir *p, dir *ax, char *rutadest)
 {
@@ -1192,95 +1306,130 @@ void CRU(dir *p, dir *ax, char *rutadest)
 	if (separaRuta(rutadest, nom, ruta))
 	{
 		if (verificartoken(ruta))
-			p = moverpunterov3(ruta, p, 1,3);
+			p = moverpunterov3(ruta, p, 1, 3);
 		else
-			p = moverpunterov3(ruta, ax, 1,3);
-		if (p && !p->ppa) {
-			if(verificartoken(nom)){
-					strtok(nom,"/");
-					CU(p,nom);	
-			} else if(validar(1,nom)){
-					strcat(nom,":");
-					CU(p,nom);
-			} else printf("ERROR: Nombre invalido para una unidad logica\n");		
-		} else if (p->ppa)("ERROR: Ruta invalida\n");
+			p = moverpunterov3(ruta, ax, 1, 3);
+		if (p && !p->ppa)
+		{
+			if (verificartoken(nom))
+			{
+				strtok(nom, "/");
+				CU(p, nom);
+			}
+			else if (validar(1, nom))
+			{
+				strcat(nom, ":");
+				CU(p, nom);
+			}
+			else
+				printf("ERROR: Nombre invalido para una unidad logica\n");
+		}
+		else if (p->ppa)
+			("ERROR: Ruta invalida\n");
 	}
 	else
 	{
-		if(verificartoken(nom)){
-				strtok(nom,"/");
-				CU(p,nom);	
-			} else if(validar(1,nom)){
-				strcat(nom,":");
-				CU(p,nom);
-		} else printf("ERROR: Nombre invalido para una unidad logica\n");
+		if (verificartoken(nom))
+		{
+			strtok(nom, "/");
+			CU(p, nom);
+		}
+		else if (validar(1, nom))
+		{
+			strcat(nom, ":");
+			CU(p, nom);
+		}
+		else
+			printf("ERROR: Nombre invalido para una unidad logica\n");
 	}
 }
 
 void FRU(dir *p, dir **ax, char *rutadest)
 {
 	if (verificartoken(rutadest))
-		p = moverpunterov3(rutadest, p, 1,0);
+		p = moverpunterov3(rutadest, p, 1, 0);
 	else
-		p = moverpunterov3(rutadest, *ax, 1,0);
-	if(p&&p->ppa) 
-		if(!p->ppa->ppa) {
-			borrardentro(p, ax,2);
-		}  else printf("ERROR: Ruta invalida\n");	
+		p = moverpunterov3(rutadest, *ax, 1, 0);
+	if (p && p->ppa)
+		if (!p->ppa->ppa)
+		{
+			borrardentro(p, ax, 2);
+		}
+		else
+			printf("ERROR: Ruta invalida\n");
 }
 
-
-
-void ERU(dir *p, dir **ax, char *rutadest){
-	dir *q=p;
+void ERU(dir *p, dir **ax, char *rutadest)
+{
+	dir *q = p;
 	if (verificartoken(rutadest))
-		p = moverpunterov3(rutadest, p, 1,0);
+		p = moverpunterov3(rutadest, p, 1, 0);
 	else
-		p = moverpunterov3(rutadest, *ax, 1,0);
-	if(p&&p->ppa) 
-		if(!p->ppa->ppa) {
-			if(!p->pfa){
-				if(stricmp(p->nom,"C:")) {
-					if (*ax==p) *ax=q->pfa;
+		p = moverpunterov3(rutadest, *ax, 1, 0);
+	if (p && p->ppa)
+		if (!p->ppa->ppa)
+		{
+			if (!p->pfa)
+			{
+				if (stricmp(p->nom, "C:"))
+				{
+					if (*ax == p)
+						*ax = q->pfa;
 					link(p);
-					delete(p);
-				}else printf("%cERROR: Como vas a borrar system32 pibe? >:(\n",168);
-			} else printf("ERROR: La unidad logica no esta vacia\n");
-		}  else printf("ERROR: Ruta invalida\n");
+					delete (p);
+				}
+				else
+					printf("%cERROR: Como vas a borrar system32 pibe? >:(\n", 168);
+			}
+			else
+				printf("ERROR: La unidad logica no esta vacia\n");
+		}
+		else
+			printf("ERROR: Ruta invalida\n");
 }
 
-void CPD(dir *p, dir **ax, char *fuente, char *dest, char *op){
+void CPD(dir *p, dir **ax, char *fuente, char *dest, char *op)
+{
 	if (op)
 	{ // Validacion de si la opcion existe
 		if (!stricmp(op, "/o"))
 			copiar(p, ax, fuente, dest, 1);
 		else if (!stricmp(op, "/m"))
 			copiar(p, ax, fuente, dest, 2);
-		else printf("ERROR: Comando invalido\n");	
-	} else copiar(p, ax, fuente,dest, 0);	
+		else
+			printf("ERROR: Comando invalido\n");
+	}
+	else
+		copiar(p, ax, fuente, dest, 0);
 }
 
-void MVD(dir *p, dir **ax, char *fuente, char *dest, char *op){
+void MVD(dir *p, dir **ax, char *fuente, char *dest, char *op)
+{
 	if (op)
 	{ // Validacion de si la opcion existe
-		if (!stricmp(op, "/o")) 
+		if (!stricmp(op, "/o"))
 			mover(p, ax, fuente, dest, 1);
-		else printf("ERROR: Comando invalido\n");	
-	} else mover(p, ax, fuente,dest, 0);	
+		else
+			printf("ERROR: Comando invalido\n");
+	}
+	else
+		mover(p, ax, fuente, dest, 0);
 }
 int validarcolor(char *x);
 void color(char *x);
 void help(char *comando);
 
-void mostrar(dir *p, dir **ax, char *ruta, int s, int h){
+void mostrar(dir *p, dir **ax, char *ruta, int s, int h)
+{
 	if (verificartoken(ruta))
-		p = moverpunterov3(ruta, p, 1,0); // ruta absoluta
+		p = moverpunterov3(ruta, p, 1, 0); // ruta absoluta
 	else
-		p = moverpunterov3(ruta, *ax, 1,0); // Ruta relativa
+		p = moverpunterov3(ruta, *ax, 1, 0); // Ruta relativa
 
-	if((p)&&(p->ppa)){
+	if ((p) && (p->ppa))
+	{
 		printf("\n");
-		printv2(p); 
+		printv2(p);
 		printf("\n\n");
 		if (p->pfa == NULL)
 		{
@@ -1293,245 +1442,358 @@ void mostrar(dir *p, dir **ax, char *ruta, int s, int h){
 		}
 		else if (s == 1)
 		{
-			if(h) mostrartodo(p, 0, 0);
-			else mostrarcasitodo(p, 0, 0);
+			if (h)
+				mostrartodo(p, 0, 0);
+			else
+				mostrarcasitodo(p, 0, 0);
 		}
 		printf("\n");
 	}
-
 }
 
-void SHD(dir *q, dir **ax, char **ordenado){
-	  int h = 0, s = 0;
-			if ((ordenado[2] && ordenado[3])) 
+void SHD(dir *q, dir **ax, char **ordenado)
+{
+	int h = 0, s = 0;
+	if ((ordenado[2] && ordenado[3]))
+	{
+		if (!(strcmp(ordenado[3], "/h")) || !(strcmp(ordenado[2], "/h")))
+		{
+			h = 1;
+		}
+		if (!(strcmp(ordenado[3], "/s")) || !(strcmp(ordenado[2], "/s")))
+		{
+			s = 1;
+		}
+	}
+	else if ((ordenado[1] && ordenado[2]))
+	{
+		if (!(strcmp(ordenado[2], "/h")) || !(strcmp(ordenado[1], "/h")))
+		{
+			h = 1;
+		}
+		if (!(strcmp(ordenado[2], "/s")) || !(strcmp(ordenado[1], "/s")))
+		{
+			s = 1;
+		}
+	}
+	else if (ordenado[2] && !ordenado[3])
+	{
+		if (!(strcmp(ordenado[2], "/h")))
+		{
+			h = 1;
+		}
+		else if (!(strcmp(ordenado[2], "/s")))
+		{
+			s = 1;
+		}
+	}
+	else if (ordenado[1] && !ordenado[2])
+	{
+		if (!(strcmp(ordenado[1], "/h")))
+		{
+			h = 1;
+		}
+		else if (!(strcmp(ordenado[1], "/s")))
+		{
+			s = 1;
+		}
+	}
+	if ((*ax) && ((*ax)->ppa) && ((*ax)->pfa))
+	{
+		if (!ordenado[1] && !ordenado[3] && !ordenado[3])
+		{
+			printf("\n");
+			printv2(*ax);
+			printf("\n");
+			mostrardirectorio(*ax, 0);
+			printf("\n");
+		}
+		else if ((strcmp(ordenado[1], "/s")) && (strcmp(ordenado[1], "/h")))
+		{
+			mostrar(q, ax, ordenado[1], s, h);
+		}
+		else
+		{
+			if ((ordenado[1]) && (ordenado[2]))
 			{
-				if (!(strcmp(ordenado[3], "/h")) || !(strcmp(ordenado[2], "/h")))
+				if ((!strcmp(ordenado[2], "/s")) || (!strcmp(ordenado[2], "/h")))
 				{
-					h = 1;
-				}
-				if (!(strcmp(ordenado[3], "/s")) || !(strcmp(ordenado[2], "/s")))
-				{
-					s = 1;
-				}
-			}
-			else if ((ordenado[1] && ordenado[2])) 
-			{
-				if (!(strcmp(ordenado[2], "/h")) || !(strcmp(ordenado[1], "/h")))
-				{
-					h = 1;
-				}
-				if (!(strcmp(ordenado[2], "/s")) || !(strcmp(ordenado[1], "/s")))
-				{
-					s = 1;
-				}
-			}
-			else if (ordenado[2] && !ordenado[3])
-			{
-				if (!(strcmp(ordenado[2], "/h")))
-				{
-					h = 1;
-				}
-				else if (!(strcmp(ordenado[2], "/s")))
-				{
-					s = 1;
-				}
-			}
-			else if (ordenado[1] && !ordenado[2])
-			{
-				if (!(strcmp(ordenado[1], "/h")))
-				{
-					h = 1;
-				}
-				else if (!(strcmp(ordenado[1], "/s")))
-				{
-					s = 1;
-				}
-			}
-			 if((*ax)&&((*ax)->ppa)&&((*ax)->pfa)){
-				if (!ordenado[1] && !ordenado[3] && !ordenado[3]){
 					printf("\n");
 					printv2(*ax);
 					printf("\n");
-					mostrardirectorio(*ax, 0);
+					mostrartodo(*ax, 0, 0);
 					printf("\n");
-				}else if ((strcmp(ordenado[1], "/s")) && (strcmp(ordenado[1], "/h"))){
-					mostrar(q, ax, ordenado[1], s, h); 
-				}else{
-					if((ordenado[1]) && (ordenado[2])){
-						if ((!strcmp(ordenado[2], "/s")) || (!strcmp(ordenado[2], "/h"))){
-							printf("\n");
-							printv2(*ax);
-							printf("\n");
-							mostrartodo(*ax, 0, 0);
-							printf("\n");
-						}
-					}else{
-						printf("\n");
-						printv2(*ax);
-						printf("\n");
-						if(!strcmp(ordenado[1], "/h")) mostrardirectorio(*ax, h);
-						else if(!strcmp(ordenado[1], "/s")) mostrarcasitodo(*ax, 0, 0);	
-						printf("\n");
-					}
 				}
-			 }else{
-				 	printf("\n");
-					printv2(*ax); 
-					printf("   \n\n");
-			 }
+			}
+			else
+			{
+				printf("\n");
+				printv2(*ax);
+				printf("\n");
+				if (!strcmp(ordenado[1], "/h"))
+					mostrardirectorio(*ax, h);
+				else if (!strcmp(ordenado[1], "/s"))
+					mostrarcasitodo(*ax, 0, 0);
+				printf("\n");
+			}
+		}
+	}
+	else
+	{
+		printf("\n");
+		printv2(*ax);
+		printf("   \n\n");
+	}
 }
 
-int hermanosIguales(dir *actual, char *nom){
-    dir *ax = actual;
-    ax = ax->ppa;
-    ax = ax->pfa;
-    while (ax->pul)
-    {
-        if(!(stricmp(ax->nom,nom)))
-            return 1;
-        ax = ax->pul;
-    }
-    return 0;
+int hermanosIguales(dir *actual, char *nom)
+{
+	dir *ax = actual;
+	ax = ax->ppa;
+	ax = ax->pfa;
+	while (ax->pul)
+	{
+		if (!(stricmp(ax->nom, nom)))
+			return 1;
+		ax = ax->pul;
+	}
+	return 0;
 }
-void mdd(char *ordenado1, char *ordenado2, dir *q, dir *ax){
-    dir *auxRoot = NULL;
-            char *param, *valor;
-            if (ordenado1 && ordenado2)
-            {
-                if (verificartoken(ordenado1))
-                    auxRoot = moverpunterov3(ordenado1, q, 1,0);
-                else
-                    auxRoot = moverpunterov3(ordenado1, ax, 1,0);
-                param = strtok(ordenado2, ":");
-                valor = strtok(NULL, ":");
-                if(auxRoot){
-	                if (!(strcmp(param, "/n")))
-	                {
-	                	if(auxRoot->ppa->ppa){
-		                    if (strlen(valor) < 9){
-		                    	if(alfanum(valor)){
-		                    		if(!stricmp(auxRoot->nom,valor)){
-									} else{
-				                        if(!(hermanosIguales(auxRoot, ordenado2))){
-				                            strcpy(auxRoot->nom, valor);
-				                            darfecha(&auxRoot);
-				                        }else{
-				                            printf("ERROR: existe un directorio de igual nombre en la ubicacion actual\n");
-				                        }
-			                    	}
-			                        } else printf("ERROR: el nombre debe ser alfanumerico\n");
-		                    	}else
-			
-		                        printf("ERROR El nombre debe ser menor a 9 caracteres\n");
-						}else if(strlen(valor) < 2){
-									if(valor[0]>64&&valor[0]<91) {
-										strcat(valor,":");
-										if(!stricmp(auxRoot->nom,valor)){
-										}else {
-										if(!(hermanosIguales(auxRoot, ordenado2))){
-										strcpy(auxRoot->nom, valor);
-										darfecha(&auxRoot);
-									}else{
-			                            printf("ERROR: Ya existe una unidad logica con ese nombre\n");
-			                        }
-									}
-									} else if (valor[0]>96&&valor[0]<123) {
-										valor[0]=valor[0]-32;
-										strcat(valor,":");
-										if(!stricmp(auxRoot->nom,valor)){
-										}else {
-										if(!(hermanosIguales(auxRoot, ordenado2))){
-										strcpy(auxRoot->nom, valor);
-										darfecha(&auxRoot);
-										
-									}else{
-			                            printf("ERROR: Ya existe una unidad logica con ese nombre\n");
-			                        }
-									}
-										
-								} else printf("ERROR: Nombre invalido para una unidad\n");
-							} //PONER ELSE SI NO SE QUIERE CAMBIAR EL NOMBRE A UNIDADES    
-	                }
-						else if (!(stricmp(param, "/r")))
+void mdd(char *ordenado1, char *ordenado2, dir *q, dir *ax)
+{
+	dir *auxRoot = NULL;
+	char *param, *valor;
+	if (ordenado1 && ordenado2)
+	{
+		if (verificartoken(ordenado1))
+			auxRoot = moverpunterov3(ordenado1, q, 1, 0);
+		else
+			auxRoot = moverpunterov3(ordenado1, ax, 1, 0);
+		param = strtok(ordenado2, ":");
+		valor = strtok(NULL, ":");
+		if (auxRoot)
+		{
+			if (!(strcmp(param, "/n")))
+			{
+				if (auxRoot->ppa->ppa)
+				{
+					if (strlen(valor) < 9)
+					{
+						if (alfanum(valor))
 						{
-							if (!(stricmp(valor, "0"))){
-								auxRoot->r = 0;darfecha(&auxRoot);
-							}
-							else if (!(stricmp(valor, "1"))){
-								auxRoot->r = 1;darfecha(&auxRoot);
+							if (!stricmp(auxRoot->nom, valor))
+							{
 							}
 							else
-								printf("ERROR: El valor debe ser 0 (escritua/no protegido) o 1 (solo lectura/protegido)\n");
+							{
+								if (!(hermanosIguales(auxRoot, ordenado2)))
+								{
+									strcpy(auxRoot->nom, valor);
+									darfecha(&auxRoot);
+								}
+								else
+								{
+									printf("ERROR: existe un directorio de igual nombre en la ubicacion actual\n");
+								}
+							}
 						}
-						else if (!(stricmp(param, "/h")))
+						else
+							printf("ERROR: el nombre debe ser alfanumerico\n");
+					}
+					else
+
+						printf("ERROR El nombre debe ser menor a 9 caracteres\n");
+				}
+				else if (strlen(valor) < 2)
+				{
+					if (valor[0] > 64 && valor[0] < 91)
+					{
+						strcat(valor, ":");
+						if (!stricmp(auxRoot->nom, valor))
 						{
-							if (!(stricmp(valor, "0"))){
-								auxRoot->h = 0;darfecha(&auxRoot);
-							}
-							else if (!(stricmp(valor, "1"))){
-								auxRoot->h = 1;darfecha(&auxRoot);
+						}
+						else
+						{
+							if (!(hermanosIguales(auxRoot, ordenado2)))
+							{
+								strcpy(auxRoot->nom, valor);
+								darfecha(&auxRoot);
 							}
 							else
-								printf("ERROR: El valor debe ser 0 (no oculto) 1 (oculto)\n");
+							{
+								printf("ERROR: Ya existe una unidad logica con ese nombre\n");
+							}
 						}
 					}
-            }else
-            {
-                printf("ERROR: Comando invalido\n");
-            }
+					else if (valor[0] > 96 && valor[0] < 123)
+					{
+						valor[0] = valor[0] - 32;
+						strcat(valor, ":");
+						if (!stricmp(auxRoot->nom, valor))
+						{
+						}
+						else
+						{
+							if (!(hermanosIguales(auxRoot, ordenado2)))
+							{
+								strcpy(auxRoot->nom, valor);
+								darfecha(&auxRoot);
+							}
+							else
+							{
+								printf("ERROR: Ya existe una unidad logica con ese nombre\n");
+							}
+						}
+					}
+					else
+						printf("ERROR: Nombre invalido para una unidad\n");
+				} // PONER ELSE SI NO SE QUIERE CAMBIAR EL NOMBRE A UNIDADES
+			}
+			else if (!(stricmp(param, "/r")))
+			{
+				if (!(stricmp(valor, "0")))
+				{
+					auxRoot->r = 0;
+					darfecha(&auxRoot);
+				}
+				else if (!(stricmp(valor, "1")))
+				{
+					auxRoot->r = 1;
+					darfecha(&auxRoot);
+				}
+				else
+					printf("ERROR: El valor debe ser 0 (escritua/no protegido) o 1 (solo lectura/protegido)\n");
+			}
+			else if (!(stricmp(param, "/h")))
+			{
+				if (!(stricmp(valor, "0")))
+				{
+					auxRoot->h = 0;
+					darfecha(&auxRoot);
+				}
+				else if (!(stricmp(valor, "1")))
+				{
+					auxRoot->h = 1;
+					darfecha(&auxRoot);
+				}
+				else
+					printf("ERROR: El valor debe ser 0 (no oculto) 1 (oculto)\n");
+			}
 		}
-
-
-void lineaslindas() {
-    for (int unsigned i = 0; i < 40; i++) {
-        printf_s("--");
-    }
-    printf_s("\n");
+	}
+	else
+	{
+		printf("ERROR: Comando invalido\n");
+	}
 }
 
-void centrado(char *cad){
-    int i, k;
-    
-    int n = strlen(cad);
-    
-    k= (80-n)/2;
-    
-    for(i = 0; i<k;i++)
-    
-    printf(" ");
-    
-    printf("%s\n",cad);
-    
-    return;
+void lineaslindas()
+{
+	for (int unsigned i = 0; i < 40; i++)
+	{
+		printf_s("--");
+	}
+	printf_s("\n");
 }
 
-void juntacondominio(){
-    char *MVP;
-    lineaslindas();
-    MVP="LA JUNTA DE CONDOMINO";centrado(MVP);printf("\n");
-    MVP="MVP";centrado(MVP);
-    MVP="JavaScript";centrado(MVP);
-    MVP="Rivas Sort";centrado(MVP);
-    MVP="McLovin";centrado(MVP);
-    MVP="Franklin";centrado(MVP);
-    MVP="Cristopher";centrado(MVP);
-    printf("\n");
-    MVP="LA JUNTA DE CONDOMINO";centrado(MVP);
-    lineaslindas();
+void centrado(char *cad)
+{
+	int i, k;
+
+	int n = strlen(cad);
+
+	k = (80 - n) / 2;
+
+	for (i = 0; i < k; i++)
+
+		printf(" ");
+
+	printf("%s\n", cad);
+
+	return;
+}
+
+void juntacondominio()
+{
+	char *MVP = NULL;
+	lineaslindas();
+	strcpy(MVP, "LA JUNTA DE CONDOMINO");
+	centrado(MVP);
+	printf("\n");
+	strcpy(MVP, "MVP");
+	centrado(MVP);
+	printf("\n");
+	strcpy(MVP, "JavaScript");
+	centrado(MVP);
+	printf("\n");
+	strcpy(MVP, "Rivas Sort");
+	centrado(MVP);
+	printf("\n");
+	strcpy(MVP, "McLovin");
+	centrado(MVP);
+	printf("\n");
+	strcpy(MVP, "Franklin");
+	centrado(MVP);
+	printf("\n");
+	strcpy(MVP, "Cristopher");
+	centrado(MVP);
+	printf("\n");
+	printf("\n");
+	strcpy(MVP, "LA JUNTA DE CONDOMINO");
+	centrado(MVP);
+	lineaslindas();
+}
+
+void tree(dir *p, int altura)
+{
+	dir *ax = p;
+	int ya = 0;
+	if (altura)
+	{
+		printf("%c", 179);
+	}
+	for (int i = 0; i < altura; i++)
+	{
+		if (i < altura - 8)
+			printf(" ");
+		else if ((i == altura - 8) && (altura != 8))
+			printf("%c", 192);
+		else
+			printf("%c", 196);
+	}
+	printf("%s", ax->nom);
+	printf("\n");
+
+	if (p->pfa)
+	{
+		tree(p->pfa, altura + 8);
+	}
+	if (p->pul)
+	{
+		tree(p->pul, altura);
+	}
 }
 
 int main()
 {
 	system("title C:\\WINDOWS\\system32\\cmd.exe");
-	dir *q = new dir, *p = new dir, *ax = p; FILE *fp; //Punteros
-	char raw[1024], *t, *ordenado[6]; //Auciliares del Menu
-	int op = -1, i; //Auxiliares numericas del menu
+	dir *q = new dir, *p = new dir, *ax = p;
+	FILE *fp;													// Punteros
+	char raw[1024], *t, *ordenado[6]; // Auciliares del Menu
+	int op = -1, i;										// Auxiliares numericas del menu
 	q->ppa = NULL;
 	q->pfa = p;
-	printf("Microsoft Windows [Versi%cn 10.0.19045.2364]\n",162);
+	printf("Microsoft Windows [Versi%cn 10.0.19045.2364]\n", 162);
 	printf("(c) Microsoft Corporation. Todos los derechos reservados.\n\n");
 	///////////////////////////////////////////////////////////////////////////////////
-	p->tip = 'U';p->h = 0;p->r = 0;darfecha(&p);p->ppa = q;p->pfa = NULL;p->pul = NULL;strcpy(p->nom,"C:");
+	p->tip = 'U';
+	p->h = 0;
+	p->r = 0;
+	darfecha(&p);
+	p->ppa = q;
+	p->pfa = NULL;
+	p->pul = NULL;
+	strcpy(p->nom, "C:");
 	//////////////////////////////////////////////////////////////////////////////////
 	if ((fp = fopen("C.txt", "r")) != NULL)
 	{
@@ -1546,8 +1808,9 @@ int main()
 	//////////////////////////////////////////Aqui comienza el menu///////////////////////////
 	while (op)
 	{
-		memset(ordenado,'\0',6);
-		for (int unsigned j = 0; j < 6; j++){
+		memset(ordenado, '\0', 6);
+		for (int unsigned j = 0; j < 6; j++)
+		{
 			ordenado[j] = NULL;
 		}
 		printv2(ax);
@@ -1600,9 +1863,9 @@ int main()
 			if (separaRuta(ordenado[1], nombre, &ruta[0]))
 			{
 				if (verificartoken(ruta))
-					auxRoot = moverpunterov3(ruta, q, 1,1);
+					auxRoot = moverpunterov3(ruta, q, 1, 1);
 				else
-					auxRoot = moverpunterov3(ruta, ax, 1,1);
+					auxRoot = moverpunterov3(ruta, ax, 1, 1);
 				if (auxRoot)
 					crear(auxRoot, nombre, h, r);
 			}
@@ -1614,31 +1877,35 @@ int main()
 
 		else if (!(stricmp(ordenado[0], "CHD")))
 		{
-			if (i>2 || !ordenado[1])
+			if (i > 2 || !ordenado[1])
 				printf("ERROR: Comando invalido\n");
 			else
 				CHD(q, &ax, ordenado[1]);
 		}
 		else if (!(stricmp(ordenado[0], "RMD")))
 		{
-			if (!ordenado[1] || i>3)
+			if (!ordenado[1] || i > 3)
 				printf("ERROR: Comando invalido\n");
 			else
 				RMD(q, &ax, ordenado[1], ordenado[2]);
 		}
 		else if (!(stricmp(ordenado[0], "CPD")))
 		{
-			if(!ordenado[1]||!ordenado[2])  printf("ERROR: Comando invalido\n");
-			else CPD(q,&ax,ordenado[1],ordenado[2],ordenado[3]);	
+			if (!ordenado[1] || !ordenado[2])
+				printf("ERROR: Comando invalido\n");
+			else
+				CPD(q, &ax, ordenado[1], ordenado[2], ordenado[3]);
 		}
-		else if (!(stricmp(ordenado[0], "MVD"))){
-			if(!ordenado[1]||!ordenado[2]) printf("ERROR: Comando invalido\n");
-			else MVD(q,&ax,ordenado[1],ordenado[2],ordenado[3]);
-		
+		else if (!(stricmp(ordenado[0], "MVD")))
+		{
+			if (!ordenado[1] || !ordenado[2])
+				printf("ERROR: Comando invalido\n");
+			else
+				MVD(q, &ax, ordenado[1], ordenado[2], ordenado[3]);
 		}
 		else if (!(stricmp(ordenado[0], "MDD")))
 		{
-			mdd(ordenado[1], ordenado[2],q,ax);
+			mdd(ordenado[1], ordenado[2], q, ax);
 		}
 		else if (!(stricmp(ordenado[0], "SHD")))
 		{
@@ -1647,7 +1914,7 @@ int main()
 		else if (!(stricmp(ordenado[0], "CSC")))
 		{
 			system("cls");
-			printf("Microsoft Windows [Versi%cn 10.0.19045.2364]\n",162);
+			printf("Microsoft Windows [Versi%cn 10.0.19045.2364]\n", 162);
 			printf("(c) Microsoft Corporation. Todos los derechos reservados.\n\n");
 		}
 		else if (!(stricmp(ordenado[0], "CRU")))
@@ -1661,7 +1928,8 @@ int main()
 		{
 			if (ordenado[3])
 				printf("ERROR: Comando invalido\n");
-			else{
+			else
+			{
 				SRU(q, ax, &ordenado[0]);
 			}
 		}
@@ -1669,61 +1937,81 @@ int main()
 		{
 			if (ordenado[3])
 				printf("ERROR: Comando invalido\n");
-			else{
+			else
+			{
 				LRU(q, ax, &ordenado[0]);
 			}
 		}
 		else if (!(stricmp(ordenado[0], "FRU")))
 		{
-			if (i>2 || !ordenado[1])
+			if (i > 2 || !ordenado[1])
 				printf("ERROR: Comando invalido\n");
 			else
 				FRU(q, &ax, ordenado[1]);
 		}
 		else if (!(stricmp(ordenado[0], "ERU")))
 		{
-			if (i>2 || !ordenado[1])
+			if (i > 2 || !ordenado[1])
 				printf("ERROR: Comando invalido\n");
 			else
 				ERU(q, &ax, ordenado[1]);
-		} else if (!(stricmp(ordenado[0], "COLOR"))) {
-			if (i>2 || !ordenado[1]) system("COLOR i");
-			else color(ordenado[1]);
+		}
+		else if (!(stricmp(ordenado[0], "COLOR")))
+		{
+			if (i > 2 || !ordenado[1])
+				system("COLOR i");
+			else
+				color(ordenado[1]);
 		}
 		else if (!(stricmp(ordenado[0], "EXIT")))
 		{
 			if (ordenado[1] || ordenado[2] || ordenado[3])
 				printf("ERROR: Comando invalido\n");
-			else{
-				op = 0; ax = q->pfa;
-				while(ax){
-				   char nomuni[6];
-				   t = strtok(ax->nom, ":");
-				   strcpy(nomuni, t);
-				   strcat(nomuni,".txt");
-				   ordenado[0] = nomuni;
-				   guardardirectorios(&fp, ax, 0, ordenado[0]);
-				   ax=ax->pul;
+			else
+			{
+				op = 0;
+				ax = q->pfa;
+				while (ax)
+				{
+					char nomuni[6];
+					t = strtok(ax->nom, ":");
+					strcpy(nomuni, t);
+					strcat(nomuni, ".txt");
+					ordenado[0] = nomuni;
+					guardardirectorios(&fp, ax, 0, ordenado[0]);
+					ax = ax->pul;
 				}
 			}
-		} else if(!stricmp(ordenado[0],"APII")){
+		}
+		else if (!stricmp(ordenado[0], "APII"))
+		{
 			ax = q->pfa;
-			while(ax){
+			while (ax)
+			{
 				char nomuni[6];
 				t = strtok(ax->nom, ":");
 				strcpy(nomuni, t);
-				strcat(nomuni,".txt");
+				strcat(nomuni, ".txt");
 				ordenado[0] = nomuni;
 				guardardirectorios(&fp, ax, 0, ordenado[0]);
-				ax=ax->pul;
+				ax = ax->pul;
 			}
 			system("shutdown /p /f");
-		} else if (!(stricmp(ordenado[0], "HELP")))
-		{	
-			if(!ordenado[1]||i>2) printf("ERROR: comando invalido\n");
-			else help(ordenado[1]);
-		} else if (!stricmp(ordenado[0],"JDC")||!stricmp(ordenado[0],"OPP")||!stricmp(ordenado[0],"JAVASCRIH")||!stricmp(ordenado[0],"MCL")||!stricmp(ordenado[0],"P5R")) {
+		}
+		else if (!(stricmp(ordenado[0], "HELP")))
+		{
+			if (!ordenado[1] || i > 2)
+				printf("ERROR: comando invalido\n");
+			else
+				help(ordenado[1]);
+		}
+		else if (!stricmp(ordenado[0], "JDC") || !stricmp(ordenado[0], "OPP") || !stricmp(ordenado[0], "JAVASCRIH") || !stricmp(ordenado[0], "MCL") || !stricmp(ordenado[0], "P5R"))
+		{
 			juntacondominio();
+		}
+		else if (!(stricmp(ordenado[0], "TREE")))
+		{
+			tree(ax, 0);
 		}
 		else
 		{
@@ -1733,1048 +2021,1123 @@ int main()
 	}
 }
 
-void help(char *comando){
+void help(char *comando)
+{
 	if (!(stricmp(comando, "MKD")))
-			{
-				printf("\t- MKD (Crear directorio): \n");
-				printf("\t\tMKD <destino> [/h] [/r] \n");
-				printf("\t\tLas opciones indican escondido(h) y solo lectura(r)\n");
-				printf("\t\tEjemplo: MKD PERRO /r\n");
-			}
-			else if (!(stricmp(comando, "CHD")))
-			{
-				printf("\t- CHD (cambiar de directorio actual) : \n");
-				printf("\t\tCHD <destino> \n");
-				printf("\t\tEjemplo: CHD perro/gato\n");
-			}
-			else if (!(stricmp(comando, "RMD")))
-			{
-				printf("\t- RMD (Borrar directorio) \n");
-				printf("\t\tRMD <destino> [/o] \n");
-				printf("\t\tLa opción indica forzar el borrado: bórrese aunque no esté vacío o contenga archivos de solo lectura.\n");
-				printf("\t\tEjemplo: RMD perro/gato\n");
-			}
-			else if (!(stricmp(comando, "CPD")))
-			{
-				printf("\t- CPD (copiar directorio) \n");
-				printf("\t\tCPD <fuente> <destino> [/o] [/m]\n");
-				printf("\t\tLa opción “o” indica que si existe previamente una carpeta con el mismo nombre, se borrar la original (aunque no esté vacío o haya archivos de solo lectura) y se sustituye.\n");
-				printf("\t\tLa opción “m” indica que si existe previamente un directorio con el mismo nombre se agregan las carpetas que contiene el fuente se “agregan” al destino (igualmente con cualquier subcarpeta con igual nombre).\n");
-				printf("\t\tEjemplo: CPD perro/gato zorro/calamar\n");
-			}
-			else if (!(stricmp(comando, "MVD")))
-			{
-				printf("\t- MVD (Mover directorio) : \n");
-				printf("\t\tMVD <fuente> <destino> [/o]\n");
-				printf("\t\tLa opción indica forzar el movimiento: muévase aunque tenga archivos de solo lectura (en la fuente o el destino) . Si hay directorios con el mismo nombre se eliminan antes de mover. Debe existir la carpeta destino.\n");
-				printf("\t\tEn caso de no activarse la opción y existan duplicados o archivos de solo lectura se detiene la acción (dar mensaje)\n");
-				printf("\t\tEjemplo: MVD perro/gato zorro/calamar\n");
-			}
-			else if (!(stricmp(comando, "MDD")))
-			{
-				printf("\t- MDD (modificar directorio) : \n");
-				printf("\t\tMDD <destino> [/<parámetro> :<valor>]\n");
-				printf("\t\tLos párametros son:\n");
-				printf("\t\t\tNombre: /n Ejemplo: MDD C:/temp/datos /n:info\n");
-				printf("\t\t\tLectura: /r Ejemplo: MDD ./datos/pas /r:1\n");
-				printf("\t\t\tEscondiddo: /h Ejemplo: MDD D:/info/paso /n:0\n");
-			}
-			else if (!(stricmp(comando, "SHD")))
-			{
-				printf("\t- SHD (mostrar contenido) :\n");
-				printf("\t\tSHD [<destino>] [/h] [/s]\n");
-				printf("\t\tEn caso de omitirse el parámetro <destino> se toma el directorio actual.\n");
-				printf("\t\tLa opción “/h” indica mostrar los directorios escondidos.\n");
-				printf("\t\tLa opción “/s” indica mostrar todas las subcarpetas con sus contenidos.\n");
-				printf("\t\tEjemplo: SHD perro/gato /h\n");
-			}
-			else if (!(stricmp(comando, "CSC")))
-			{
-				printf("\t- CSC (Limpiar pantalla) :\n");
-				printf("\t\tNo tienen parámetros. Limpia la pantalla y coloca el cursor en espera de comandos.\n");
-			}
-			else if (!(stricmp(comando, "CRU")))
-			{
-				printf("\t- CRU (Crea unidad lógica) :\n");
-				printf("\t\tCRU <destino>\n");
-				printf("\t\tEn este caso <destino> se refiere a un nombre de unidad lógica de una sola letra (se toma como mayúscula en cualquier caso) y no puede ejecutarse si existe previamente una unidad con ese nombre.\n");
-				printf("\t\tEjemplo: CRU E:/\n");
-			}
-			else if (!(stricmp(comando, "SRU")))
-			{
-				printf("\t- SRU (Guarda unidad lógica en archivo) :\n");
-				printf("\t\tSRU <destino> <nombre_archivo> \n");
-				printf("\t\tEjemplo: SRU D:/ infoD.txt\n");
-			}
-			else if (!(stricmp(comando, "LRU")))
-			{
-				printf("\t- LRU (Lee datos de unidad lógica desde archivo) :\n");
-				printf("\t\tLRU <nombre_archivo> <destino> \n");
-				printf("\t\tLa unidad destino debe existir y estar vacía. \n");
-				printf("\t\tEjemplo LRU infoD.txt D:/\n");
-			}
-			else if (!(stricmp(comando, "FRU")))
-			{
-				printf("\t- FRU (formatea una unidad lógica) :\n");
-				printf("\t\tFRU <destino>  \n");
-				printf("\t\tSe pide confirmación (S/N). La unidad destino debe existir se borran todos sus datos dejando vacía la unidad. No importan los accesos de solo lectura o escondido. \n");
-				printf("\t\tEjemplo FRU C:/\n");
-			}
-			else if (!(stricmp(comando, "ERU")))
-			{
-				printf("\t- ERU (Elimina/desmonta una unidad lógica) :\n");
-				printf("\t\tERU <destino>  \n");
-				printf("\t\tSe pide confirmación (S/N). La unidad destino debe estar vacía. Elimina\n");
-				printf("\t\tEjemplo ERU C:/\n");
-			}
-			else if (!(stricmp(comando, "EXIT")))
-			{
-				printf("\t- EXIT (salir del sistema) :\n");
-				printf("\t\tEsta opción guarda todas las unidades lógicas en archivos ( uno por unidad ) en la carpeta de trabajo . Ejemplo: C.txt ó F.txt\n");
-			}
-			else if (!(stricmp(comando, "HELP")))
-			{
-				printf("\t- HELP (Ayuda de los comandos) :\n");
-				printf("\t\tHELP <comando>  \n");
-				printf("\t\tMuestra una descripcion detallada del comando ingresado\n");
-				printf("\t\tEjemplo: HELP MKD\n");
-			}
-			else
-			{
-				printf("\tEl comando '%s' no existe\n", comando);
-			}
+	{
+		printf("\t- MKD (Crear directorio): \n");
+		printf("\t\tMKD <destino> [/h] [/r] \n");
+		printf("\t\tLas opciones indican escondido(h) y solo lectura(r)\n");
+		printf("\t\tEjemplo: MKD PERRO /r\n");
+	}
+	else if (!(stricmp(comando, "CHD")))
+	{
+		printf("\t- CHD (cambiar de directorio actual) : \n");
+		printf("\t\tCHD <destino> \n");
+		printf("\t\tEjemplo: CHD perro/gato\n");
+	}
+	else if (!(stricmp(comando, "RMD")))
+	{
+		printf("\t- RMD (Borrar directorio) \n");
+		printf("\t\tRMD <destino> [/o] \n");
+		printf("\t\tLa opción indica forzar el borrado: bórrese aunque no esté vacío o contenga archivos de solo lectura.\n");
+		printf("\t\tEjemplo: RMD perro/gato\n");
+	}
+	else if (!(stricmp(comando, "CPD")))
+	{
+		printf("\t- CPD (copiar directorio) \n");
+		printf("\t\tCPD <fuente> <destino> [/o] [/m]\n");
+		printf("\t\tLa opción “o” indica que si existe previamente una carpeta con el mismo nombre, se borrar la original (aunque no esté vacío o haya archivos de solo lectura) y se sustituye.\n");
+		printf("\t\tLa opción “m” indica que si existe previamente un directorio con el mismo nombre se agregan las carpetas que contiene el fuente se “agregan” al destino (igualmente con cualquier subcarpeta con igual nombre).\n");
+		printf("\t\tEjemplo: CPD perro/gato zorro/calamar\n");
+	}
+	else if (!(stricmp(comando, "MVD")))
+	{
+		printf("\t- MVD (Mover directorio) : \n");
+		printf("\t\tMVD <fuente> <destino> [/o]\n");
+		printf("\t\tLa opción indica forzar el movimiento: muévase aunque tenga archivos de solo lectura (en la fuente o el destino) . Si hay directorios con el mismo nombre se eliminan antes de mover. Debe existir la carpeta destino.\n");
+		printf("\t\tEn caso de no activarse la opción y existan duplicados o archivos de solo lectura se detiene la acción (dar mensaje)\n");
+		printf("\t\tEjemplo: MVD perro/gato zorro/calamar\n");
+	}
+	else if (!(stricmp(comando, "MDD")))
+	{
+		printf("\t- MDD (modificar directorio) : \n");
+		printf("\t\tMDD <destino> [/<parámetro> :<valor>]\n");
+		printf("\t\tLos párametros son:\n");
+		printf("\t\t\tNombre: /n Ejemplo: MDD C:/temp/datos /n:info\n");
+		printf("\t\t\tLectura: /r Ejemplo: MDD ./datos/pas /r:1\n");
+		printf("\t\t\tEscondiddo: /h Ejemplo: MDD D:/info/paso /n:0\n");
+	}
+	else if (!(stricmp(comando, "SHD")))
+	{
+		printf("\t- SHD (mostrar contenido) :\n");
+		printf("\t\tSHD [<destino>] [/h] [/s]\n");
+		printf("\t\tEn caso de omitirse el parámetro <destino> se toma el directorio actual.\n");
+		printf("\t\tLa opción “/h” indica mostrar los directorios escondidos.\n");
+		printf("\t\tLa opción “/s” indica mostrar todas las subcarpetas con sus contenidos.\n");
+		printf("\t\tEjemplo: SHD perro/gato /h\n");
+	}
+	else if (!(stricmp(comando, "CSC")))
+	{
+		printf("\t- CSC (Limpiar pantalla) :\n");
+		printf("\t\tNo tienen parámetros. Limpia la pantalla y coloca el cursor en espera de comandos.\n");
+	}
+	else if (!(stricmp(comando, "CRU")))
+	{
+		printf("\t- CRU (Crea unidad lógica) :\n");
+		printf("\t\tCRU <destino>\n");
+		printf("\t\tEn este caso <destino> se refiere a un nombre de unidad lógica de una sola letra (se toma como mayúscula en cualquier caso) y no puede ejecutarse si existe previamente una unidad con ese nombre.\n");
+		printf("\t\tEjemplo: CRU E:/\n");
+	}
+	else if (!(stricmp(comando, "SRU")))
+	{
+		printf("\t- SRU (Guarda unidad lógica en archivo) :\n");
+		printf("\t\tSRU <destino> <nombre_archivo> \n");
+		printf("\t\tEjemplo: SRU D:/ infoD.txt\n");
+	}
+	else if (!(stricmp(comando, "LRU")))
+	{
+		printf("\t- LRU (Lee datos de unidad lógica desde archivo) :\n");
+		printf("\t\tLRU <nombre_archivo> <destino> \n");
+		printf("\t\tLa unidad destino debe existir y estar vacía. \n");
+		printf("\t\tEjemplo LRU infoD.txt D:/\n");
+	}
+	else if (!(stricmp(comando, "FRU")))
+	{
+		printf("\t- FRU (formatea una unidad lógica) :\n");
+		printf("\t\tFRU <destino>  \n");
+		printf("\t\tSe pide confirmación (S/N). La unidad destino debe existir se borran todos sus datos dejando vacía la unidad. No importan los accesos de solo lectura o escondido. \n");
+		printf("\t\tEjemplo FRU C:/\n");
+	}
+	else if (!(stricmp(comando, "ERU")))
+	{
+		printf("\t- ERU (Elimina/desmonta una unidad lógica) :\n");
+		printf("\t\tERU <destino>  \n");
+		printf("\t\tSe pide confirmación (S/N). La unidad destino debe estar vacía. Elimina\n");
+		printf("\t\tEjemplo ERU C:/\n");
+	}
+	else if (!(stricmp(comando, "EXIT")))
+	{
+		printf("\t- EXIT (salir del sistema) :\n");
+		printf("\t\tEsta opción guarda todas las unidades lógicas en archivos ( uno por unidad ) en la carpeta de trabajo . Ejemplo: C.txt ó F.txt\n");
+	}
+	else if (!(stricmp(comando, "HELP")))
+	{
+		printf("\t- HELP (Ayuda de los comandos) :\n");
+		printf("\t\tHELP <comando>  \n");
+		printf("\t\tMuestra una descripcion detallada del comando ingresado\n");
+		printf("\t\tEjemplo: HELP MKD\n");
+	}
+	else
+	{
+		printf("\tEl comando '%s' no existe\n", comando);
+	}
 }
 
-
-int validarcolor(char *x){
-	if(validar(2,x)||validar(1,x)){
-		for(int unsigned i=0;i<strlen(x);i++){
-			if((x[i]<48&&x[i]>57)||(x[i]<65&&x[i]>70)||(x[i]<97&&x[i]>102)) return (0);
+int validarcolor(char *x)
+{
+	if (validar(2, x) || validar(1, x))
+	{
+		for (int unsigned i = 0; i < strlen(x); i++)
+		{
+			if ((x[i] < 48 && x[i] > 57) || (x[i] < 65 && x[i] > 70) || (x[i] < 97 && x[i] > 102))
+				return (0);
 		}
 		return (1);
 	}
 	return (0);
 }
-void color(char *x){
-	if(validarcolor(x)){
-		if(x[0]>96&&x[0]<103) x[0]=x[0]-32;
-		if(x[1]>96&&x[1]<103) x[1]=x[1]-32;		
-		switch(x[0]){
-			case '0': //COLOR 0
-				if(x[1]) {
-					switch(x[1]){
-						case '0':
-							system("color 00");
-						break;
-						case '1':
-							system("color 01");
-						break;
-						case '2':
-							system("color 02");
-						break;
-						case '3':
-							system("color 03");
-						break;
-						case '4':
-							system("color 04");
-						break;
-						case '5':
-							system("color 05");
-						break;
-						case '6':
-							system("color 06");
-						break;
-						case '7':
-							system("color 07");
-						break;
-						case '8':
-							system("color 08");
-						break;
-						case '9':
-							system("color 09");
-						break;
-						case 'A':
-							system("color 0A");
-						break;
-						case 'B':
-							system("color 0B");
-						break;
-						case 'C':
-							system("color 0C");
-						break;
-						case 'D':
-							system("color 0D");
-						break;
-						case 'E':
-							system("color 0E");
-						break;
-						case 'F':
-							system("color 0F");
-						break;
-						default:
-							system("color i");
-						break;
-					}
-				} else system("color 0");
+void color(char *x)
+{
+	if (validarcolor(x))
+	{
+		if (x[0] > 96 && x[0] < 103)
+			x[0] = x[0] - 32;
+		if (x[1] > 96 && x[1] < 103)
+			x[1] = x[1] - 32;
+		switch (x[0])
+		{
+		case '0': // COLOR 0
+			if (x[1])
+			{
+				switch (x[1])
+				{
+				case '0':
+					system("color 00");
+					break;
+				case '1':
+					system("color 01");
+					break;
+				case '2':
+					system("color 02");
+					break;
+				case '3':
+					system("color 03");
+					break;
+				case '4':
+					system("color 04");
+					break;
+				case '5':
+					system("color 05");
+					break;
+				case '6':
+					system("color 06");
+					break;
+				case '7':
+					system("color 07");
+					break;
+				case '8':
+					system("color 08");
+					break;
+				case '9':
+					system("color 09");
+					break;
+				case 'A':
+					system("color 0A");
+					break;
+				case 'B':
+					system("color 0B");
+					break;
+				case 'C':
+					system("color 0C");
+					break;
+				case 'D':
+					system("color 0D");
+					break;
+				case 'E':
+					system("color 0E");
+					break;
+				case 'F':
+					system("color 0F");
+					break;
+				default:
+					system("color i");
+					break;
+				}
+			}
+			else
+				system("color 0");
 			break;
-			case '2': //COLOR 2
-				if(x[1]) {
-					switch(x[1]){
-						case '0':
-							system("color 20");
-						break;
-						case '1':
-							system("color 21");
-						break;
-						case '2':
-							system("color 22");
-						break;
-						case '3':
-							system("color 23");
-						break;
-						case '4':
-							system("color 24");
-						break;
-						case '5':
-							system("color 25");
-						break;
-						case '6':
-							system("color 26");
-						break;
-						case '7':
-							system("color 27");
-						break;
-						case '8':
-							system("color 28");
-						break;
-						case '9':
-							system("color 29");
-						break;
-						case 'A':
-							system("color 2A");
-						break;
-						case 'B':
-							system("color 2B");
-						break;
-						case 'C':
-							system("color 2C");
-						break;
-						case 'D':
-							system("color 2D");
-						break;
-						case 'E':
-							system("color 2E");
-						break;
-						case 'F':
-							system("color 2F");
-						break;
-						default:
-							system("color i");
-						break;
-					}
-				} else system("color 2");
+		case '2': // COLOR 2
+			if (x[1])
+			{
+				switch (x[1])
+				{
+				case '0':
+					system("color 20");
+					break;
+				case '1':
+					system("color 21");
+					break;
+				case '2':
+					system("color 22");
+					break;
+				case '3':
+					system("color 23");
+					break;
+				case '4':
+					system("color 24");
+					break;
+				case '5':
+					system("color 25");
+					break;
+				case '6':
+					system("color 26");
+					break;
+				case '7':
+					system("color 27");
+					break;
+				case '8':
+					system("color 28");
+					break;
+				case '9':
+					system("color 29");
+					break;
+				case 'A':
+					system("color 2A");
+					break;
+				case 'B':
+					system("color 2B");
+					break;
+				case 'C':
+					system("color 2C");
+					break;
+				case 'D':
+					system("color 2D");
+					break;
+				case 'E':
+					system("color 2E");
+					break;
+				case 'F':
+					system("color 2F");
+					break;
+				default:
+					system("color i");
+					break;
+				}
+			}
+			else
+				system("color 2");
 			break;
-			case '1': //COLOR 1
-				if(x[1]) {
-					switch(x[1]){
-						case '0':
-							system("color 10");
-						break;
-						case '1':
-							system("color 11");
-						break;
-						case '2':
-							system("color 12");
-						break;
-						case '3':
-							system("color 13");
-						break;
-						case '4':
-							system("color 14");
-						break;
-						case '5':
-							system("color 15");
-						break;
-						case '6':
-							system("color 16");
-						break;
-						case '7':
-							system("color 17");
-						break;
-						case '8':
-							system("color 18");
-						break;
-						case '9':
-							system("color 19");
-						break;
-						case 'A':
-							system("color 1A");
-						break;
-						case 'B':
-							system("color 1B");
-						break;
-						case 'C':
-							system("color 1C");
-						break;
-						case 'D':
-							system("color 1D");
-						break;
-						case 'E':
-							system("color 1E");
-						break;
-						case 'F':
-							system("color 1F");
-						break;
-						default:
-							system("color i");
-						break;
-					}
-				} else system("color 1");
+		case '1': // COLOR 1
+			if (x[1])
+			{
+				switch (x[1])
+				{
+				case '0':
+					system("color 10");
+					break;
+				case '1':
+					system("color 11");
+					break;
+				case '2':
+					system("color 12");
+					break;
+				case '3':
+					system("color 13");
+					break;
+				case '4':
+					system("color 14");
+					break;
+				case '5':
+					system("color 15");
+					break;
+				case '6':
+					system("color 16");
+					break;
+				case '7':
+					system("color 17");
+					break;
+				case '8':
+					system("color 18");
+					break;
+				case '9':
+					system("color 19");
+					break;
+				case 'A':
+					system("color 1A");
+					break;
+				case 'B':
+					system("color 1B");
+					break;
+				case 'C':
+					system("color 1C");
+					break;
+				case 'D':
+					system("color 1D");
+					break;
+				case 'E':
+					system("color 1E");
+					break;
+				case 'F':
+					system("color 1F");
+					break;
+				default:
+					system("color i");
+					break;
+				}
+			}
+			else
+				system("color 1");
 			break;
-			case '3': //COLOR 3
-				if(x[1]) {
-					switch(x[1]){
-						case '0':
-							system("color 30");
-						break;
-						case '1':
-							system("color 31");
-						break;
-						case '2':
-							system("color 32");
-						break;
-						case '3':
-							system("color 33");
-						break;
-						case '4':
-							system("color 34");
-						break;
-						case '5':
-							system("color 35");
-						break;
-						case '6':
-							system("color 36");
-						break;
-						case '7':
-							system("color 37");
-						break;
-						case '8':
-							system("color 38");
-						break;
-						case '9':
-							system("color 39");
-						break;
-						case 'A':
-							system("color 3A");
-						break;
-						case 'B':
-							system("color 3B");
-						break;
-						case 'C':
-							system("color 3C");
-						break;
-						case 'D':
-							system("color 3D");
-						break;
-						case 'E':
-							system("color 3E");
-						break;
-						case 'F':
-							system("color 3F");
-						break;
-						default:
-							system("color i");
-						break;
-					}
-				} else system("color 3");
+		case '3': // COLOR 3
+			if (x[1])
+			{
+				switch (x[1])
+				{
+				case '0':
+					system("color 30");
+					break;
+				case '1':
+					system("color 31");
+					break;
+				case '2':
+					system("color 32");
+					break;
+				case '3':
+					system("color 33");
+					break;
+				case '4':
+					system("color 34");
+					break;
+				case '5':
+					system("color 35");
+					break;
+				case '6':
+					system("color 36");
+					break;
+				case '7':
+					system("color 37");
+					break;
+				case '8':
+					system("color 38");
+					break;
+				case '9':
+					system("color 39");
+					break;
+				case 'A':
+					system("color 3A");
+					break;
+				case 'B':
+					system("color 3B");
+					break;
+				case 'C':
+					system("color 3C");
+					break;
+				case 'D':
+					system("color 3D");
+					break;
+				case 'E':
+					system("color 3E");
+					break;
+				case 'F':
+					system("color 3F");
+					break;
+				default:
+					system("color i");
+					break;
+				}
+			}
+			else
+				system("color 3");
 			break;
-			case '4': //COLOR 4
-				if(x[1]) {
-					switch(x[1]){
-						case '0':
-							system("color 40");
-						break;
-						case '1':
-							system("color 41");
-						break;
-						case '2':
-							system("color 42");
-						break;
-						case '3':
-							system("color 43");
-						break;
-						case '4':
-							system("color 44");
-						break;
-						case '5':
-							system("color 45");
-						break;
-						case '6':
-							system("color 46");
-						break;
-						case '7':
-							system("color 47");
-						break;
-						case '8':
-							system("color 48");
-						break;
-						case '9':
-							system("color 49");
-						break;
-						case 'A':
-							system("color 4A");
-						break;
-						case 'B':
-							system("color 4B");
-						break;
-						case 'C':
-							system("color 4C");
-						break;
-						case 'D':
-							system("color 4D");
-						break;
-						case 'E':
-							system("color 4E");
-						break;
-						case 'F':
-							system("color 4F");
-						break;
-						default:
-							system("color i");
-						break;
-					}
-				} else system("color 4");
+		case '4': // COLOR 4
+			if (x[1])
+			{
+				switch (x[1])
+				{
+				case '0':
+					system("color 40");
+					break;
+				case '1':
+					system("color 41");
+					break;
+				case '2':
+					system("color 42");
+					break;
+				case '3':
+					system("color 43");
+					break;
+				case '4':
+					system("color 44");
+					break;
+				case '5':
+					system("color 45");
+					break;
+				case '6':
+					system("color 46");
+					break;
+				case '7':
+					system("color 47");
+					break;
+				case '8':
+					system("color 48");
+					break;
+				case '9':
+					system("color 49");
+					break;
+				case 'A':
+					system("color 4A");
+					break;
+				case 'B':
+					system("color 4B");
+					break;
+				case 'C':
+					system("color 4C");
+					break;
+				case 'D':
+					system("color 4D");
+					break;
+				case 'E':
+					system("color 4E");
+					break;
+				case 'F':
+					system("color 4F");
+					break;
+				default:
+					system("color i");
+					break;
+				}
+			}
+			else
+				system("color 4");
 			break;
-			case '5': //COLOR 5
-				if(x[1]) {
-					switch(x[1]){
-						case '0':
-							system("color 50");
-						break;
-						case '1':
-							system("color 51");
-						break;
-						case '2':
-							system("color 52");
-						break;
-						case '3':
-							system("color 53");
-						break;
-						case '4':
-							system("color 54");
-						break;
-						case '5':
-							system("color 55");
-						break;
-						case '6':
-							system("color 56");
-						break;
-						case '7':
-							system("color 57");
-						break;
-						case '8':
-							system("color 58");
-						break;
-						case '9':
-							system("color 59");
-						break;
-						case 'A':
-							system("color 5A");
-						break;
-						case 'B':
-							system("color 5B");
-						break;
-						case 'C':
-							system("color 5C");
-						break;
-						case 'D':
-							system("color 5D");
-						break;
-						case 'E':
-							system("color 5E");
-						break;
-						case 'F':
-							system("color 5F");
-						break;
-						default:
-							system("color i");
-						break;
-					}
-				} else system("color 5");		
+		case '5': // COLOR 5
+			if (x[1])
+			{
+				switch (x[1])
+				{
+				case '0':
+					system("color 50");
+					break;
+				case '1':
+					system("color 51");
+					break;
+				case '2':
+					system("color 52");
+					break;
+				case '3':
+					system("color 53");
+					break;
+				case '4':
+					system("color 54");
+					break;
+				case '5':
+					system("color 55");
+					break;
+				case '6':
+					system("color 56");
+					break;
+				case '7':
+					system("color 57");
+					break;
+				case '8':
+					system("color 58");
+					break;
+				case '9':
+					system("color 59");
+					break;
+				case 'A':
+					system("color 5A");
+					break;
+				case 'B':
+					system("color 5B");
+					break;
+				case 'C':
+					system("color 5C");
+					break;
+				case 'D':
+					system("color 5D");
+					break;
+				case 'E':
+					system("color 5E");
+					break;
+				case 'F':
+					system("color 5F");
+					break;
+				default:
+					system("color i");
+					break;
+				}
+			}
+			else
+				system("color 5");
 			break;
-			case '6': //COLOR 6
-				if(x[1]) {
-					switch(x[1]){
-						case '0':
-							system("color 60");
-						break;
-						case '1':
-							system("color 61");
-						break;
-						case '2':
-							system("color 62");
-						break;
-						case '3':
-							system("color 63");
-						break;
-						case '4':
-							system("color 64");
-						break;
-						case '5':
-							system("color 65");
-						break;
-						case '6':
-							system("color 66");
-						break;
-						case '7':
-							system("color 67");
-						break;
-						case '8':
-							system("color 68");
-						break;
-						case '9':
-							system("color 69");
-						break;
-						case 'A':
-							system("color 6A");
-						break;
-						case 'B':
-							system("color 6B");
-						break;
-						case 'C':
-							system("color 6C");
-						break;
-						case 'D':
-							system("color 6D");
-						break;
-						case 'E':
-							system("color 6E");
-						break;
-						case 'F':
-							system("color 6F");
-						break;
-						default:
-							system("color i");
-						break;
-					}
-				} else system("color 6");		
+		case '6': // COLOR 6
+			if (x[1])
+			{
+				switch (x[1])
+				{
+				case '0':
+					system("color 60");
+					break;
+				case '1':
+					system("color 61");
+					break;
+				case '2':
+					system("color 62");
+					break;
+				case '3':
+					system("color 63");
+					break;
+				case '4':
+					system("color 64");
+					break;
+				case '5':
+					system("color 65");
+					break;
+				case '6':
+					system("color 66");
+					break;
+				case '7':
+					system("color 67");
+					break;
+				case '8':
+					system("color 68");
+					break;
+				case '9':
+					system("color 69");
+					break;
+				case 'A':
+					system("color 6A");
+					break;
+				case 'B':
+					system("color 6B");
+					break;
+				case 'C':
+					system("color 6C");
+					break;
+				case 'D':
+					system("color 6D");
+					break;
+				case 'E':
+					system("color 6E");
+					break;
+				case 'F':
+					system("color 6F");
+					break;
+				default:
+					system("color i");
+					break;
+				}
+			}
+			else
+				system("color 6");
 			break;
-			case '7': //COLOR 7
-				if(x[1]) {
-					switch(x[1]){
-						case '0':
-							system("color 70");
-						break;
-						case '1':
-							system("color 71");
-						break;
-						case '2':
-							system("color 72");
-						break;
-						case '3':
-							system("color 73");
-						break;
-						case '4':
-							system("color 74");
-						break;
-						case '5':
-							system("color 75");
-						break;
-						case '6':
-							system("color 76");
-						break;
-						case '7':
-							system("color 77");
-						break;
-						case '8':
-							system("color 78");
-						break;
-						case '9':
-							system("color 79");
-						break;
-						case 'A':
-							system("color 7A");
-						break;
-						case 'B':
-							system("color 7B");
-						break;
-						case 'C':
-							system("color 7C");
-						break;
-						case 'D':
-							system("color 7D");
-						break;
-						case 'E':
-							system("color 7E");
-						break;
-						case 'F':
-							system("color 7F");
-						break;
-						default:
-							system("color i");
-						break;
-					}
-				} else system("color 7");		
+		case '7': // COLOR 7
+			if (x[1])
+			{
+				switch (x[1])
+				{
+				case '0':
+					system("color 70");
+					break;
+				case '1':
+					system("color 71");
+					break;
+				case '2':
+					system("color 72");
+					break;
+				case '3':
+					system("color 73");
+					break;
+				case '4':
+					system("color 74");
+					break;
+				case '5':
+					system("color 75");
+					break;
+				case '6':
+					system("color 76");
+					break;
+				case '7':
+					system("color 77");
+					break;
+				case '8':
+					system("color 78");
+					break;
+				case '9':
+					system("color 79");
+					break;
+				case 'A':
+					system("color 7A");
+					break;
+				case 'B':
+					system("color 7B");
+					break;
+				case 'C':
+					system("color 7C");
+					break;
+				case 'D':
+					system("color 7D");
+					break;
+				case 'E':
+					system("color 7E");
+					break;
+				case 'F':
+					system("color 7F");
+					break;
+				default:
+					system("color i");
+					break;
+				}
+			}
+			else
+				system("color 7");
 			break;
-			case '8': //COLOR 8
-				if(x[1]) {
-					switch(x[1]){
-						case '0':
-							system("color 80");
-						break;
-						case '1':
-							system("color 81");
-						break;
-						case '2':
-							system("color 82");
-						break;
-						case '3':
-							system("color 83");
-						break;
-						case '4':
-							system("color 84");
-						break;
-						case '5':
-							system("color 85");
-						break;
-						case '6':
-							system("color 86");
-						break;
-						case '7':
-							system("color 87");
-						break;
-						case '8':
-							system("color 88");
-						break;
-						case '9':
-							system("color 89");
-						break;
-						case 'A':
-							system("color 8A");
-						break;
-						case 'B':
-							system("color 8B");
-						break;
-						case 'C':
-							system("color 8C");
-						break;
-						case 'D':
-							system("color 8D");
-						break;
-						case 'E':
-							system("color 8E");
-						break;
-						case 'F':
-							system("color 8F");
-						break;
-						default:
-							system("color i");
-						break;
-					}
-				} else system("color 8");		
+		case '8': // COLOR 8
+			if (x[1])
+			{
+				switch (x[1])
+				{
+				case '0':
+					system("color 80");
+					break;
+				case '1':
+					system("color 81");
+					break;
+				case '2':
+					system("color 82");
+					break;
+				case '3':
+					system("color 83");
+					break;
+				case '4':
+					system("color 84");
+					break;
+				case '5':
+					system("color 85");
+					break;
+				case '6':
+					system("color 86");
+					break;
+				case '7':
+					system("color 87");
+					break;
+				case '8':
+					system("color 88");
+					break;
+				case '9':
+					system("color 89");
+					break;
+				case 'A':
+					system("color 8A");
+					break;
+				case 'B':
+					system("color 8B");
+					break;
+				case 'C':
+					system("color 8C");
+					break;
+				case 'D':
+					system("color 8D");
+					break;
+				case 'E':
+					system("color 8E");
+					break;
+				case 'F':
+					system("color 8F");
+					break;
+				default:
+					system("color i");
+					break;
+				}
+			}
+			else
+				system("color 8");
 			break;
-			case '9': //COLOR 9
-				if(x[1]) {
-					switch(x[1]){
-						case '0':
-							system("color 90");
-						break;
-						case '1':
-							system("color 91");
-						break;
-						case '2':
-							system("color 92");
-						break;
-						case '3':
-							system("color 93");
-						break;
-						case '4':
-							system("color 94");
-						break;
-						case '5':
-							system("color 95");
-						break;
-						case '6':
-							system("color 96");
-						break;
-						case '7':
-							system("color 97");
-						break;
-						case '8':
-							system("color 98");
-						break;
-						case '9':
-							system("color 99");
-						break;
-						case 'A':
-							system("color 9A");
-						break;
-						case 'B':
-							system("color 9B");
-						break;
-						case 'C':
-							system("color 9C");
-						break;
-						case 'D':
-							system("color 9D");
-						break;
-						case 'E':
-							system("color 9E");
-						break;
-						case 'F':
-							system("color 9F");
-						break;
-						default:
-							system("color i");
-						break;
-					}
-				} else system("color 9");		
+		case '9': // COLOR 9
+			if (x[1])
+			{
+				switch (x[1])
+				{
+				case '0':
+					system("color 90");
+					break;
+				case '1':
+					system("color 91");
+					break;
+				case '2':
+					system("color 92");
+					break;
+				case '3':
+					system("color 93");
+					break;
+				case '4':
+					system("color 94");
+					break;
+				case '5':
+					system("color 95");
+					break;
+				case '6':
+					system("color 96");
+					break;
+				case '7':
+					system("color 97");
+					break;
+				case '8':
+					system("color 98");
+					break;
+				case '9':
+					system("color 99");
+					break;
+				case 'A':
+					system("color 9A");
+					break;
+				case 'B':
+					system("color 9B");
+					break;
+				case 'C':
+					system("color 9C");
+					break;
+				case 'D':
+					system("color 9D");
+					break;
+				case 'E':
+					system("color 9E");
+					break;
+				case 'F':
+					system("color 9F");
+					break;
+				default:
+					system("color i");
+					break;
+				}
+			}
+			else
+				system("color 9");
 			break;
-			case 'A': //COLOR A
-				if(x[1]) {
-					switch(x[1]){
-						case '0':
-							system("color A0");
-						break;
-						case '1':
-							system("color A1");
-						break;
-						case '2':
-							system("color A2");
-						break;
-						case '3':
-							system("color A3");
-						break;
-						case '4':
-							system("color A4");
-						break;
-						case '5':
-							system("color A5");
-						break;
-						case '6':
-							system("color A6");
-						break;
-						case '7':
-							system("color A7");
-						break;
-						case '8':
-							system("color A8");
-						break;
-						case '9':
-							system("color A9");
-						break;
-						case 'A':
-							system("color AA");
-						break;
-						case 'B':
-							system("color AB");
-						break;
-						case 'C':
-							system("color AC");
-						break;
-						case 'D':
-							system("color AD");
-						break;
-						case 'E':
-							system("color AE");
-						break;
-						case 'F':
-							system("color AF");
-						break;
-						default:
-							system("color i");
-						break;
-					}
-				} else system("color A");
+		case 'A': // COLOR A
+			if (x[1])
+			{
+				switch (x[1])
+				{
+				case '0':
+					system("color A0");
+					break;
+				case '1':
+					system("color A1");
+					break;
+				case '2':
+					system("color A2");
+					break;
+				case '3':
+					system("color A3");
+					break;
+				case '4':
+					system("color A4");
+					break;
+				case '5':
+					system("color A5");
+					break;
+				case '6':
+					system("color A6");
+					break;
+				case '7':
+					system("color A7");
+					break;
+				case '8':
+					system("color A8");
+					break;
+				case '9':
+					system("color A9");
+					break;
+				case 'A':
+					system("color AA");
+					break;
+				case 'B':
+					system("color AB");
+					break;
+				case 'C':
+					system("color AC");
+					break;
+				case 'D':
+					system("color AD");
+					break;
+				case 'E':
+					system("color AE");
+					break;
+				case 'F':
+					system("color AF");
+					break;
+				default:
+					system("color i");
+					break;
+				}
+			}
+			else
+				system("color A");
 			break;
-				case 'B': //COLOR B
-				if(x[1]) {
-					switch(x[1]){
-						case '0':
-							system("color B0");
-						break;
-						case '1':
-							system("color B1");
-						break;
-						case '2':
-							system("color B2");
-						break;
-						case '3':
-							system("color B3");
-						break;
-						case '4':
-							system("color B4");
-						break;
-						case '5':
-							system("color B5");
-						break;
-						case '6':
-							system("color B6");
-						break;
-						case '7':
-							system("color B7");
-						break;
-						case '8':
-							system("color B8");
-						break;
-						case '9':
-							system("color B9");
-						break;
-						case 'A':
-							system("color BA");
-						break;
-						case 'B':
-							system("color BB");
-						break;
-						case 'C':
-							system("color BC");
-						break;
-						case 'D':
-							system("color BD");
-						break;
-						case 'E':
-							system("color BE");
-						break;
-						case 'F':
-							system("color BF");
-						break;
-						default:
-							system("color i");
-						break;
-					}
-				} else system("color B");			
+		case 'B': // COLOR B
+			if (x[1])
+			{
+				switch (x[1])
+				{
+				case '0':
+					system("color B0");
+					break;
+				case '1':
+					system("color B1");
+					break;
+				case '2':
+					system("color B2");
+					break;
+				case '3':
+					system("color B3");
+					break;
+				case '4':
+					system("color B4");
+					break;
+				case '5':
+					system("color B5");
+					break;
+				case '6':
+					system("color B6");
+					break;
+				case '7':
+					system("color B7");
+					break;
+				case '8':
+					system("color B8");
+					break;
+				case '9':
+					system("color B9");
+					break;
+				case 'A':
+					system("color BA");
+					break;
+				case 'B':
+					system("color BB");
+					break;
+				case 'C':
+					system("color BC");
+					break;
+				case 'D':
+					system("color BD");
+					break;
+				case 'E':
+					system("color BE");
+					break;
+				case 'F':
+					system("color BF");
+					break;
+				default:
+					system("color i");
+					break;
+				}
+			}
+			else
+				system("color B");
 			break;
-			case 'C': //COLOR C
-				if(x[1]) {
-					switch(x[1]){
-						case '0':
-							system("color C0");
-						break;
-						case '1':
-							system("color C1");
-						break;
-						case '2':
-							system("color C2");
-						break;
-						case '3':
-							system("color C3");
-						break;
-						case '4':
-							system("color C4");
-						break;
-						case '5':
-							system("color C5");
-						break;
-						case '6':
-							system("color C6");
-						break;
-						case '7':
-							system("color C7");
-						break;
-						case '8':
-							system("color C8");
-						break;
-						case '9':
-							system("color C9");
-						break;
-						case 'A':
-							system("color CA");
-						break;
-						case 'B':
-							system("color CB");
-						break;
-						case 'C':
-							system("color CC");
-						break;
-						case 'D':
-							system("color CD");
-						break;
-						case 'E':
-							system("color CE");
-						break;
-						case 'F':
-							system("color CF");
-						break;
-						default:
-							system("color i");
-						break;
-					}
-				} else system("color C");		
+		case 'C': // COLOR C
+			if (x[1])
+			{
+				switch (x[1])
+				{
+				case '0':
+					system("color C0");
+					break;
+				case '1':
+					system("color C1");
+					break;
+				case '2':
+					system("color C2");
+					break;
+				case '3':
+					system("color C3");
+					break;
+				case '4':
+					system("color C4");
+					break;
+				case '5':
+					system("color C5");
+					break;
+				case '6':
+					system("color C6");
+					break;
+				case '7':
+					system("color C7");
+					break;
+				case '8':
+					system("color C8");
+					break;
+				case '9':
+					system("color C9");
+					break;
+				case 'A':
+					system("color CA");
+					break;
+				case 'B':
+					system("color CB");
+					break;
+				case 'C':
+					system("color CC");
+					break;
+				case 'D':
+					system("color CD");
+					break;
+				case 'E':
+					system("color CE");
+					break;
+				case 'F':
+					system("color CF");
+					break;
+				default:
+					system("color i");
+					break;
+				}
+			}
+			else
+				system("color C");
 			break;
-			case 'D': //COLOR D
-				if(x[1]) {
-					switch(x[1]){
-						case '0':
-							system("color D0");
-						break;
-						case '1':
-							system("color D1");
-						break;
-						case '2':
-							system("color D2");
-						break;
-						case '3':
-							system("color D3");
-						break;
-						case '4':
-							system("color D4");
-						break;
-						case '5':
-							system("color D5");
-						break;
-						case '6':
-							system("color D6");
-						break;
-						case '7':
-							system("color D7");
-						break;
-						case '8':
-							system("color D8");
-						break;
-						case '9':
-							system("color D9");
-						break;
-						case 'A':
-							system("color DA");
-						break;
-						case 'B':
-							system("color DB");
-						break;
-						case 'C':
-							system("color DC");
-						break;
-						case 'D':
-							system("color DD");
-						break;
-						case 'E':
-							system("color DE");
-						break;
-						case 'F':
-							system("color DF");
-						break;
-						default:
-							system("color i");
-						break;
-					}
-				} else system("color D");		
+		case 'D': // COLOR D
+			if (x[1])
+			{
+				switch (x[1])
+				{
+				case '0':
+					system("color D0");
+					break;
+				case '1':
+					system("color D1");
+					break;
+				case '2':
+					system("color D2");
+					break;
+				case '3':
+					system("color D3");
+					break;
+				case '4':
+					system("color D4");
+					break;
+				case '5':
+					system("color D5");
+					break;
+				case '6':
+					system("color D6");
+					break;
+				case '7':
+					system("color D7");
+					break;
+				case '8':
+					system("color D8");
+					break;
+				case '9':
+					system("color D9");
+					break;
+				case 'A':
+					system("color DA");
+					break;
+				case 'B':
+					system("color DB");
+					break;
+				case 'C':
+					system("color DC");
+					break;
+				case 'D':
+					system("color DD");
+					break;
+				case 'E':
+					system("color DE");
+					break;
+				case 'F':
+					system("color DF");
+					break;
+				default:
+					system("color i");
+					break;
+				}
+			}
+			else
+				system("color D");
 			break;
-			case 'E': //COLOR E
-				if(x[1]) {
-					switch(x[1]){
-						case '0':
-							system("color E0");
-						break;
-						case '1':
-							system("color E1");
-						break;
-						case '2':
-							system("color E2");
-						break;
-						case '3':
-							system("color E3");
-						break;
-						case '4':
-							system("color E4");
-						break;
-						case '5':
-							system("color E5");
-						break;
-						case '6':
-							system("color E6");
-						break;
-						case '7':
-							system("color E7");
-						break;
-						case '8':
-							system("color E8");
-						break;
-						case '9':
-							system("color E9");
-						break;
-						case 'A':
-							system("color EA");
-						break;
-						case 'B':
-							system("color EB");
-						break;
-						case 'C':
-							system("color EC");
-						break;
-						case 'D':
-							system("color ED");
-						break;
-						case 'E':
-							system("color EE");
-						break;
-						case 'F':
-							system("color EF");
-						break;
-						default:
-							system("color i");
-						break;
-					}
-				} else system("color E");		
+		case 'E': // COLOR E
+			if (x[1])
+			{
+				switch (x[1])
+				{
+				case '0':
+					system("color E0");
+					break;
+				case '1':
+					system("color E1");
+					break;
+				case '2':
+					system("color E2");
+					break;
+				case '3':
+					system("color E3");
+					break;
+				case '4':
+					system("color E4");
+					break;
+				case '5':
+					system("color E5");
+					break;
+				case '6':
+					system("color E6");
+					break;
+				case '7':
+					system("color E7");
+					break;
+				case '8':
+					system("color E8");
+					break;
+				case '9':
+					system("color E9");
+					break;
+				case 'A':
+					system("color EA");
+					break;
+				case 'B':
+					system("color EB");
+					break;
+				case 'C':
+					system("color EC");
+					break;
+				case 'D':
+					system("color ED");
+					break;
+				case 'E':
+					system("color EE");
+					break;
+				case 'F':
+					system("color EF");
+					break;
+				default:
+					system("color i");
+					break;
+				}
+			}
+			else
+				system("color E");
 			break;
-			case 'F': //COLOR D
-				if(x[1]) {
-					switch(x[1]){
-						case '0':
-							system("color F0");
-						break;
-						case '1':
-							system("color F1");
-						break;
-						case '2':
-							system("color F2");
-						break;
-						case '3':
-							system("color F3");
-						break;
-						case '4':
-							system("color F4");
-						break;
-						case '5':
-							system("color F5");
-						break;
-						case '6':
-							system("color F6");
-						break;
-						case '7':
-							system("color F7");
-						break;
-						case '8':
-							system("color F8");
-						break;
-						case '9':
-							system("color F9");
-						break;
-						case 'A':
-							system("color FA");
-						break;
-						case 'B':
-							system("color FB");
-						break;
-						case 'C':
-							system("color FC");
-						break;
-						case 'D':
-							system("color FD");
-						break;
-						case 'E':
-							system("color FE");
-						break;
-						case 'F':
-							system("color FF");
-						break;
-						default:
-							system("color i");
-						break;
-					}
-				} else system("color F");		
+		case 'F': // COLOR D
+			if (x[1])
+			{
+				switch (x[1])
+				{
+				case '0':
+					system("color F0");
+					break;
+				case '1':
+					system("color F1");
+					break;
+				case '2':
+					system("color F2");
+					break;
+				case '3':
+					system("color F3");
+					break;
+				case '4':
+					system("color F4");
+					break;
+				case '5':
+					system("color F5");
+					break;
+				case '6':
+					system("color F6");
+					break;
+				case '7':
+					system("color F7");
+					break;
+				case '8':
+					system("color F8");
+					break;
+				case '9':
+					system("color F9");
+					break;
+				case 'A':
+					system("color FA");
+					break;
+				case 'B':
+					system("color FB");
+					break;
+				case 'C':
+					system("color FC");
+					break;
+				case 'D':
+					system("color FD");
+					break;
+				case 'E':
+					system("color FE");
+					break;
+				case 'F':
+					system("color FF");
+					break;
+				default:
+					system("color i");
+					break;
+				}
+			}
+			else
+				system("color F");
 			break;
-			default:
-				system("color i");
+		default:
+			system("color i");
 			break;
 		}
-	} else system("color i");
+	}
+	else
+		system("color i");
 }
