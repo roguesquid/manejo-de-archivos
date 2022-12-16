@@ -992,7 +992,7 @@ void mover(dir *p, dir **ax, char *fuente, char *dest, int op)
 										if (!stricmp(p->nom, d->nom))
 										{
 											if (op){
-												if(p==d) printf("ERROR: El directorio ya se encuentra en su posicion");
+												if(p==d) printf("ERROR: El directorio ya se encuentra en su posicion\n");
 												else sobreescribir(&d, &p, ax, 1, op);
 											}
 											else
