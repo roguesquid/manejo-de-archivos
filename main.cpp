@@ -71,19 +71,22 @@ dir *moverpunterov3(char *t, dir *p, int x, int y)
 			}
 			else if (!stricmp(t, ".."))
 			{
-				if(p->ppa->ppa) {
+				if (p->ppa->ppa)
+				{
 					t = strtok(NULL, "/ \n");
 					p = p->ppa;
 					p = moverpunterov3(t, p, 0, y);
 					return (p);
-				} else {
+				}
+				else
+				{
 					if (y == 0)
 						printf("ERROR: Ruta no encontrada\n");
 					else if (y == 1)
 						printf("ERROR: Fuente no encontrada\n");
 					else if (y == 2)
 						printf("ERROR: Destino no encontrado\n");
-					return (NULL);		
+					return (NULL);
 				}
 			}
 			else
@@ -431,14 +434,20 @@ void darfecha(dir **p)
 	time_t fecha = time(NULL);
 	tm *g = localtime(&fecha);
 	char year[9], month[3], day[3];
-	if(((g->tm_mday)>=1)&&((g->tm_mday)<=9)){
+	if (((g->tm_mday) >= 1) && ((g->tm_mday) <= 9))
+	{
 		sprintf(day, "0%d", g->tm_mday);
-	}else{
+	}
+	else
+	{
 		sprintf(day, "%d", g->tm_mday);
 	}
-	if(((g->tm_mon+1)>=1)&&((g->tm_mon+1)<=9)){
+	if (((g->tm_mon + 1) >= 1) && ((g->tm_mon + 1) <= 9))
+	{
 		sprintf(month, "0%d", g->tm_mon + 1);
-	}else{
+	}
+	else
+	{
 		sprintf(month, "%d", g->tm_mon + 1);
 	}
 	sprintf(year, "%d", g->tm_year + 1900);
@@ -471,8 +480,8 @@ void link(dir *ax)
 }
 
 // link usado para cuando se desea sobreescribir(usada en mov y copiar)
-//ax = Fuente
-//bx = destino?
+// ax = Fuente
+// bx = destino?
 void linksobreescribir(dir *ax, dir *bx)
 {
 	dir *t = ax;
@@ -484,7 +493,8 @@ void linksobreescribir(dir *ax, dir *bx)
 	else
 	{
 		t = t->pfa;
-		while (t && t->pul != ax) {
+		while (t && t->pul != ax)
+		{
 			t = t->pul;
 		}
 		t->pul = bx;
@@ -777,7 +787,7 @@ void mclovin(dir *ax, dir *bx, dir *p, dir *q)
 	int c = 0;
 	while (ax)
 	{
-		c=0;
+		c = 0;
 		bx = p->pfa;
 		while (bx)
 		{
@@ -855,15 +865,18 @@ void sobreescribir(dir **p, dir **ax, dir **bx, int x, int op)
 								if (!comprobar((*p)->pfa))
 								{
 									copiartodo(*ax, 1, &g);
-									if (g->pfa){
+									if (g->pfa)
+									{
 										mclovin(g->pfa, (*p)->pfa, *p, g);
 										borrartodo(g->pfa);
-										delete(g);
+										delete (g);
 										darfecha(p);
 									}
-								} else printf("Error: El destino contiene archivos protegidos\n"); // NOTA PREGUNTAR SI PARA /M SE CONSIDERA SI ALGUN DIRECTORIO TIENE ARCHIVOS PROTEGIDOS Y QUE HACER EN ESE CASO
+								}
+								else
+									printf("Error: El destino contiene archivos protegidos\n"); // NOTA PREGUNTAR SI PARA /M SE CONSIDERA SI ALGUN DIRECTORIO TIENE ARCHIVOS PROTEGIDOS Y QUE HACER EN ESE CASO
 								return;
-							break;
+								break;
 							case 'S':
 								if (!comprobar((*p)->pfa))
 								{
@@ -917,7 +930,6 @@ void sobreescribir(dir **p, dir **ax, dir **bx, int x, int op)
 			g->r = 0;
 			darfecha(&g);
 			linksobreescribir(*p, g);
-	
 		}
 		if (contenido(*bx, p))
 			*bx = (*p)->ppa;
@@ -927,32 +939,35 @@ void sobreescribir(dir **p, dir **ax, dir **bx, int x, int op)
 		/////////////////////////////////
 	}
 	else if (op == 2)
-	{ 
+	{
 		// AQUI VA MCLOVIN (OPCION /m)
 		if (!comprobar((*p)->pfa))
 		{
 			copiartodo(*ax, 1, &g);
 			if (g->pfa)
 			{
-				if(g->ppa->ppa) {
+				if (g->ppa->ppa)
+				{
 					mclovin(g->pfa, (*p)->pfa, *p, g);
 					borrartodo(g->pfa);
 					darfecha(p);
 					delete (g);
-				}else {
-					g=g->pfa;mclovin(g->pfa, (*p)->pfa, *p, g);
-					g=g->ppa;
+				}
+				else
+				{
+					g = g->pfa;
+					mclovin(g->pfa, (*p)->pfa, *p, g);
+					g = g->ppa;
 					borrartodo(g->pfa);
 					darfecha(p);
 					delete (g);
-				}	
+				}
 			}
 		}
 		else
 			printf("Error: El destino contiene archivos protegidos\n");
 		// OPCION (/m copiar fusionando)
-	} 
-
+	}
 }
 // fin sobreescribir
 
@@ -982,7 +997,7 @@ void mover(dir *p, dir **ax, char *fuente, char *dest, int op)
 					{ // Comprobar si la fuente es solo lectura
 						if (!(p == d))
 						{ // Por si el directorio ya esta en su posicion
-							if (contenido(p,&d))
+							if (contenido(p, &d))
 							{ // Comrprobar si no se desea mover dentro de si mismo
 								if (d->pfa)
 								{
@@ -991,9 +1006,12 @@ void mover(dir *p, dir **ax, char *fuente, char *dest, int op)
 									{
 										if (!stricmp(p->nom, d->nom))
 										{
-											if (op){
-												if(p==d) printf("ERROR: El directorio ya se encuentra en su posicion\n");
-												else sobreescribir(&d, &p, ax, 1, op);
+											if (op)
+											{
+												if (p == d)
+													printf("ERROR: El directorio ya se encuentra en su posicion\n");
+												else
+													sobreescribir(&d, &p, ax, 1, op);
 											}
 											else
 												printf("ERROR: Existe un directorio de igual nombre en el destino\n");
@@ -1053,74 +1071,83 @@ void copiar(dir *p, dir **ax, char *fuente, char *dest, int op)
 		else
 			d = moverpunterov3(dest, *ax, 1, 2); // Ruta relativa
 		if (d)
-		{ // Comprobar si destino existe							 
+		{								 // Comprobar si destino existe
 			if (!(p == d)) // Por si desea copiar el directorio dentro de si
 			{
 				if (d->r != 1 || op) // Comprobar si el destino es solo lectura
 				{
 					if (p->ppa && p->ppa->ppa)
-					{// Comprobar si la fuente es una unidad logica (revisar)
-							if (d->pfa)
+					{ // Comprobar si la fuente es una unidad logica (revisar)
+						if (d->pfa)
+						{
+							d = d->pfa;
+							while (d)
 							{
-								d = d->pfa;
-								while (d)
+								if (!stricmp(p->nom, d->nom))
 								{
-									if (!stricmp(p->nom, d->nom))
-									{
-										sobreescribir(&d, &p, ax, 0, op); // RECORDAR PASARLE LOS 50 PARAMETROS
-										return;														// Indica que existe directorio de igual nombre
-									}
-									if (d->pul == NULL)
-										break;
-									d = d->pul;
+									sobreescribir(&d, &p, ax, 0, op); // RECORDAR PASARLE LOS 50 PARAMETROS
+									return;														// Indica que existe directorio de igual nombre
 								}
-								copiartodo(p, 1, &g);
-								d->pul = g;
-								g->pul = NULL;
-								g->ppa = d->ppa;
-								g->r = 0;
-								darfecha(&g->ppa);
-								darfecha(&g);
+								if (d->pul == NULL)
+									break;
+								d = d->pul;
 							}
-							else
+							copiartodo(p, 1, &g);
+							d->pul = g;
+							g->pul = NULL;
+							g->ppa = d->ppa;
+							g->r = 0;
+							darfecha(&g->ppa);
+							darfecha(&g);
+						}
+						else
+						{
+							copiartodo(p, 1, &g);
+							g->ppa = d;
+							d->pfa = g;
+							g->pul = NULL;
+							g->r = 0;
+							darfecha(&g->ppa);
+							darfecha(&g);
+						}
+					}
+					else
+					{
+						if (d->pfa)
+						{
+							if (op == 1)
 							{
 								copiartodo(p, 1, &g);
-								g->ppa = d;
-								d->pfa = g;
-								g->pul = NULL;
-								g->r = 0;
-								darfecha(&g->ppa);
-								darfecha(&g);
-							}
-					} else {
-						if(d->pfa){
-							if(op==1) {
-								copiartodo(p,1,&g);
-								if (contenido(*ax, &d)) *ax = d;
+								if (contenido(*ax, &d))
+									*ax = d;
 								borrartodo(d->pfa);
 								g->pfa->ppa = d;
 								d->pfa = g->pfa;
 								darfecha(&g->pfa->ppa);
 								darfecha(&g->pfa);
-								delete(g);
-							} else sobreescribir(&d, &p, ax, 0, 2);
-						} else {
-							copiartodo(p,1,&g);
+								delete (g);
+							}
+							else
+								sobreescribir(&d, &p, ax, 0, 2);
+						}
+						else
+						{
+							copiartodo(p, 1, &g);
 							g->pfa->ppa = d;
 							d->pfa = g->pfa;
 							darfecha(&g->pfa->ppa);
 							darfecha(&g->pfa);
-							delete(g);	
+							delete (g);
 						}
 					}
-			    }
+				}
 				else
 					printf("ERROR: El destino solo permite la lectura\n"); // Destino solo permite la lectura
 			}
 			else
 				printf("ERROR: No se puede copiar un directorio en si mismo\n"); // Por si se desea copiar un directorio dentro de si mismo
-		}																																						// Por si el destino no existe
-	}																																							// Por si la fuente si la fuente no existe
+		}																																		 // Por si el destino no existe
+	}																																			 // Por si la fuente si la fuente no existe
 }
 
 // Lectura y sobreescritura de archivos //////////////////////////////////
@@ -1588,15 +1615,20 @@ void SHD(dir *q, dir **ax, char **ordenado)
 	}
 	else
 	{
-		 if(!(*ax)->pfa)
-            if(ordenado[1]){
-				if ((stricmp(ordenado[1], "/s")) && (stricmp(ordenado[1], "/h"))) mostrar(q, ax, ordenado[1], s, h);
-				else{
+		if (!(*ax)->pfa)
+			if (ordenado[1])
+			{
+				if ((stricmp(ordenado[1], "/s")) && (stricmp(ordenado[1], "/h")))
+					mostrar(q, ax, ordenado[1], s, h);
+				else
+				{
 					printf("\n");
 					printv2(*ax);
 					printf("   \n\n");
 				}
-			}else{
+			}
+			else
+			{
 				printf("\n");
 				printv2(*ax);
 				printf("   \n\n");
@@ -1966,13 +1998,14 @@ int main()
 
 		else if (!(stricmp(ordenado[0], "MKD")))
 		{
-			int h = 0, r = 0, x=1;
+			int h = 0, r = 0, x = 1;
 			dir *auxRoot = NULL;
 			char nombre[24];
 			char ruta[1024];
 			if (ordenado[2] && ordenado[3])
 			{
-				if(strlen(ordenado[2])==2||strlen(ordenado[3])==2) {
+				if (strlen(ordenado[2]) == 2 || strlen(ordenado[3]) == 2)
+				{
 					if (!(stricmp(ordenado[3], "/h")) || !(stricmp(ordenado[2], "/h")))
 					{
 						h = 1;
@@ -1981,13 +2014,16 @@ int main()
 					{
 						r = 1;
 					}
-				} else {
-					x=0;
-				} 
+				}
+				else
+				{
+					x = 0;
+				}
 			}
 			else if (ordenado[2] && !ordenado[3])
 			{
-				if(strlen(ordenado[2])==2){
+				if (strlen(ordenado[2]) == 2)
+				{
 					if (!(stricmp(ordenado[2], "/h")))
 					{
 						h = 1;
@@ -1996,9 +2032,12 @@ int main()
 					{
 						r = 1;
 					}
-				} else x=0;
+				}
+				else
+					x = 0;
 			}
-			if(x) {
+			if (x)
+			{
 				if (separaRuta(ordenado[1], nombre, &ruta[0]))
 				{
 					if (verificartoken(ruta))
@@ -2012,7 +2051,9 @@ int main()
 				{
 					crear(ax, nombre, h, r);
 				}
-			} else {
+			}
+			else
+			{
 				printf("ERROR: Comando invalido\n");
 			}
 		}
@@ -2047,8 +2088,7 @@ int main()
 		}
 		else if (!(stricmp(ordenado[0], "MDD")))
 		{
-			if ((!ordenado[1] && !ordenado[2]))
-				mdd(ordenado[1], ordenado[2], ordenado[3], ordenado[4], q, ax);
+			mdd(ordenado[1], ordenado[2], ordenado[3], ordenado[4], q, ax);
 		}
 		else if (!(stricmp(ordenado[0], "SHD")))
 		{
@@ -2103,8 +2143,9 @@ int main()
 		{
 			if (i > 2)
 				system("COLOR i");
-			else if(!ordenado[1]) system("COLOR 7");
-			else 
+			else if (!ordenado[1])
+				system("COLOR 7");
+			else
 				color(ordenado[1]);
 		}
 		else if (!(stricmp(ordenado[0], "EXIT")))
@@ -2144,7 +2185,8 @@ int main()
 		}
 		else if (!(stricmp(ordenado[0], "HELP")))
 		{
-			if (!ordenado[1] || i > 2) {
+			if (!ordenado[1] || i > 2)
+			{
 				help("HELP");
 			}
 			else
@@ -2269,7 +2311,7 @@ void help(char *comando)
 	}
 	else if (!(stricmp(comando, "HELP")))
 	{
-		//printf("\t- HELP (Ayuda de los comandos) :\n");
+		// printf("\t- HELP (Ayuda de los comandos) :\n");
 		printf("\t\tHELP <comando>  \n");
 		printf("\t\tMuestra una descripcion detallada del comando ingresado\n");
 		printf("\t\tEjemplo: HELP MKD\n\n");
@@ -2290,7 +2332,7 @@ void help(char *comando)
 		printf("\t\tColor (Cambia el color de la consola)\n");
 		printf("\t\tEXIT (Salir)\n\n");
 	}
-	else if (!stricmp(comando,"COLOR"))
+	else if (!stricmp(comando, "COLOR"))
 	{
 		system("COLOR j");
 	}
