@@ -1888,45 +1888,54 @@ int main()
 
 		else if (!(stricmp(ordenado[0], "MKD")))
 		{
-			int h = 0, r = 0;
+			int h = 0, r = 0, x=1;
 			dir *auxRoot = NULL;
 			char nombre[24];
 			char ruta[1024];
 			if (ordenado[2] && ordenado[3])
 			{
-				if (!(stricmp(ordenado[3], "/h")) || !(stricmp(ordenado[2], "/h")))
-				{
-					h = 1;
-				}
-				if (!(stricmp(ordenado[3], "/r")) || !(stricmp(ordenado[2], "/r")))
-				{
-					r = 1;
-				}
+				if(strlen(ordenado[2])==2||strlen(ordenado[3])==2) {
+					if (!(stricmp(ordenado[3], "/h")) || !(stricmp(ordenado[2], "/h")))
+					{
+						h = 1;
+					}
+					if (!(stricmp(ordenado[3], "/r")) || !(stricmp(ordenado[2], "/r")))
+					{
+						r = 1;
+					}
+				} else {
+					x=0;
+				} 
 			}
 			else if (ordenado[2] && !ordenado[3])
 			{
-				if (!(stricmp(ordenado[2], "/h")))
-				{
-					h = 1;
-				}
-				else if (!(stricmp(ordenado[2], "/r")))
-				{
-					r = 1;
-				}
+				if(strlen(ordenado[2])==2){
+					if (!(stricmp(ordenado[2], "/h")))
+					{
+						h = 1;
+					}
+					else if (!(stricmp(ordenado[2], "/r")))
+					{
+						r = 1;
+					}
+				} else x=0;
 			}
-
-			if (separaRuta(ordenado[1], nombre, &ruta[0]))
-			{
-				if (verificartoken(ruta))
-					auxRoot = moverpunterov3(ruta, q, 1, 2);
+			if(x) {
+				if (separaRuta(ordenado[1], nombre, &ruta[0]))
+				{
+					if (verificartoken(ruta))
+						auxRoot = moverpunterov3(ruta, q, 1, 2);
+					else
+						auxRoot = moverpunterov3(ruta, ax, 1, 2);
+					if (auxRoot)
+						crear(auxRoot, nombre, h, r);
+				}
 				else
-					auxRoot = moverpunterov3(ruta, ax, 1, 2);
-				if (auxRoot)
-					crear(auxRoot, nombre, h, r);
-			}
-			else
-			{
-				crear(ax, nombre, h, r);
+				{
+					crear(ax, nombre, h, r);
+				}
+			} else {
+				printf("ERROR: Comando invalido\n");
 			}
 		}
 
