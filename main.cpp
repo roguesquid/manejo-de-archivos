@@ -720,7 +720,7 @@ void copiartodo(dir *p, int check, dir **g)
 	if ((ax) && (ax->pfa))
 	{
 		copiartodo(ax, 1, &(cab->pfa));
-		u = cab->pfa; // debería no generar más problemás
+		u = cab->pfa; // deberia no generar más problemás
 		u->ppa = cab;
 		ax = ax->pul;
 	}
@@ -1183,15 +1183,15 @@ void guardardirectorios(FILE **fp, dir *p, int check, char *uni)
 		fprintf(*fp, "%i\n", t->h);
 		if (t->pfa)
 		{
-			fprintf(*fp, "%c\n", '*'); // * indica que los directorios que se guardan a continuación son subdirectorios de otro
+			fprintf(*fp, "%c\n", '*'); // * indica que los directorios que se guardan a continuacion son subdirectorios de otro
 			fclose(*fp);
 			guardardirectorios(fp, t, 1, &uni[0]);
 			*fp = fopen(&uni[0], "a");
-			fprintf(*fp, "%c\n", '$'); // $ indica que hasta allí llega la familia de subdirectorios
+			fprintf(*fp, "%c\n", '$'); // $ indica que hasta alli llega la familia de subdirectorios
 		}
 		t = t->pul;
 		if (t != NULL)
-			fprintf(*fp, "%c\n", '/'); // '/' indica que los directorios que se guardan a continuación son hermanos
+			fprintf(*fp, "%c\n", '/'); // '/' indica que los directorios que se guardan a continuacion son hermanos
 	}
 	fclose(*fp);
 }
@@ -2106,23 +2106,23 @@ void help(char *comando)
 	{
 		printf("\t- RMD (Borrar directorio) \n");
 		printf("\t\tRMD <destino> [/o] \n");
-		printf("\t\tLa opción indica forzar el borrado: bórrese aunque no esté vacío o contenga archivos de solo lectura.\n");
+		printf("\t\tLa opcion indica forzar el borrado: borrese aunque no esté vacio o contenga archivos de solo lectura.\n");
 		printf("\t\tEjemplo: RMD perro/gato\n");
 	}
 	else if (!(stricmp(comando, "CPD")))
 	{
 		printf("\t- CPD (copiar directorio) \n");
 		printf("\t\tCPD <fuente> <destino> [/o] [/m]\n");
-		printf("\t\tLa opción “o” indica que si existe previamente una carpeta con el mismo nombre, se borrar la original (aunque no esté vacío o haya archivos de solo lectura) y se sustituye.\n");
-		printf("\t\tLa opción “m” indica que si existe previamente un directorio con el mismo nombre se agregan las carpetas que contiene el fuente se “agregan” al destino (igualmente con cualquier subcarpeta con igual nombre).\n");
+		printf("\t\tLa opcion “o” indica que si existe previamente una carpeta con el mismo nombre, se borrar la original (aunque no esté vacio o haya archivos de solo lectura) y se sustituye.\n");
+		printf("\t\tLa opcion “m” indica que si existe previamente un directorio con el mismo nombre se agregan las carpetas que contiene el fuente se “agregan” al destino (igualmente con cualquier subcarpeta con igual nombre).\n");
 		printf("\t\tEjemplo: CPD perro/gato zorro/calamar\n");
 	}
 	else if (!(stricmp(comando, "MVD")))
 	{
 		printf("\t- MVD (Mover directorio) : \n");
 		printf("\t\tMVD <fuente> <destino> [/o]\n");
-		printf("\t\tLa opción indica forzar el movimiento: muévase aunque tenga archivos de solo lectura (en la fuente o el destino) . Si hay directorios con el mismo nombre se eliminan antes de mover. Debe existir la carpeta destino.\n");
-		printf("\t\tEn caso de no activarse la opción y existan duplicados o archivos de solo lectura se detiene la acción (dar mensaje)\n");
+		printf("\t\tLa opcion indica forzar el movimiento: muévase aunque tenga archivos de solo lectura (en la fuente o el destino) . Si hay directorios con el mismo nombre se eliminan antes de mover. Debe existir la carpeta destino.\n");
+		printf("\t\tEn caso de no activarse la opcion y existan duplicados o archivos de solo lectura se detiene la accion (dar mensaje)\n");
 		printf("\t\tEjemplo: MVD perro/gato zorro/calamar\n");
 	}
 	else if (!(stricmp(comando, "MDD")))
@@ -2139,8 +2139,8 @@ void help(char *comando)
 		printf("\t- SHD (mostrar contenido) :\n");
 		printf("\t\tSHD [<destino>] [/h] [/s]\n");
 		printf("\t\tEn caso de omitirse el parámetro <destino> se toma el directorio actual.\n");
-		printf("\t\tLa opción “/h” indica mostrar los directorios escondidos.\n");
-		printf("\t\tLa opción “/s” indica mostrar todas las subcarpetas con sus contenidos.\n");
+		printf("\t\tLa opcion “/h” indica mostrar los directorios escondidos.\n");
+		printf("\t\tLa opcion “/s” indica mostrar todas las subcarpetas con sus contenidos.\n");
 		printf("\t\tEjemplo: SHD perro/gato /h\n");
 	}
 	else if (!(stricmp(comando, "CSC")))
@@ -2150,42 +2150,43 @@ void help(char *comando)
 	}
 	else if (!(stricmp(comando, "CRU")))
 	{
-		printf("\t- CRU (Crea unidad lógica) :\n");
+		printf("\t- CRU (Crea unidad logica) :\n");
 		printf("\t\tCRU <destino>\n");
-		printf("\t\tEn este caso <destino> se refiere a un nombre de unidad lógica de una sola letra (se toma como mayúscula en cualquier caso) y no puede ejecutarse si existe previamente una unidad con ese nombre.\n");
+		printf("\t\tEn este caso <destino> se refiere a un nombre de unidad logica de una sola letra (se toma como mayúscula en cualquier caso) y no puede ejecutarse si existe previamente una unidad con ese nombre.\n");
 		printf("\t\tEjemplo: CRU E:/\n");
+		printf("\t\tNOTA: Tambien se acepta CRU E/\n");
 	}
 	else if (!(stricmp(comando, "SRU")))
 	{
-		printf("\t- SRU (Guarda unidad lógica en archivo) :\n");
+		printf("\t- SRU (Guarda unidad logica en archivo) :\n");
 		printf("\t\tSRU <destino> <nombre_archivo> \n");
-		printf("\t\tEjemplo: SRU D:/ infoD.txt\n");
+		printf("\t\tEjemplo: SRU D:/ infoD\n");
 	}
 	else if (!(stricmp(comando, "LRU")))
 	{
-		printf("\t- LRU (Lee datos de unidad lógica desde archivo) :\n");
+		printf("\t- LRU (Lee datos de unidad logica desde archivo) :\n");
 		printf("\t\tLRU <nombre_archivo> <destino> \n");
-		printf("\t\tLa unidad destino debe existir y estar vacía. \n");
-		printf("\t\tEjemplo LRU infoD.txt D:/\n");
+		printf("\t\tLa unidad destino debe existir y estar vacia. \n");
+		printf("\t\tEjemplo LRU infoD D:/\n");
 	}
 	else if (!(stricmp(comando, "FRU")))
 	{
-		printf("\t- FRU (formatea una unidad lógica) :\n");
+		printf("\t- FRU (formatea una unidad logica) :\n");
 		printf("\t\tFRU <destino>  \n");
-		printf("\t\tSe pide confirmación (S/N). La unidad destino debe existir se borran todos sus datos dejando vacía la unidad. No importan los accesos de solo lectura o escondido. \n");
+		printf("\t\tSe pide confirmacion (S/N). La unidad destino debe existir se borran todos sus datos dejando vacia la unidad. No importan los accesos de solo lectura o escondido. \n");
 		printf("\t\tEjemplo FRU C:/\n");
 	}
 	else if (!(stricmp(comando, "ERU")))
 	{
-		printf("\t- ERU (Elimina/desmonta una unidad lógica) :\n");
+		printf("\t- ERU (Elimina/desmonta una unidad logica) :\n");
 		printf("\t\tERU <destino>  \n");
-		printf("\t\tSe pide confirmación (S/N). La unidad destino debe estar vacía. Elimina\n");
+		printf("\t\tSe pide confirmacion (S/N). La unidad destino debe estar vacia. Elimina\n");
 		printf("\t\tEjemplo ERU C:/\n");
 	}
 	else if (!(stricmp(comando, "EXIT")))
 	{
 		printf("\t- EXIT (salir del sistema) :\n");
-		printf("\t\tEsta opción guarda todas las unidades lógicas en archivos ( uno por unidad ) en la carpeta de trabajo . Ejemplo: C.txt ó F.txt\n");
+		printf("\t\tEsta opcion guarda todas las unidades logicas en archivos ( uno por unidad ) en la carpeta de trabajo . Ejemplo: C.txt o F.txt\n");
 	}
 	else if (!(stricmp(comando, "HELP")))
 	{
