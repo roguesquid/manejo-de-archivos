@@ -1453,8 +1453,6 @@ void CPD(dir *p, dir **ax, char *fuente, char *dest, char *op)
 
 void MVD(dir *p, dir **ax, char *fuente, char *dest, char *op)
 {
-	printf("funte: %s\n",fuente);
-	printf("Destino %s\n",dest);
 	if (op)
 	{ // Validacion de si la opcion existe
 		if (!stricmp(op, "/o"))
