@@ -471,6 +471,8 @@ void link(dir *ax)
 }
 
 // link usado para cuando se desea sobreescribir(usada en mov y copiar)
+//ax = Fuente
+//bx = destino?
 void linksobreescribir(dir *ax, dir *bx)
 {
 	dir *t = ax;
@@ -482,8 +484,9 @@ void linksobreescribir(dir *ax, dir *bx)
 	else
 	{
 		t = t->pfa;
-		while (t && t->pul != ax)
+		while (t && t->pul != ax) {
 			t = t->pul;
+		}
 		t->pul = bx;
 	}
 }
@@ -979,7 +982,7 @@ void mover(dir *p, dir **ax, char *fuente, char *dest, int op)
 					{ // Comprobar si la fuente es solo lectura
 						if (!(p == d))
 						{ // Por si el directorio ya esta en su posicion
-							if (!contenido(d, &p))
+							if (contenido(p,&d))
 							{ // Comrprobar si no se desea mover dentro de si mismo
 								if (d->pfa)
 								{
@@ -988,8 +991,10 @@ void mover(dir *p, dir **ax, char *fuente, char *dest, int op)
 									{
 										if (!stricmp(p->nom, d->nom))
 										{
-											if (op)
-												sobreescribir(&d, &p, ax, 1, op);
+											if (op){
+												if(p==d) printf("ERROR: El directorio ya se encuentra en su posicion");
+												else sobreescribir(&d, &p, ax, 1, op);
+											}
 											else
 												printf("ERROR: Existe un directorio de igual nombre en el destino\n");
 											return; // Indica que existe un directorio de igual nombre
@@ -1448,6 +1453,8 @@ void CPD(dir *p, dir **ax, char *fuente, char *dest, char *op)
 
 void MVD(dir *p, dir **ax, char *fuente, char *dest, char *op)
 {
+	printf("funte: %s\n",fuente);
+	printf("Destino %s\n",dest);
 	if (op)
 	{ // Validacion de si la opcion existe
 		if (!stricmp(op, "/o"))
@@ -1612,36 +1619,109 @@ int hermanosIguales(dir *actual, char *nom)
 	}
 	return 0;
 }
-void mdd(char *ordenado1, char *ordenado2, dir *q, dir *ax)
+void mdd(char *ordenado1, char *ordenado2, char *ordenado3, char *ordenado4, dir *q, dir *ax)
 {
 	dir *auxRoot = NULL;
-	char *param, *valor;
-	if (ordenado1 && ordenado2)
+	char *param1, *valor1, *param2, *valor2, *param3, *valor3;
+	char valorR[16];
+	char valorN[16];
+	char valorH[16];
+	param1 = NULL;
+	valor1 = NULL;
+	param2 = NULL;
+	valor2 = NULL;
+	param3 = NULL;
+	valor3 = NULL;
+	int slashR = 0, slashN = 0, slashH = 0;
+	if ((ordenado1 && ordenado2) || (ordenado1 && ordenado2 && ordenado3) || (ordenado1 && ordenado2 && ordenado3 && ordenado4))
 	{
+
 		if (verificartoken(ordenado1))
 			auxRoot = moverpunterov3(ordenado1, q, 1, 0);
 		else
 			auxRoot = moverpunterov3(ordenado1, ax, 1, 0);
-		param = strtok(ordenado2, ":");
-		valor = strtok(NULL, ":");
+
+		param1 = strtok(ordenado2, ":");
+		valor1 = strtok(NULL, ":");
+
+		if (ordenado3)
+		{
+			param2 = strtok(ordenado3, ":");
+			valor2 = strtok(NULL, ":");
+		}
+		if (ordenado4)
+		{
+			param3 = strtok(ordenado4, ":");
+			valor3 = strtok(NULL, ":");
+		}
+
+		if (!(strcmp(param1, "/n")))
+		{
+			slashN = 1;
+			strcpy(valorN, valor1);
+		}
+		else if (ordenado3 && !(strcmp(param2, "/n")))
+		{
+			slashN = 1;
+			strcpy(valorN, valor2);
+		}
+		else if (ordenado4 && !(strcmp(param3, "/n")))
+		{
+			slashN = 1;
+			strcpy(valorN, valor3);
+		}
+
+		if (!(strcmp(param1, "/r")))
+		{
+			slashR = 1;
+			strcpy(valorR, valor1);
+		}
+		else if (ordenado3 && !(strcmp(param2, "/r")))
+		{
+			slashR = 1;
+			strcpy(valorR, valor2);
+		}
+		else if (ordenado4 && !(strcmp(param3, "/r")))
+		{
+			slashR = 1;
+			strcpy(valorR, valor3);
+		}
+
+		if (!(strcmp(param1, "/h")))
+		{
+			slashH = 1;
+			strcpy(valorH, valor1);
+		}
+		else if (ordenado3 && !(strcmp(param2, "/h")))
+		{
+			slashH = 1;
+			strcpy(valorH, valor2);
+		}
+		else if (ordenado4 && !(strcmp(param3, "/h")))
+		{
+			slashH = 1;
+			strcpy(valorH, valor3);
+		}
+
 		if (auxRoot)
 		{
-			if (!(strcmp(param, "/n")))
+
+			if (slashN)
 			{
 				if (auxRoot->ppa->ppa)
 				{
-					if (strlen(valor) < 9)
+					if (strlen(valorN) < 9)
 					{
-						if (alfanum(valor))
+						if (alfanum(valorN))
 						{
-							if (!stricmp(auxRoot->nom, valor))
+							if (!stricmp(auxRoot->nom, valorN))
 							{
 							}
 							else
 							{
 								if (!(hermanosIguales(auxRoot, ordenado2)))
 								{
-									strcpy(auxRoot->nom, valor);
+									strcpy(auxRoot->nom, valorN);
 									darfecha(&auxRoot);
 								}
 								else
@@ -1657,19 +1737,19 @@ void mdd(char *ordenado1, char *ordenado2, dir *q, dir *ax)
 
 						printf("ERROR El nombre debe ser menor a 9 caracteres\n");
 				}
-				else if (strlen(valor) < 2)
+				else if (strlen(valorN) < 2)
 				{
-					if (valor[0] > 64 && valor[0] < 91)
+					if (valorN[0] > 64 && valorN[0] < 91)
 					{
-						strcat(valor, ":");
-						if (!stricmp(auxRoot->nom, valor))
+						strcat(valorN, ":");
+						if (!stricmp(auxRoot->nom, valorN))
 						{
 						}
 						else
 						{
 							if (!(hermanosIguales(auxRoot, ordenado2)))
 							{
-								strcpy(auxRoot->nom, valor);
+								strcpy(auxRoot->nom, valorN);
 								darfecha(&auxRoot);
 							}
 							else
@@ -1678,18 +1758,18 @@ void mdd(char *ordenado1, char *ordenado2, dir *q, dir *ax)
 							}
 						}
 					}
-					else if (valor[0] > 96 && valor[0] < 123)
+					else if (valorN[0] > 96 && valorN[0] < 123)
 					{
-						valor[0] = valor[0] - 32;
-						strcat(valor, ":");
-						if (!stricmp(auxRoot->nom, valor))
+						valorN[0] = valorN[0] - 32;
+						strcat(valorN, ":");
+						if (!stricmp(auxRoot->nom, valorN))
 						{
 						}
 						else
 						{
 							if (!(hermanosIguales(auxRoot, ordenado2)))
 							{
-								strcpy(auxRoot->nom, valor);
+								strcpy(auxRoot->nom, valorN);
 								darfecha(&auxRoot);
 							}
 							else
@@ -1702,14 +1782,15 @@ void mdd(char *ordenado1, char *ordenado2, dir *q, dir *ax)
 						printf("ERROR: Nombre invalido para una unidad\n");
 				} // PONER ELSE SI NO SE QUIERE CAMBIAR EL NOMBRE A UNIDADES
 			}
-			else if (!(stricmp(param, "/r")))
+
+			if (slashR)
 			{
-				if (!(stricmp(valor, "0")))
+				if (!(stricmp(valorR, "0")))
 				{
 					auxRoot->r = 0;
 					darfecha(&auxRoot);
 				}
-				else if (!(stricmp(valor, "1")))
+				else if (!(stricmp(valorR, "1")))
 				{
 					auxRoot->r = 1;
 					darfecha(&auxRoot);
@@ -1717,14 +1798,15 @@ void mdd(char *ordenado1, char *ordenado2, dir *q, dir *ax)
 				else
 					printf("ERROR: El valor debe ser 0 (escritua/no protegido) o 1 (solo lectura/protegido)\n");
 			}
-			else if (!(stricmp(param, "/h")))
+
+			if (slashH)
 			{
-				if (!(stricmp(valor, "0")))
+				if (!(stricmp(valorH, "0")))
 				{
 					auxRoot->h = 0;
 					darfecha(&auxRoot);
 				}
-				else if (!(stricmp(valor, "1")))
+				else if (!(stricmp(valorH, "1")))
 				{
 					auxRoot->h = 1;
 					darfecha(&auxRoot);
@@ -1967,8 +2049,8 @@ int main()
 		}
 		else if (!(stricmp(ordenado[0], "MDD")))
 		{
-			if((!ordenado[1]&&!ordenado[2])||ordenado)
-			mdd(ordenado[1], ordenado[2], q, ax);
+			if ((!ordenado[1] && !ordenado[2]))
+				mdd(ordenado[1], ordenado[2], ordenado[3], ordenado[4], q, ax);
 		}
 		else if (!(stricmp(ordenado[0], "SHD")))
 		{
