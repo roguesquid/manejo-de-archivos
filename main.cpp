@@ -783,10 +783,8 @@ void mclovin(dir *ax, dir *bx, dir *p, dir *q)
 				mclovin(ax->pfa, bx->pfa, bx, ax);
 				c = 1;
 			}
-			printf("B: %s ->\n",bx->nom);
 			if (bx->pul == NULL)
 			{
-				system("pause");
 				break;
 			}
 			bx = bx->pul;
@@ -977,7 +975,7 @@ void mover(dir *p, dir **ax, char *fuente, char *dest, int op)
 			{ // Comprobar si la fuente es una unidad logica (revisar)
 				if (d->r != 1 || op)
 				{ // Comprobar si el destino es solo lectura
-					if (d->r != 1 || op)
+					if (p->r != 1 || op)
 					{ // Comprobar si la fuente es solo lectura
 						if (!(p == d))
 						{ // Por si el directorio ya esta en su posicion
@@ -1969,6 +1967,7 @@ int main()
 		}
 		else if (!(stricmp(ordenado[0], "MDD")))
 		{
+			if((!ordenado[1]&&!ordenado[2])||ordenado)
 			mdd(ordenado[1], ordenado[2], q, ax);
 		}
 		else if (!(stricmp(ordenado[0], "SHD")))
@@ -2113,8 +2112,8 @@ void help(char *comando)
 	{
 		printf("\t- CPD (copiar directorio) \n");
 		printf("\t\tCPD <fuente> <destino> [/o] [/m]\n");
-		printf("\t\tLa opcion “o” indica que si existe previamente una carpeta con el mismo nombre, se borrar la original (aunque no esté vacio o haya archivos de solo lectura) y se sustituye.\n");
-		printf("\t\tLa opcion “m” indica que si existe previamente un directorio con el mismo nombre se agregan las carpetas que contiene el fuente se “agregan” al destino (igualmente con cualquier subcarpeta con igual nombre).\n");
+		printf("\t\tLa opcion [/o] indica que si existe previamente una carpeta con el mismo nombre, se borrar la original (aunque no esté vacio o haya archivos de solo lectura) y se sustituye.\n");
+		printf("\t\tLa opcion [/m] indica que si existe previamente un directorio con el mismo nombre se agregan las carpetas que contiene el fuente se “agregan” al destino (igualmente con cualquier subcarpeta con igual nombre).\n");
 		printf("\t\tEjemplo: CPD perro/gato zorro/calamar\n");
 	}
 	else if (!(stricmp(comando, "MVD")))
